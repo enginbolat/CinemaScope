@@ -1,7 +1,7 @@
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { NavigationContainer } from '@react-navigation/native';
-import MainNavigationStack from '@stacks/MainNavigationStack';
-import { store } from '@store/store';
+import MainNavigationStack from '@app/navigation/main-navigation-stack';
+import { store } from '@app/store/store';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Provider } from 'react-redux';
 
