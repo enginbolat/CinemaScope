@@ -1,3 +1,4 @@
+import React from 'react';
 import { Text } from '@shared/components/index';
 import { View } from 'react-native';
 

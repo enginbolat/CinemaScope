@@ -1,4 +1,24 @@
 {
   "name": "CinemaScope",
-  "displayName": "CinemaScope"
+  "displayName": "CinemaScope",
+  "expo": {
+    "name": "CinemaScope",
+    "slug": "cinemascope",
+    "scheme": "cinemascope",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "platforms": ["ios", "android"],
+    "plugins": ["expo-router"],
+    "extra": {
+      "router": {
+        "root": "app"
+      }
+    },
+    "ios": {
+      "bundleIdentifier": "com.cinemascope.app"
+    },
+    "android": {
+      "package": "com.cinemascope.app"
+    }
+  }
 }

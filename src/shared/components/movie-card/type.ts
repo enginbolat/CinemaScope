@@ -1,6 +1,6 @@
 import { Popular } from '@shared/models/popular';
 import { StyleProp, ViewStyle } from 'react-native';
-import { ImageStyle } from '@d11/react-native-fast-image/src';
+import { ImageStyle } from 'react-native';
 
 export type IMovileCardProps = {
   item: Popular;

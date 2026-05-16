@@ -1,20 +1,18 @@
 import React, { useState } from 'react';
 import { FlatList, View } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useRouter } from 'expo-router';
 
-import { MainNavigationpPages, MainNavigationStackType } from '@app/navigation/main-navigation-stack';
 import { useAppSelector } from '@app/store/store';
 import { Header, MovieCardWithDescription, TabSwitch } from '@shared/components/index';
 import { Popular } from '@shared/models/index';
 
-import styles from './styles';
+import styles from './watch-list-screen.styles';
 import { EmptyList } from '../components';
 
 const TAB_SWITCH_TITLE = [{ title: 'Watch Later' }, { title: 'Favorites' }];
 
 const WatchListScreen = () => {
-  const navigation = useNavigation<NativeStackNavigationProp<MainNavigationStackType>>();
+  const router = useRouter();
   const [selectedTab, setSelectedTab] = useState<number>(0);
   const { watchLater, favorites } = useAppSelector(state => state.main);
   const selectedTabDataList = selectedTab === 0 ? watchLater : favorites;
@@ -22,7 +20,7 @@ const WatchListScreen = () => {
   const renderItem = ({ item }: { item: Popular }) => (
     <MovieCardWithDescription
       item={item}
-      onPress={() => navigation.navigate(MainNavigationpPages.MovieDetails, { movie: item })}
+      onPress={() => router.push({ pathname: '/movie-details', params: { movie: JSON.stringify(item) } })}
     />
   );
 

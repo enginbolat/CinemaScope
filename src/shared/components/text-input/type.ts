@@ -1,5 +1,6 @@
 import { TextInputProps } from 'react-native/Libraries/Components/TextInput/TextInput';
 import { IconType } from '@shared/assets/icons';
+import { StyleProp, ViewStyle } from 'react-native';
 
 export interface TextInput extends TextInputProps {
   showLeftIcon?: boolean;
@@ -12,4 +13,5 @@ export interface TextInput extends TextInputProps {
   rightIconColor?: string;
   onChangeText: (text: string) => void;
   onPress?: () => void;
+  containerStyle?: StyleProp<ViewStyle>;
 }

@@ -1,10 +1,11 @@
 import React, { useMemo, useRef, useState } from 'react';
-import { Image, SafeAreaView, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
+import { Image, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import Images from '@shared/assets/images';
 import { scale, scaleHeight, scaleWidth } from '@shared/helpers/helper';
 import { Text, Icon } from '@shared/components/index';
-import { useNavigation } from '@react-navigation/native';
+import { useRouter } from 'expo-router';
 import { AppColors } from '@shared/constants/app-colors';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { IS_TEST } from '@shared/constants/app-config';
@@ -28,10 +29,10 @@ const Header = (props: IHeaderProps) => {
     rightIconOnPress,
   } = props;
   const insets = useSafeAreaInsets();
-  const navigation = useNavigation();
+  const router = useRouter();
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 
-  const canGoBack = navigation.canGoBack();
+  const canGoBack = router.canGoBack();
   const [clickCounter, setClickCounter] = useState<number>(0);
 
   const handleClick = () => {
@@ -44,19 +45,18 @@ const Header = (props: IHeaderProps) => {
 
   const showLeftIcon = useMemo(() => {
     if (!leftIconShown) return;
-    else if (leftIconName || canGoBack) return true;
-    return false;
+    return leftIconName || canGoBack;
   }, [leftIconShown, leftIconName, canGoBack]);
 
   const innerLeftIconOnPress = () => {
     if (leftIconOnPress) leftIconOnPress();
-    if (canGoBack) navigation.goBack();
+    if (canGoBack) router.back();
   };
 
   return (
     <>
       <TouchableWithoutFeedback onPress={handleClick}>
-        <View style={[styles.container, { marginTop: insets.top }]}>
+        <View style={styles.container}>
           {showLeftIcon && (
             <TouchableOpacity onPress={innerLeftIconOnPress} style={styles.leftIconContainer}>
               <Icon name="ChevronLeft" color={AppColors.white} size={scale(32)} />

@@ -1,5 +1,6 @@
 import React, { FC, useState } from 'react';
-import { FlatList, Text as RNText, View, SafeAreaView, Pressable, TouchableOpacity, Alert } from 'react-native';
+import { FlatList, Text as RNText, View, Pressable, TouchableOpacity, Alert } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { NetworkLog, requestLogs } from '@shared/api/base-api';
 import { Icon, Text } from '@shared/components/index';
 import { useAppDispatch } from '@app/store/store';
@@ -8,7 +9,7 @@ import useLocalStorage from '@shared/hooks/use-local-storage';
 import moment from 'moment';
 import 'moment/locale/tr';
 
-import { styles } from './styles';
+import { styles } from './network-log-screen.styles';
 
 type Props = {
   index: number;

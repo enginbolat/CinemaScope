@@ -1,4 +1,5 @@
 import UIKit
+internal import Expo
 import React
 import React_RCTAppDelegate
 import ReactAppDependencyProvider
@@ -6,7 +7,7 @@ import ReactAppDependencyProvider
 @main
 class AppDelegate: RCTAppDelegate {
   override func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-    self.moduleName = "CinemaScope"
+    self.moduleName = "main"
     self.dependencyProvider = RCTAppDependencyProvider()
 
     // You can add your custom initial props in the dictionary below.
@@ -17,12 +18,13 @@ class AppDelegate: RCTAppDelegate {
   }
 
   override func sourceURL(for bridge: RCTBridge) -> URL? {
-    self.bundleURL()
+    // needed to return the correct URL for expo-dev-client.
+    bridge.bundleURL ?? bundleURL()
   }
 
   override func bundleURL() -> URL? {
 #if DEBUG
-    RCTBundleURLProvider.sharedSettings().jsBundleURL(forBundleRoot: "index")
+    RCTBundleURLProvider.sharedSettings().jsBundleURL(forBundleRoot: ".expo/.virtual-metro-entry")
 #else
     Bundle.main.url(forResource: "main", withExtension: "jsbundle")
 #endif

@@ -1,18 +1,18 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { ActivityIndicator, FlatList, SafeAreaView, StyleSheet, TextInput as RNTextInput, View } from 'react-native';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
+import { ActivityIndicator, TextInput as RNTextInput, View } from 'react-native';
+import { useRouter } from 'expo-router';
 
-import { AppColors } from '@shared/constants/app-colors';
-import { STATIC_PADDING } from '@shared/constants/app-constants';
 import { MovieCardWithDescription, Text, TextInput } from '@shared/components/index';
 import useDebounce from '@shared/hooks/use-debounce';
 import { useGetSearchResultsQuery } from '@features/search/api/search-api';
 import { useGetPopularContentQuery } from '@features/home/api/home-api';
-import { MainNavigationpPages, MainNavigationStackType } from '@app/navigation/main-navigation-stack';
-import { useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import styles from './search-screen.styles';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Popular } from '@shared/models';
+import { FlashList } from '@shopify/flash-list';
 
 const SearchScreen = () => {
-  const navigation = useNavigation<NativeStackNavigationProp<MainNavigationStackType>>();
+  const router = useRouter();
 
   const [keyword, setKeyword] = useState<string>('');
   const searchInputRef = useRef<RNTextInput>(null);
@@ -33,10 +33,6 @@ const SearchScreen = () => {
 
   const { data: popularContentData, isLoading: popularLoading } = useGetPopularContentQuery();
 
-  useEffect(() => {
-    if (error) console.warn('API Error:', error);
-  }, [error]);
-
   const handleSearchBarOnPress = () => searchInputRef.current?.focus();
   const handleSearchBarRightIconOnPress = () => setKeyword('');
 
@@ -47,45 +43,45 @@ const SearchScreen = () => {
     return popularContentData?.results ?? [];
   }, [searchResults, popularContentData, shouldTriggerSearch]);
 
+  const handleItemOnPress = (item: Popular) =>
+    router.push({ pathname: '/movie-details', params: { movie: JSON.stringify(item) } });
+
+  const renderItem = useCallback(
+    ({ item }: { item: Popular }) => (
+      <MovieCardWithDescription
+        item={item}
+        onPress={() => handleItemOnPress(item)}
+        containerStyle={{ marginBottom: 12 }}
+      />
+    ),
+    [],
+  );
+
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.container}>
-        <TextInput
-          ref={searchInputRef}
-          value={keyword}
-          onChangeText={setKeyword}
-          onPress={handleSearchBarOnPress}
-          showRightIcon
-          showLeftIcon
-          leftIconName="Search"
-          rightIconName="ChevronLeft"
-          placeholder="Search whatever you want"
-          rightIconOnPress={handleSearchBarRightIconOnPress}
-        />
-        {isLoading && <ActivityIndicator />}
-        <FlatList
-          keyExtractor={(item, index) => `item-${item.id ?? index}`}
-          data={safeData}
-          ListEmptyComponent={<Text text="List Is Empty" />}
-          contentContainerStyle={{ gap: 12 }}
-          renderItem={({ item }) => (
-            <MovieCardWithDescription
-              item={item}
-              onPress={() => navigation.navigate(MainNavigationpPages.MovieDetails, { movie: item })}
-            />
-          )}
-        />
-      </View>
+      <TextInput
+        ref={searchInputRef}
+        value={keyword}
+        onChangeText={setKeyword}
+        onPress={handleSearchBarOnPress}
+        showRightIcon
+        showLeftIcon
+        leftIconName="Search"
+        rightIconName="ChevronLeft"
+        placeholder="Search whatever you want"
+        rightIconOnPress={handleSearchBarRightIconOnPress}
+        containerStyle={{ marginHorizontal: 20 }}
+      />
+      {isLoading && <ActivityIndicator />}
+      <FlashList
+        keyExtractor={(item, index) => `item-${item.id ?? index}`}
+        data={safeData}
+        renderItem={renderItem}
+        ListEmptyComponent={<Text text="List Is Empty" />}
+        contentContainerStyle={{ gap: 12, paddingHorizontal: 20 }}
+      />
     </SafeAreaView>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: AppColors.primary,
-    padding: STATIC_PADDING,
-    gap: 12,
-  },
-});
 export default SearchScreen;
