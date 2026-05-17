@@ -1,4 +1,4 @@
-import { TouchableOpacity, View } from 'react-native'
+import { Pressable, TouchableOpacity, View } from 'react-native'
 
 import { ImageBackground } from 'expo-image'
 
@@ -9,7 +9,7 @@ import { BASE_W500_URL } from '@shared/constants/app-config'
 import { styles } from './banner-movie-card.styles'
 import type { Props } from './banner-movie-card.types'
 
-const BannerMovieCard = ({ movie }: Props) => {
+const BannerMovieCard = ({ movie, onPressItem }: Props) => {
   if (!movie) {
     return
   }
@@ -23,21 +23,23 @@ const BannerMovieCard = ({ movie }: Props) => {
   }
 
   return (
-    <ImageBackground
-      source={posterUrl}
-      style={styles.backgroundImage}
-      contentFit="cover"
-      priority="high"
-      cachePolicy="memory-disk">
-      <View style={styles.f1} />
-      <Text text={movie.title} type="displayLg" style={styles.movieTitle} />
-      <View style={styles.buttonContainer}>
-        <Button text="Watch Now" onPress={handleOnPressWatchNow} style={styles.watchNowButton} />
-        <TouchableOpacity style={styles.favoriteButton} onPress={handleAddFavorite}>
-          <Icon name="HeartOutline" color={AppColors.white} />
-        </TouchableOpacity>
-      </View>
-    </ImageBackground>
+    <Pressable onPress={() => onPressItem(movie)}>
+      <ImageBackground
+        source={posterUrl}
+        style={styles.backgroundImage}
+        contentFit="cover"
+        priority="high"
+        cachePolicy="memory-disk">
+        <View style={styles.f1} />
+        <Text text={movie.title} type="displayLg" style={styles.movieTitle} />
+        <View style={styles.buttonContainer}>
+          <Button text="Watch Now" onPress={handleOnPressWatchNow} style={styles.watchNowButton} />
+          <TouchableOpacity style={styles.favoriteButton} onPress={handleAddFavorite}>
+            <Icon name="HeartOutline" color={AppColors.white} />
+          </TouchableOpacity>
+        </View>
+      </ImageBackground>
+    </Pressable>
   )
 }
 

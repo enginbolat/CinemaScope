@@ -38,6 +38,7 @@ export const AppColors = {
   outline: '#af8782',
   outlineVariant: '#5e3f3b',
   whiteBorder: '#FFFFFF0D',
+  whiteBorder20: '#FFFFFF33',
 
   // Error
   error: '#93000a',

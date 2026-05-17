@@ -12,21 +12,26 @@ import { AppColors } from '@shared/constants/app-colors'
 import { BASE_W500_URL } from '@shared/constants/app-config'
 import type { Cast } from '@shared/models/cast'
 
-import { styles } from '../../screens/style'
+import { styles } from './cast-list.styles'
 
 type Props = {
-  cast: Cast[] | undefined;
-};
+  cast: Cast[] | undefined
+}
 
 const CastList = ({ cast }: Props) => {
   const renderItem = ({ item }: { item: Cast }) => {
-    const imageSource = item.profile_path
-      ? { uri: BASE_W500_URL + item.profile_path }
-      : Images.profile
+    const imageSource = item.profile_path ? { uri: BASE_W500_URL + item.profile_path } : Images.profile
 
     return (
       <View style={styles.castItemContainer}>
-        <Image style={styles.smallImage} source={imageSource} contentFit="cover" priority="low" cachePolicy="memory-disk" transition={100}/>
+        <Image
+          style={styles.smallImage}
+          source={imageSource}
+          contentFit='cover'
+          priority="low"
+          cachePolicy="memory-disk"
+          transition={100}
+        />
         <Text text={item?.name} />
         <Text text={`as ${item?.character}`} color={AppColors.white50} />
       </View>

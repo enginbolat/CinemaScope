@@ -8,7 +8,11 @@ import { useRouter } from 'expo-router'
 
 import { FlashList } from '@shopify/flash-list'
 
-import { useGetPopularContentInfiniteQuery, useNowPlayingMovieQuery, useUpcomingMovieQuery } from '@features/home/api/home-api'
+import {
+  useGetPopularContentInfiniteQuery,
+  useNowPlayingMovieQuery,
+  useUpcomingMovieQuery,
+} from '@features/home/api/home-api'
 
 import type { Popular, Result } from '@shared/models'
 
@@ -52,7 +56,7 @@ const HomeScreen = () => {
       <StatusBar barStyle="light-content" />
       <FlashList<HomeSectionRow>
         data={sectionData}
-        ListHeaderComponent={<BannerMovieCard movie={popularContentData?.results[1]} />}
+        ListHeaderComponent={<BannerMovieCard movie={popularContentData?.results[1]} onPressItem={onPressItem} />}
         ListHeaderComponentStyle={styles.header}
         nestedScrollEnabled
         showsVerticalScrollIndicator={false}
