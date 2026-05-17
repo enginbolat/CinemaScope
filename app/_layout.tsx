@@ -10,6 +10,7 @@ import { Stack } from 'expo-router'
 
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
 import { DarkTheme, ThemeProvider } from '@react-navigation/native'
+
 import useAppInit from '@root/hooks/useAppInit'
 import useFontLoader from '@root/hooks/useFontLoader'
 import { store } from '@root/store/store'

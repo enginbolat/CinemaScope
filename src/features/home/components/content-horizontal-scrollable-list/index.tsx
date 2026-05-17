@@ -9,7 +9,7 @@ import { AppColors } from '@shared/constants/app-colors'
 import type { Popular } from '@shared/models/popular'
 
 import { styles } from './content-horizontal-scrollable-list.styles'
-import type { Props } from './type'
+import type { Props } from './types'
 
 const ContentHorizontalScrollableList = ({ title, contentList, onSeeAll }: Props) => {
   const renderItem = useCallback(

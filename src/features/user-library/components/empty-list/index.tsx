@@ -3,7 +3,7 @@ import { View } from 'react-native'
 import { Text } from '@shared/components/index'
 
 import { styles } from './styles'
-import type { Props } from './type'
+import type { Props } from './types'
 
 const EmptyList = ({ title }: Props) => (
   <View style={styles.container}>

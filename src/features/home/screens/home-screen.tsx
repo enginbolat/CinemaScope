@@ -13,7 +13,7 @@ import {
 import type { Popular } from '@shared/models'
 
 import { BannerMovieCard, ContentHorizontalScrollableList } from '../components'
-import { useHomeScreenStyles } from './home-screen.style'
+import { useHomeScreenStyles } from './home-screen.styles'
 
 const HomeScreen = () => {
   const router = useRouter()

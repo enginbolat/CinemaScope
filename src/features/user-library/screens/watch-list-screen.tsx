@@ -19,14 +19,13 @@ import type { IFavoriteAndWatchLater } from '../store/user-library-slice'
 
 const TAB_SWITCH_TITLE = [{ title: 'Watch Later' }, { title: 'Favorites' }]
 
+const ItemSeparator = () => <View style={styles.separator} />
+
 const WatchListScreen = () => {
   const router = useRouter()
   const [selectedTab, setSelectedTab] = useState<number>(0)
   const { watchLater, favorites } = useAppSelector(state => state.main)
   const selectedTabDataList = selectedTab === 0 ? watchLater : favorites
-
-  // eslint-disable-next-line react/no-unstable-nested-components
-  const ItemSeparator = () => <View style={styles.separator} />
 
   const renderItem = ({ item }: { item: Popular }) => (
     <MovieCardWithDescription
