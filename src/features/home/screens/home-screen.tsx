@@ -8,7 +8,7 @@ import { useRouter } from 'expo-router'
 
 import { FlashList } from '@shopify/flash-list'
 
-import { useGetPopularContentQuery, useNowPlayingMovieQuery, useUpcomingMovieQuery } from '@features/home/api/home-api'
+import { useGetPopularContentInfiniteQuery, useNowPlayingMovieQuery, useUpcomingMovieQuery } from '@features/home/api/home-api'
 
 import type { Popular, Result } from '@shared/models'
 
@@ -22,7 +22,9 @@ const HomeScreen = () => {
   const insets = useSafeAreaInsets()
   const styles = useHomeScreenStyles({ insets })
 
-  const { data: popularContentData, isLoading: popularLoading } = useGetPopularContentQuery()
+  const { data: popularInfiniteData, isLoading: popularLoading } = useGetPopularContentInfiniteQuery()
+  const popularContentData = popularInfiniteData?.pages[0]
+
   const { data: nowPlayingContentData, isLoading: nowPlayingLoading } = useNowPlayingMovieQuery(1)
   const { data: upcomingMovies, isLoading: upcomingMovieLoading } = useUpcomingMovieQuery(1)
 

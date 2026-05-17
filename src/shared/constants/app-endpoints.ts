@@ -1,8 +1,8 @@
 export const AppEndpoints = {
-  popular: {
-    url: '/3/discover/movie?include_adult=false&include_video=true&language=en-US&page=1&sort_by=popularity.desc',
-    method: 'GET',
-  },
+  popular: (page: number = 1) => ({
+    url: `/3/discover/movie?include_adult=false&include_video=true&language=en-US&page=${page}&sort_by=popularity.desc`,
+    method: 'GET' as const,
+  }),
   movieDetailsById: (id: string) => ({
     url: `/3/movie/${id}?language=en-US`,
     method: 'GET',

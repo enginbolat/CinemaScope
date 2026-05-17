@@ -1,6 +1,4 @@
-import { Label, Icon as SFIcon } from 'expo-router'
-
-import { NativeTabs } from 'expo-router/build/native-tabs'
+import { NativeTabs } from 'expo-router/unstable-native-tabs'
 
 import { AppColors } from '@shared/constants/app-colors'
 
@@ -15,22 +13,24 @@ export default function TabLayout() {
         selected: AppColors.primary,
       }}>
       <NativeTabs.Trigger name="index">
-        <SFIcon sf="house" />
-        <Label>Home</Label>
+        <NativeTabs.Trigger.Icon sf={{ default: 'house', selected: 'house.fill' }} />
+        <NativeTabs.Trigger.Label>Home</NativeTabs.Trigger.Label>
       </NativeTabs.Trigger>
 
-      <NativeTabs.Trigger name="search" role="search" />
+      <NativeTabs.Trigger name="search" role="search">
+        <NativeTabs.Trigger.Icon sf={{ default: 'magnifyingglass', selected: 'magnifyingglass' }} />
+        <NativeTabs.Trigger.Label>Search</NativeTabs.Trigger.Label>
+      </NativeTabs.Trigger>
 
       <NativeTabs.Trigger name="watch-list">
-        <SFIcon sf="clock" />
-        <Label>WatchList</Label>
+        <NativeTabs.Trigger.Icon sf={{ default: 'clock', selected: 'clock.fill' }} />
+        <NativeTabs.Trigger.Label>Watch List</NativeTabs.Trigger.Label>
       </NativeTabs.Trigger>
 
       <NativeTabs.Trigger name="network-log">
-        <SFIcon sf="bookmark" />
-        <Label>Bookmark</Label>
+        <NativeTabs.Trigger.Icon sf={{ default: 'bookmark', selected: 'bookmark.fill' }} />
+        <NativeTabs.Trigger.Label>Bookmark</NativeTabs.Trigger.Label>
       </NativeTabs.Trigger>
-
     </NativeTabs>
   )
 }

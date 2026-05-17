@@ -86,12 +86,10 @@ type IAxiosBaseQuery = {
   headers?: AxiosRequestConfig['headers'];
 };
 
-const axiosBaseQuery =
-  ({ baseUrl } = { baseUrl: '' }) =>
-  async ({ url, method, data, params, headers }: IAxiosBaseQuery) => {
-    try {
-      const result = await axiosInstance({
-        url: baseUrl + url,
+const axiosBaseQuery = () => async ({ url, method, data, params, headers }: IAxiosBaseQuery) => {
+  try {
+    const result = await axiosInstance({
+      url,
         method,
         data,
         params,
@@ -113,6 +111,6 @@ const axiosBaseQuery =
   }
 
 export const api = createApi({
-  baseQuery: axiosBaseQuery({ baseUrl: BASE_URL }),
+  baseQuery: axiosBaseQuery(),
   endpoints: () => ({}),
 })

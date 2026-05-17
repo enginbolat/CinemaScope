@@ -4,10 +4,15 @@ import type { RootPopular, NowPlayingRoot } from '@shared/models/index'
 
 export const homeApi = api.injectEndpoints({
   endpoints: build => ({
-    getPopularContent: build.query<RootPopular, void>({
-      query: () => ({
-        url: AppEndpoints.popular.url,
-        method: AppEndpoints.popular.method,
+    getPopularContent: build.infiniteQuery<RootPopular, void, number>({
+      infiniteQueryOptions: {
+        initialPageParam: 1,
+        getNextPageParam: (lastPage, _allPages, lastPageParam) =>
+          lastPageParam < lastPage.total_pages ? lastPageParam + 1 : undefined,
+      },
+      query: ({ pageParam }) => ({
+        url: AppEndpoints.popular(pageParam).url,
+        method: AppEndpoints.popular(pageParam).method,
       }),
     }),
     nowPlayingMovie: build.query<NowPlayingRoot, number>({
@@ -27,7 +32,7 @@ export const homeApi = api.injectEndpoints({
 })
 
 export const {
-  useGetPopularContentQuery,
+  useGetPopularContentInfiniteQuery,
   useNowPlayingMovieQuery,
   useUpcomingMovieQuery,
 } = homeApi

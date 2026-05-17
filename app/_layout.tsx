@@ -4,6 +4,7 @@ import React, { useEffect } from 'react'
 
 import { StyleSheet } from 'react-native'
 
+import { DarkTheme, ThemeProvider } from '@react-navigation/native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { useDispatch , Provider } from 'react-redux'
@@ -61,15 +62,17 @@ export default function RootLayout() {
   if (!fontsLoaded) return null
 
   return (
-    <SafeAreaProvider>
-      <GestureHandlerRootView style={styles.f1}>
-        <Provider store={store}>
-          <BottomSheetModalProvider>
-            <AppContent />
-          </BottomSheetModalProvider>
-        </Provider>
-      </GestureHandlerRootView>
-    </SafeAreaProvider>
+    <ThemeProvider value={DarkTheme}>
+      <SafeAreaProvider>
+        <GestureHandlerRootView style={styles.f1}>
+          <Provider store={store}>
+            <BottomSheetModalProvider>
+              <AppContent />
+            </BottomSheetModalProvider>
+          </Provider>
+        </GestureHandlerRootView>
+      </SafeAreaProvider>
+    </ThemeProvider>
   )
 }
 

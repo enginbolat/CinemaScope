@@ -12,7 +12,7 @@ export const searchApi = api.injectEndpoints({
     getSearchResults: build.query<RootPopular, SearchRequestParams>({
       query: ({ query, page }) => ({
         url: AppEndpoints.searchContent(encodeURIComponent(query), page).url,
-        method: AppEndpoints.popular.method,
+        method: AppEndpoints.searchContent(query, page).method,
       }),
     }),
   }),
