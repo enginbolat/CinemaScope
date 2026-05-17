@@ -15,6 +15,9 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "@expo-google-fonts/geist": "^0.4.2",
+    "@expo-google-fonts/inter": "^0.4.2",
+    "@expo-google-fonts/plus-jakarta-sans": "^0.4.2",
     "@gorhom/bottom-sheet": "^5",
     "@react-native-async-storage/async-storage": "2.2.0",
     "@reduxjs/toolkit": "^2.6.1",
@@ -22,6 +25,7 @@
     "axios": "^1.8.4",
     "expo": "~55.0.0",
     "expo-constants": "^55.0.16",
+    "expo-font": "^55.0.7",
     "expo-image": "^55.0.10",
     "expo-linking": "^55.0.15",
     "expo-localization": "~55.0.14",

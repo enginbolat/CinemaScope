@@ -4,6 +4,7 @@ import { Redirect } from 'expo-router';
 
 import { AppColors } from '@shared/constants/app-colors';
 import useLocalStorage from '@shared/hooks/use-local-storage';
+import OnboardScreen from './onboard';
 
 export default function Index() {
   const { GetFromStorage } = useLocalStorage();
@@ -23,7 +24,7 @@ export default function Index() {
     );
   }
 
-  return <Redirect href={route} />;
+  return <Redirect href="/(tabs)" />;
 }
 
 const styles = StyleSheet.create({

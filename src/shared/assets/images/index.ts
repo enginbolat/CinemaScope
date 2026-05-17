@@ -1,7 +1,7 @@
 const Images = {
-    onboard: require('./onboard.png'),
-    logo: require('./logo.png'),
-    profile: require('./profile.png'),
+  logo: require('./logo.png'),
+  profile: require('./profile.png'),
+  onboard: require('./onboard-image.png'),
 };
 
 export default Images;

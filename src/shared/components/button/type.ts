@@ -4,6 +4,7 @@ import { TextStyle, TouchableOpacityProps } from 'react-native';
 
 export interface IButton extends TouchableOpacityProps {
   leftIcon?: IconType;
+  rightIcon?: IconType;
   text: string;
   loading?: boolean;
   textStyle?: TextStyle;
