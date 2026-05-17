@@ -5,18 +5,18 @@ import { AppRadius, AppSpacing } from '@shared/constants/app-constants'
 
 export const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: 20,
+    paddingHorizontal: AppSpacing.lg,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     height: 60,
-    gap: 16,
+    gap: AppSpacing.md,
   },
   addWatchListButtonContainer: {
     alignItems: 'center',
   },
   button: {
-    borderRadius: 8,
+    borderRadius: AppRadius.md,
     maxWidth: 300
   },
   favoriteButton: {

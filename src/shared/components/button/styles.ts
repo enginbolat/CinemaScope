@@ -1,19 +1,20 @@
 import { Platform, StyleSheet } from 'react-native'
 
 import { AppColors } from '@shared/constants/app-colors'
+import { AppRadius, AppSpacing } from '@shared/constants/app-constants'
 
 export const rawStyle = (disabled?: boolean) =>
   StyleSheet.create({
     container: {
-      paddingHorizontal: 32,
-      paddingVertical: 16,
+      paddingHorizontal: AppSpacing.xl,
+      paddingVertical: AppSpacing.md,
       backgroundColor: disabled ? AppColors.secondaryGhost : AppColors.primaryContainer,
       width: '100%',
       alignItems: 'center',
-      borderRadius: 999,
+      borderRadius: AppRadius.full,
       flexDirection: 'row',
       justifyContent: 'center',
-      gap: 8,
+      gap: AppSpacing.xs,
       ...Platform.select({
         ios: {
           shadowColor: '#e50914',

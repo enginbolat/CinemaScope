@@ -1,6 +1,7 @@
 import { StyleSheet } from 'react-native'
 
 import { AppColors } from '@shared/constants/app-colors.ts'
+import { AppSpacing } from '@shared/constants/app-constants'
 
 const styles = StyleSheet.create({
   container: {
@@ -27,7 +28,7 @@ const styles = StyleSheet.create({
   },
   titleContainer: {
     flex: 1,
-    paddingVertical: 20,
+    paddingVertical: AppSpacing.lg,
   },
 })
 

@@ -1,6 +1,7 @@
 import { StyleSheet } from 'react-native'
 
 import { AppColors } from '@shared/constants/app-colors'
+import { AppSpacing } from '@shared/constants/app-constants'
 import { scaleHeight } from '@shared/helpers/helper'
 
 export const styles = StyleSheet.create({
@@ -22,7 +23,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     flex: 1,
-    gap: 32,
+    gap: AppSpacing.xl,
   },
   rootContainer: {
     flex: 1,
@@ -34,6 +35,6 @@ export const styles = StyleSheet.create({
     height: 530,
     justifyContent: 'flex-end',
     alignItems: 'flex-start',
-    paddingBottom: 32,
+    paddingBottom: AppSpacing.xl,
   },
 })

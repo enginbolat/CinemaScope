@@ -7,7 +7,7 @@ export const styles = StyleSheet.create({
   backgroundImage: {
     width: '100%',
     height: 530,
-    padding: 20,
+    padding: AppSpacing.lg,
   },
   f1: {
     flex: 1,

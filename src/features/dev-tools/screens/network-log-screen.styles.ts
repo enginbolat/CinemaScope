@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native'
 
 import { AppColors } from '@shared/constants/app-colors.ts'
-import { STATIC_PADDING } from '@shared/constants/app-constants.ts'
+import { AppSpacing, STATIC_PADDING } from '@shared/constants/app-constants.ts'
 
 export const styles = StyleSheet.create({
   list: {
@@ -13,7 +13,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'flex-end',
     paddingHorizontal: STATIC_PADDING,
-    paddingBottom: 12,
+    paddingBottom: AppSpacing.sm,
   },
   container: {
     backgroundColor: AppColors.surface,
