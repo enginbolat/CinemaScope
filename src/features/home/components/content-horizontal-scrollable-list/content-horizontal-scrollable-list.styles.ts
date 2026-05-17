@@ -8,6 +8,9 @@ export const styles = StyleSheet.create({
   },
   ph: {
     paddingHorizontal: AppSpacing.lg,
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    alignItems: 'flex-end',
   },
   renderItemContainer: {
     marginRight: AppSpacing.sm,

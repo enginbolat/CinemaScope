@@ -142,5 +142,6 @@ const axiosBaseQuery = () => async ({ url, method, data, params, headers }: IAxi
 export const api = createApi({
   baseQuery: axiosBaseQuery(),
   keepUnusedDataFor: 300,
+  refetchOnReconnect: true,
   endpoints: () => ({}),
 })

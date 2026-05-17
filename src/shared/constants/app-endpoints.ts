@@ -1,30 +1,40 @@
+type SwitchType = 'true' | 'false'
+
+type SettingsType = {
+  includeAdult?: SwitchType
+  includeVideo?: SwitchType
+  language?: string
+  sortBy?: string
+}
+
+const INCLUDE_ADULT = (val?: SwitchType) => `include_adult=${val ?? 'true'}`
+const INCLUDE_VIDEO = (val?: SwitchType) => `include_video=${val ?? 'true'}`
+const LANGUAGE = (lang?: string) => `language=${lang ?? 'en-US'}`
+const SORT_BY = (sort?: string) => `sort_by=${sort ?? 'popularity.desc'}`
+
 export const AppEndpoints = {
-  popular: (page: number = 1) => ({
-    url: `/3/discover/movie?include_adult=false&include_video=true&language=en-US&page=${page}&sort_by=popularity.desc`,
+  popular: (page: number = 1, settings?: SettingsType) => ({
+    url: `/3/discover/movie?${INCLUDE_ADULT(settings?.includeAdult)}&${INCLUDE_VIDEO(settings?.includeVideo)}&${LANGUAGE(settings?.language)}&page=${page}&${SORT_BY(settings?.sortBy)}`,
     method: 'GET' as const,
   }),
-  movieDetailsById: (id: string) => ({
-    url: `/3/movie/${id}?language=en-US`,
-    method: 'GET',
+  movieDetailsById: (id: string, language?: string) => ({
+    url: `/3/movie/${id}?${LANGUAGE(language)}`,
+    method: 'GET' as const,
   }),
   movieCastByMovieId: (movieId: string) => ({
     url: `/3/movie/${movieId}/credits`,
-    method: 'GET',
+    method: 'GET' as const,
   }),
-  popularMovies: {
-    url: '/3/discover/movie?include_adult=false&include_video=True&language=en-US&page=1&sort_by=popularity.desc',
-    method: 'GET',
-  },
-  nowPlayingMovie: (page: number = 1) => ({
-    url: `/3/movie/now_playing?language=en-US&page=${page}`,
-    method: 'GET',
+  nowPlayingMovie: (page: number = 1, language?: string) => ({
+    url: `/3/movie/now_playing?${LANGUAGE(language)}&page=${page}`,
+    method: 'GET' as const,
   }),
-  upcomingMovie: (page: number = 1) => ({
-    url: `/3/movie/upcoming?language=en-US&page=${page}`,
-    method: 'GET',
+  upcomingMovie: (page: number = 1, language?: string) => ({
+    url: `/3/movie/upcoming?${LANGUAGE(language)}&page=${page}`,
+    method: 'GET' as const,
   }),
-  searchContent: (query: string, page: number = 1) => ({
-    url: `/3/search/movie?query=${query}&include_adult=true&language=en-US&page=${page}`,
-    method: 'GET',
+  searchContent: (query: string, page: number = 1, settings?: Pick<SettingsType, 'language' | 'includeAdult'>) => ({
+    url: `/3/search/movie?query=${query}&${INCLUDE_ADULT(settings?.includeAdult)}&${LANGUAGE(settings?.language)}&page=${page}`,
+    method: 'GET' as const,
   }),
 }

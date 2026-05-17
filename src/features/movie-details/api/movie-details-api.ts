@@ -5,16 +5,12 @@ import type { MovieDetails, CastRoot } from '@shared/models/index'
 export const movieDetailsApi = api.injectEndpoints({
   endpoints: build => ({
     movieDetailsById: build.query<MovieDetails, string>({
-      query: id => ({
-        url: AppEndpoints.movieDetailsById(id).url,
-        method: AppEndpoints.movieDetailsById(id).method,
-      }),
+      keepUnusedDataFor: 3600,
+      query: id => AppEndpoints.movieDetailsById(id),
     }),
     movieCastByMovieId: build.query<CastRoot, string>({
-      query: movieId => ({
-        url: AppEndpoints.movieCastByMovieId(movieId).url,
-        method: AppEndpoints.movieCastByMovieId(movieId).method,
-      }),
+      keepUnusedDataFor: 3600,
+      query: movieId => AppEndpoints.movieCastByMovieId(movieId),
     }),
   }),
   overrideExisting: false,

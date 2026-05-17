@@ -1,10 +1,10 @@
 import { Stack } from 'expo-router'
 
-import MovieDetailsScreen from '@features/movie-details/screens/movie-details-screen'
+import SeeMoreGrid from '@features/see-more-grid/see-more-grid'
 
 import { screenOptions } from './screenOptions'
 
-export default function MovieDetailsTab() {
+export default function SeeMoreGridRoute() {
   return (
     <>
       <Stack.Screen
@@ -12,7 +12,7 @@ export default function MovieDetailsTab() {
           ...screenOptions,
         }}
       />
-      <MovieDetailsScreen />
+      <SeeMoreGrid />
     </>
   )
 }

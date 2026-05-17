@@ -1,6 +1,6 @@
-import { View } from 'react-native'
-
 import { BlurView } from 'expo-blur'
+
+import { FlashList } from '@shopify/flash-list'
 
 import { Text } from '@shared/components/index'
 import { AppColors } from '@shared/constants/app-colors'
@@ -13,13 +13,19 @@ type Props = {
 }
 
 const GenreAndReleaseDate = ({ genres }: Props) => (
-  <View style={styles.genreContainer}>
-    {genres?.map(genre => (
-      <BlurView style={styles.chip} tint="systemChromeMaterialDark" intensity={30}>
-        <Text key={genre.id} text={genre.name} color={AppColors.onSurfaceVariant} type="labelCaps" />
+  <FlashList
+    bounces={false}
+    showsHorizontalScrollIndicator={false}
+    style={styles.genreContainer}
+    contentContainerStyle={styles.contentContainer}
+    horizontal
+    data={genres}
+    renderItem={({ item: genre }) => (
+      <BlurView key={genre.id} style={styles.chip} tint="systemChromeMaterialDark" intensity={30}>
+        <Text text={genre.name} color={AppColors.onSurfaceVariant} type="labelCaps" />
       </BlurView>
-    ))}
-  </View>
+    )}
+  />
 )
 
 export default GenreAndReleaseDate

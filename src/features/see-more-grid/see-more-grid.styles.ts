@@ -5,28 +5,19 @@ import { STATIC_PADDING } from '@shared/constants/app-constants'
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: AppColors.surface,
-    alignItems: 'center',
     flex: 1,
-  },
-  tabContainer: {
-    width: '100%',
-    alignItems: 'center',
-    paddingHorizontal: STATIC_PADDING,
+    backgroundColor: AppColors.surface,
+    paddingTop: 12,
   },
   listStyle: {
-    flexGrow: 1,
-    marginTop: 32,
+    flex: 1,
     width: '100%',
   },
   listContainerStyle: {
     paddingHorizontal: STATIC_PADDING,
-    flexGrow: 1,
-    width: '100%',
   },
-  emptyListContainer: {
-    flex: 1,
-    alignItems: 'center',
+  separator: {
+    height: 12,
   },
 })
 
