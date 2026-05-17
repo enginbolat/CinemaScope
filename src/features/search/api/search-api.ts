@@ -2,21 +2,21 @@ import { api } from '@shared/api/base-api'
 import { AppEndpoints } from '@shared/constants/app-endpoints'
 import type { RootPopular } from '@shared/models/index'
 
-type SearchRequestParams = {
-  query: string;
-  page: number;
-};
-
 export const searchApi = api.injectEndpoints({
   endpoints: build => ({
-    getSearchResults: build.query<RootPopular, SearchRequestParams>({
-      query: ({ query, page }) => ({
-        url: AppEndpoints.searchContent(encodeURIComponent(query), page).url,
-        method: AppEndpoints.searchContent(query, page).method,
+    getSearchResults: build.infiniteQuery<RootPopular, string, number>({
+      infiniteQueryOptions: {
+        initialPageParam: 1,
+        getNextPageParam: (lastPage, _allPages, lastPageParam) =>
+          lastPageParam < lastPage.total_pages ? lastPageParam + 1 : undefined,
+      },
+      query: ({ queryArg: query, pageParam }) => ({
+        url: AppEndpoints.searchContent(encodeURIComponent(query), pageParam).url,
+        method: 'GET',
       }),
     }),
   }),
   overrideExisting: false,
 })
 
-export const { useGetSearchResultsQuery } = searchApi
+export const { useGetSearchResultsInfiniteQuery } = searchApi

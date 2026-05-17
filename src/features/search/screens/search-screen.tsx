@@ -7,17 +7,21 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 
 import { useRouter } from 'expo-router'
 
+import { skipToken } from '@reduxjs/toolkit/query'
 import { FlashList } from '@shopify/flash-list'
 
 import { useGetPopularContentInfiniteQuery } from '@features/home/api/home-api'
+import { useGetSearchResultsInfiniteQuery } from '@features/search/api/search-api'
 
 import { Text, TextInput } from '@shared/components/index'
+import useDebounce from '@shared/hooks/use-debounce'
 import type { Popular } from '@shared/models'
 
 import styles from './search-screen.styles'
 import MovieCardWithInnerTitle from '../components/movie-card-with-inner-title'
 
 const NUM_COLUMNS = 2
+const DEBOUNCE_MS = 400
 
 type Props = {
   searchTerm: string
@@ -27,24 +31,44 @@ type Props = {
 
 const SearchScreen = ({ searchTerm, setSearchTerm, showInput = true }: Props) => {
   const router = useRouter()
-
   const searchInputRef = useRef<RNTextInput>(null)
+
+  const debouncedTerm = useDebounce(searchTerm.trim(), DEBOUNCE_MS)
+  const isSearchMode = debouncedTerm.length > 0
 
   const {
     data: popularInfinite,
-    fetchNextPage,
-    hasNextPage,
-    isFetching,
-    isFetchingNextPage,
-    isLoading,
+    fetchNextPage: fetchNextPopular,
+    hasNextPage: hasNextPopular,
+    isFetching: isFetchingPopular,
+    isFetchingNextPage: isFetchingNextPopular,
+    isLoading: isLoadingPopular,
   } = useGetPopularContentInfiniteQuery()
 
-  const popularGridItems = useMemo(() => popularInfinite?.pages.flatMap(p => p.results) ?? [], [popularInfinite])
+  const {
+    data: searchInfinite,
+    fetchNextPage: fetchNextSearch,
+    hasNextPage: hasNextSearch,
+    isFetchingNextPage: isFetchingNextSearch,
+    isLoading: isLoadingSearch,
+  } = useGetSearchResultsInfiniteQuery(isSearchMode ? debouncedTerm : skipToken)
 
-  const handleLoadMorePopular = useCallback(() => {
+  const popularItems = useMemo(() => popularInfinite?.pages.flatMap(p => p.results) ?? [], [popularInfinite])
+  const searchItems = useMemo(() => searchInfinite?.pages.flatMap(p => p.results) ?? [], [searchInfinite])
+
+  const displayItems = isSearchMode ? searchItems : popularItems
+  const isFetchingNextPage = isSearchMode ? isFetchingNextSearch : isFetchingNextPopular
+  const hasNextPage = isSearchMode ? hasNextSearch : hasNextPopular
+
+  const showListEmptySpinner =
+    displayItems.length === 0 &&
+    (isSearchMode ? isLoadingSearch : isLoadingPopular || (!popularInfinite?.pages?.length && isFetchingPopular))
+
+  const handleLoadMore = useCallback(() => {
     if (!hasNextPage || isFetchingNextPage) return
-    fetchNextPage()
-  }, [fetchNextPage, hasNextPage, isFetchingNextPage])
+    if (isSearchMode) fetchNextSearch()
+    else fetchNextPopular()
+  }, [fetchNextPopular, fetchNextSearch, hasNextPage, isFetchingNextPage, isSearchMode])
 
   const handleSearchBarOnPress = () => searchInputRef.current?.focus()
   const handleSearchBarRightIconOnPress = () => setSearchTerm('')
@@ -65,11 +89,8 @@ const SearchScreen = ({ searchTerm, setSearchTerm, showInput = true }: Props) =>
     [],
   )
 
-  const showListEmptySpinner =
-    popularGridItems.length === 0 && (isLoading || (!popularInfinite?.pages?.length && isFetching))
-
   const listFooter =
-    popularGridItems.length > 0 && isFetchingNextPage ? (
+    displayItems.length > 0 && isFetchingNextPage ? (
       <View style={styles.listFooterSpinner}>
         <ActivityIndicator />
       </View>
@@ -96,24 +117,24 @@ const SearchScreen = ({ searchTerm, setSearchTerm, showInput = true }: Props) =>
     [searchTerm, showInput],
   )
 
-  return (
-    <SafeAreaView style={styles.container}>
-      <FlashList
-        ListHeaderComponent={ListHeader}
-        onScroll={() => searchInputRef.current?.blur()}
-        ListHeaderComponentStyle={{ marginBottom: 32 }}
-        numColumns={NUM_COLUMNS}
-        keyExtractor={(item, index) => `item-${item.id ?? index}`}
-        data={popularGridItems}
-        renderItem={renderItem}
-        ListEmptyComponent={showListEmptySpinner ? <ActivityIndicator /> : <Text text="List Is Empty" />}
-        ListFooterComponent={listFooter}
-        onEndReached={handleLoadMorePopular}
-        onEndReachedThreshold={0.4}
-        contentContainerStyle={styles.flashListContent}
-      />
-    </SafeAreaView>
+  const list = (
+    <FlashList
+      ListHeaderComponent={ListHeader}
+      onScroll={() => searchInputRef.current?.blur()}
+      ListHeaderComponentStyle={{ marginBottom: 32 }}
+      numColumns={NUM_COLUMNS}
+      keyExtractor={(item, index) => `item-${item.id ?? index}`}
+      data={displayItems}
+      renderItem={renderItem}
+      ListEmptyComponent={showListEmptySpinner ? <ActivityIndicator /> : <Text text="List Is Empty" />}
+      ListFooterComponent={listFooter}
+      onEndReached={handleLoadMore}
+      onEndReachedThreshold={0.4}
+      contentContainerStyle={styles.flashListContent}
+    />
   )
+
+  return <SafeAreaView style={styles.container}>{list}</SafeAreaView>
 }
 
 export default SearchScreen

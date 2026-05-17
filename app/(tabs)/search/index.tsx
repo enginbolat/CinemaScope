@@ -1,27 +1,26 @@
 import { useState } from 'react'
 
-import { Platform } from 'react-native'
-
 import { Stack } from 'expo-router'
 
 import SearchScreen from '@features/search/screens/search-screen'
 
-const parsedPlatformVersion = parseInt(String(Platform.Version), 10)
-const useNativeSearchBar = Platform.OS === 'ios' && parsedPlatformVersion >= 26
+import useNativeSearchBar from '@shared/hooks/use-native-search-bar'
 
 export default function SearchIndex() {
   const [searchTerm, setSearchTerm] = useState('')
 
+  const { isNativeSearchBar } = useNativeSearchBar()
+
   return (
     <>
-      {useNativeSearchBar && (
+      {isNativeSearchBar && (
         <Stack.SearchBar
           placement="automatic"
           placeholder="Search"
           onChangeText={e => setSearchTerm(e.nativeEvent.text)}
         />
       )}
-      <SearchScreen searchTerm={searchTerm} setSearchTerm={setSearchTerm} showInput={!useNativeSearchBar} />
+      <SearchScreen searchTerm={searchTerm} setSearchTerm={setSearchTerm} showInput={!isNativeSearchBar} />
     </>
   )
 }
