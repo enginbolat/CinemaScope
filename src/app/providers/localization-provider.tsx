@@ -1,49 +1,27 @@
-import { en, tr, TranslationKey } from '@core/index';
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 import { I18nManager } from 'react-native';
-import I18n from 'react-native-i18n';
 
+import i18n from '@core/i18n/i18n.config';
 import { LocalizationContextProps, LocalizationProviderProps } from './types';
-
-const translations = { en, tr };
 
 export const LocalizationContext = createContext<LocalizationContextProps>({
   locale: 'en',
   setLocale: () => {},
-  translate: key => key,
 });
 
 const LocalizationProvider: React.FC<LocalizationProviderProps> = ({ children }) => {
-  const initialLocale: keyof typeof translations = (I18n.locale.split('-')[0] as keyof typeof translations) || 'en';
-  const [locale, setLocaleLang] = useState<keyof typeof translations>(initialLocale);
-
-  useEffect(() => {
-    const isRTL = ['ar', 'he', 'fa'].includes(locale.split('-')[0]);
-    I18nManager.forceRTL(isRTL);
-    I18n.translations = translations;
-    I18n.locale = locale;
-  }, [locale]);
+  const [locale, setLocaleLang] = useState(i18n.language?.split('-')[0] || 'en');
 
   const setLocale = (newLocale: string) => {
-    if (translations[newLocale]) {
-      I18n.locale = newLocale;
-      setLocaleLang(newLocale as 'tr' | 'en');
-    } else console.warn(`Dil bulunamadı: ${newLocale}`);
-  };
-
-  const translate = (key: TranslationKey, ...args: any[]): string => {
-    let translation = I18n.t(key);
-
-    if (translation.includes('missing')) return key;
-    return translation.replace(/{(\d+)}/g, (_, index) => {
-      const value = args[index];
-
-      return typeof value === 'string' ? I18n.t(value) : `{${index}}`;
-    });
+    I18nManager.forceRTL(['ar', 'he', 'fa'].includes(newLocale));
+    i18n.changeLanguage(newLocale);
+    setLocaleLang(newLocale);
   };
 
   return (
-    <LocalizationContext.Provider value={{ locale, setLocale, translate }}>{children}</LocalizationContext.Provider>
+    <LocalizationContext.Provider value={{ locale, setLocale }}>
+      {children}
+    </LocalizationContext.Provider>
   );
 };
 

@@ -1,11 +1,16 @@
-const {getDefaultConfig, mergeConfig} = require('@react-native/metro-config');
+const path = require('path');
+const { getDefaultConfig } = require('expo/metro-config');
 
-/**
- * Metro configuration
- * https://reactnative.dev/docs/metro
- *
- * @type {import('@react-native/metro-config').MetroConfig}
- */
-const config = {};
+const projectRoot = __dirname;
+const config = getDefaultConfig(projectRoot);
 
-module.exports = mergeConfig(getDefaultConfig(__dirname), config);
+// Mirror the path aliases from babel.config.js so Metro can resolve them
+// even when the Babel module-resolver output isn't re-resolved by Metro.
+config.resolver.extraNodeModules = {
+  '@app': path.resolve(projectRoot, 'src/app'),
+  '@features': path.resolve(projectRoot, 'src/features'),
+  '@shared': path.resolve(projectRoot, 'src/shared'),
+  '@core': path.resolve(projectRoot, 'src/core'),
+};
+
+module.exports = config;

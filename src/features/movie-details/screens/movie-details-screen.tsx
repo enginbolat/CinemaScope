@@ -1,7 +1,8 @@
-import { useCallback, useMemo, useRef } from 'react';
-import { ActivityIndicator, SafeAreaView, ScrollView, View } from 'react-native';
-import FastImage, { Source } from '@d11/react-native-fast-image';
-import { RouteProp, useRoute } from '@react-navigation/native';
+import React, { Suspense, useCallback, useMemo, useRef } from 'react';
+import { ActivityIndicator, ScrollView, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Image } from 'expo-image';
+import { useLocalSearchParams } from 'expo-router';
 
 import { useMovieCastByMovieIdQuery, useMovieDetailsByIdQuery } from '@features/movie-details/api/movie-details-api';
 import useLocalStorage from '@shared/hooks/use-local-storage';
@@ -9,9 +10,9 @@ import { Header, BottomSheet, Button } from '@shared/components/index';
 import { AppColors } from '@shared/constants/app-colors';
 import { BASE_W500_URL } from '@shared/constants/app-config';
 import { useAppDispatch, useAppSelector } from '@app/store/store';
-import { MainNavigationStackType } from '@app/navigation/main-navigation-stack';
+import { Popular } from '@shared/models/popular';
 import { IFavoriteAndWatchLater, setFavories, setWatchLater } from '@features/user-library/store/user-library-slice';
-import { translate } from '@core/i18n';
+import { useTranslation } from 'react-i18next';
 
 import GorhomBottomSheet from '@gorhom/bottom-sheet';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -29,6 +30,7 @@ import {
 } from '../components';
 
 const MovieDetailsScreen = () => {
+  const { t } = useTranslation();
   const { SaveToStorageJSON } = useLocalStorage();
   const dispatch = useAppDispatch();
   const insets = useSafeAreaInsets();
@@ -36,8 +38,8 @@ const MovieDetailsScreen = () => {
   const bottomSheetRef = useRef<GorhomBottomSheet>(null);
   const { favorites, watchLater } = useAppSelector(state => state.main);
   const watchListBottomSheetRef = useRef<GorhomBottomSheet>(null);
-  const route = useRoute<RouteProp<MainNavigationStackType, 'MovieDetails'>>();
-  const { movie } = route?.params;
+  const params = useLocalSearchParams<{ movie: string }>();
+  const movie = JSON.parse(params.movie) as Popular;
 
   const {
     data: movieDetails,
@@ -87,8 +89,8 @@ const MovieDetailsScreen = () => {
   };
 
   const watchLaterButtonText = watchLater.some(item => item?.id?.toString() === movie.id.toString())
-    ? translate('app.details.removeWatchLater')
-    : translate('app.details.addWatchList');
+    ? t('app.details.removeWatchLater')
+    : t('app.details.addWatchList');
 
   const rightIconName = useMemo(() => {
     if (isPageLoading) return undefined;
@@ -96,15 +98,18 @@ const MovieDetailsScreen = () => {
     return 'HeartOutline';
   }, [isPageLoading, favorites]);
 
-  const HeroImage = useCallback(() => {
-    const hero: Source = {
-      uri: BASE_W500_URL + movieDetails?.backdrop_path,
-      priority: FastImage.priority.normal,
-      cache: 'immutable',
-    };
-
-    return <FastImage source={hero} style={styles.heroImage} />;
-  }, [movie, movieDetails]);
+  const HeroImage = useCallback(
+    () => (
+      <Image
+        source={{ uri: BASE_W500_URL + movieDetails?.backdrop_path }}
+        style={styles.heroImage}
+        priority="normal"
+        cachePolicy="memory-disk"
+        transition={1000}
+      />
+    ),
+    [movie, movieDetails],
+  );
 
   const Loading = () => (
     <View style={[styles.f1, styles.alignItemCenter]}>
@@ -114,38 +119,37 @@ const MovieDetailsScreen = () => {
 
   return (
     <View style={styles.rootContainer}>
-      <Header
-        isHaveHeader={false}
-        rightIconName={rightIconName}
-        rightIconOnPress={() => handleAddFavorites(movie.id.toString())}
-      />
       <SafeAreaView style={styles.rootContainer}>
+        <Header
+          isHaveHeader={false}
+          rightIconName={rightIconName}
+          rightIconOnPress={() => handleAddFavorites(movie.id.toString())}
+        />
         <ScrollView
           style={styles.rootContainer}
           contentContainerStyle={{ paddingBottom: insets.bottom }}
           nestedScrollEnabled
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}>
-          {isPageLoading && <Loading />}
-          {!isPageLoading && (
-            <>
-              <HeroImage />
-              <TitleAndRating title={movie.title} voteAverage={movieDetails?.vote_average ?? movie.vote_average} />
-              <View style={styles.addWatchListButtonContainer}>
-                <Button
-                  onPress={() => handleAddWatchList(movie.id.toString())}
-                  text={watchLaterButtonText}
-                  leftIcon="AccessTimeIcon"
-                />
-              </View>
-              <GenreAndReleaseDate genres={movieDetails?.genres} releaseDate={movieDetails?.release_date} />
-              <Overview overview={movie.overview} />
-              <CastList cast={movieCast?.cast} />
-              <ProductionCompaniesList companies={movieDetails?.production_companies} />
-            </>
-          )}
+          <Suspense fallback={<Loading />}>
+            <HeroImage />
+            <TitleAndRating title={movie.title} voteAverage={movieDetails?.vote_average ?? movie.vote_average} />
+            <View style={styles.addWatchListButtonContainer}>
+              <Button
+                onPress={() => handleAddWatchList(movie.id.toString())}
+                text={watchLaterButtonText}
+                leftIcon="AccessTimeIcon"
+              />
+            </View>
+            <GenreAndReleaseDate genres={movieDetails?.genres} releaseDate={movieDetails?.release_date} />
+            <Overview overview={movie.overview} />
+            <CastList cast={movieCast?.cast} />
+            <ProductionCompaniesList companies={movieDetails?.production_companies} />
+          </Suspense>
         </ScrollView>
       </SafeAreaView>
+
+      {/* BottomSheets */}
       <BottomSheet
         ref={bottomSheetRef}
         onClose={() => bottomSheetRef.current?.close()}

@@ -1,20 +1,18 @@
-import { useCallback } from 'react';
+import React, { useCallback } from 'react';
 import { ActivityIndicator, ScrollView } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Header } from '@shared/components/index';
 import { AppColors } from '@shared/constants/app-colors';
 import { Popular } from '@shared/models/popular';
-import { MainNavigationpPages, MainNavigationStackType } from '@app/navigation/main-navigation-stack';
 import { useGetPopularContentQuery, useNowPlayingMovieQuery, useUpcomingMovieQuery } from '@features/home/api/home-api';
 
 import { ContentHorizontalScrollableList } from '../components';
 
 const HomeScreen = () => {
   const insets = useSafeAreaInsets();
-  const navigation = useNavigation<NativeStackNavigationProp<MainNavigationStackType>>();
+  const router = useRouter();
 
   const { data: popularContentData, isLoading: popularLoading } = useGetPopularContentQuery();
   const { data: nowPlayingContentData, isLoading: nowPlayingLoading } = useNowPlayingMovieQuery(1);
@@ -26,7 +24,7 @@ const HomeScreen = () => {
   }, [nowPlayingLoading, popularLoading, upcomingMovieLoading]);
 
   const onPressItem = useCallback((item: Popular) => {
-    navigation.navigate(MainNavigationpPages.MovieDetails, { movie: item });
+    router.push({ pathname: '/movie-details', params: { movie: JSON.stringify(item) } });
   }, []);
 
   return (

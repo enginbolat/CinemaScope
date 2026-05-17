@@ -1,4 +1,5 @@
-import FastImage from '@d11/react-native-fast-image';
+import React from 'react';
+import { Image } from 'expo-image';
 import { ProductionCompany } from '@shared/models/production-company';
 import { FlatList, View } from 'react-native';
 import { Text } from '@shared/components/index';
@@ -12,13 +13,12 @@ type Props = {
 
 const ProductionCompaniesList = ({ companies }: Props) => {
   const renderItemProducatioCompanies = ({ item }: { item: ProductionCompany }) => (
-    <FastImage
+    <Image
       style={styles.smallImage}
-      source={{
-        uri: BASE_W500_URL + item.logo_path,
-        priority: FastImage.priority.low,
-      }}
-      resizeMode="contain"
+      source={{ uri: BASE_W500_URL + item.logo_path }}
+      contentFit="contain"
+      priority="low"
+      cachePolicy="memory-disk"
     />
   );
 

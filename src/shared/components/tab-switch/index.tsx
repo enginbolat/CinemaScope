@@ -1,11 +1,12 @@
 import Text from '@shared/components/text';
-import { FC, useState } from 'react';
+import React, { FC, useState } from 'react';
 import { LayoutChangeEvent, Pressable, View } from 'react-native';
-import { runOnJS, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
+import { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import Animated from 'react-native-reanimated';
 import { IDimensions, ITabSwitch } from '@shared/components/tab-switch/types';
 import styles from './styles';
-import { AppColors } from '@shared/constants/app-colors.ts';
+import { AppColors } from '@shared/constants/app-colors';
+import { runOnJS } from 'react-native-worklets';
 
 const TabSwitch: FC<ITabSwitch> = ({ buttons, selectedTab, setSelectedTab }) => {
   const [dimensions, setDimensions] = useState<IDimensions>({ height: 20, width: 100 });
@@ -22,10 +23,14 @@ const TabSwitch: FC<ITabSwitch> = ({ buttons, selectedTab, setSelectedTab }) => 
 
   const handlePress = (index: number) => setSelectedTab(index);
 
-  const onTabPress = (index: number) =>
-    (tabPositionX.value = withTiming(buttonWidth * index, {}, () => runOnJS(handlePress)(index)));
+  const onTabPress = (index: number) => {
+    'worklet';
 
+    tabPositionX.value = withTiming(buttonWidth * index, {}, () => runOnJS(handlePress)(index));
+  };
   const animatedStyle = useAnimatedStyle(() => {
+    'worklet';
+
     return {
       transform: [{ translateX: tabPositionX.value }],
     };

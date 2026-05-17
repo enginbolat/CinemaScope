@@ -1,8 +1,8 @@
-import GorhomBottomSheet, { BottomSheetBackdrop, BottomSheetView } from '@gorhom/bottom-sheet';
-import { forwardRef, useCallback, useEffect, useMemo, useState } from 'react';
+import React, { forwardRef, useCallback, useEffect, useState } from 'react';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { BottomSheetProps } from './type';
+import GorhomBottomSheet, { BottomSheetBackdrop, BottomSheetView } from '@gorhom/bottom-sheet';
 import { AppColors } from '@shared/constants/app-colors';
+import { BottomSheetProps } from './type';
 
 const BottomSheet = forwardRef<GorhomBottomSheet, BottomSheetProps>((props, ref) => {
   const {

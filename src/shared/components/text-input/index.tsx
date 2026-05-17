@@ -1,8 +1,8 @@
-import { forwardRef, useImperativeHandle, useMemo, useRef } from 'react';
+import React, { forwardRef, useImperativeHandle, useMemo, useRef } from 'react';
 import { Pressable, TextInput as RNTextInput, View } from 'react-native';
 
-import { scaleHeight } from '@shared/helpers/helper.ts';
-import { Icon } from '@shared/components/index.ts';
+import { scaleHeight } from '@shared/helpers/helper';
+import { Icon } from '@shared/components/index';
 
 import { TextInput as CustomTextInputProps } from './type';
 import { styles } from './style';
@@ -21,6 +21,7 @@ const TextInput = forwardRef<RNTextInput, CustomTextInputProps>((props, ref) => 
     showRightIcon,
     rightIconOnPress,
     rightIconColor,
+    containerStyle,
     ...rest
   } = props;
 
@@ -42,7 +43,7 @@ const TextInput = forwardRef<RNTextInput, CustomTextInputProps>((props, ref) => 
 
   return (
     <Pressable onPress={onPress}>
-      <View style={styles.container}>
+      <View style={[styles.container, containerStyle]}>
         {showLeftIcon && <PressableIcon onPress={leftIconOnPress} icon={leftIconName} color={leftIconColor} />}
         <RNTextInput
           ref={innerRef}

@@ -55,11 +55,11 @@ export const styles = StyleSheet.create({
     marginVertical: scaleHeight(12),
   },
   horizontalListContentContainer: {
-    gap: 8,
     paddingHorizontal: STATIC_PADDING,
   },
   castItemContainer: {
     flexDirection: 'column',
+    marginRight: 8,
   },
   phStatic: {
     paddingHorizontal: STATIC_PADDING,
@@ -85,5 +85,5 @@ export const styles = StyleSheet.create({
   rootContainer: {
     flex: 1,
     backgroundColor: AppColors.primary,
-  }
+  },
 });

@@ -1,0 +1,16 @@
+diff --git a/node_modules/react-native-screens/common/cpp/react/renderer/components/rnscreens/FrameCorrectionModes.h b/node_modules/react-native-screens/common/cpp/react/renderer/components/rnscreens/FrameCorrectionModes.h
+index 37fd905..ab7a1e1 100644
+--- a/node_modules/react-native-screens/common/cpp/react/renderer/components/rnscreens/FrameCorrectionModes.h
++++ b/node_modules/react-native-screens/common/cpp/react/renderer/components/rnscreens/FrameCorrectionModes.h
+@@ -1,5 +1,6 @@
+ #pragma once
+ 
++#ifdef __cplusplus
+ #include <cstdint>
+ 
+ namespace rnscreens {
+@@ -49,3 +50,4 @@ class FrameCorrectionModes final {
+ };
+ 
+ } // namespace rnscreens
++#endif // __cplusplus

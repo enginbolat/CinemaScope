@@ -1,14 +1,12 @@
 import React, { FC, useState } from 'react';
-import { FlatList, Text as RNText, View, SafeAreaView, Pressable, TouchableOpacity, Alert } from 'react-native';
+import { FlatList, Text as RNText, View, Pressable, TouchableOpacity, Alert } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { NetworkLog, requestLogs } from '@shared/api/base-api';
 import { Icon, Text } from '@shared/components/index';
 import { useAppDispatch } from '@app/store/store';
 import { setFavories, setWatchLater } from '@features/user-library/store/user-library-slice';
 import useLocalStorage from '@shared/hooks/use-local-storage';
-import moment from 'moment';
-import 'moment/locale/tr';
-
-import { styles } from './styles';
+import { styles } from './network-log-screen.styles';
 
 type Props = {
   index: number;
@@ -42,8 +40,10 @@ const RequestDetails: FC<Props> = props => {
   );
 };
 
+const formatDate = (date: string) =>
+  new Date(date).toLocaleString('tr-TR', { day: 'numeric', month: 'long', hour: 'numeric', minute: '2-digit' });
+
 const NetworkLogScreen = () => {
-  moment.locale('tr');
   const dispatch = useAppDispatch();
   const { RemoveFromStorage } = useLocalStorage();
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
@@ -109,7 +109,7 @@ const NetworkLogScreen = () => {
         <View style={styles.logBox}>
           <View style={styles.logBoxTitleRow}>
             <RNText style={styles.type}>{`${item.type.toUpperCase()} - ${item?.method ?? ''}`}</RNText>
-            <RNText style={styles.type}>{moment(item.date).format('D MMMM, h:mm')}</RNText>
+            <RNText style={styles.type}>{formatDate(item.date ?? '')}</RNText>
           </View>
 
           <RNText style={styles.url}>{item.url}</RNText>

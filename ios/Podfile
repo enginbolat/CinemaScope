@@ -1,3 +1,4 @@
+require File.join(File.dirname(`node --print "require.resolve('expo/package.json')"`), "scripts/autolinking")
 # Resolve react_native_pods.rb with node to allow for hoisting
 require Pod::Executable.execute_command('node', ['-p',
   'require.resolve(
@@ -15,7 +16,24 @@ if linkage != nil
 end
 
 target 'CinemaScope' do
-  config = use_native_modules!
+  use_expo_modules!
+
+  if ENV['EXPO_USE_COMMUNITY_AUTOLINKING'] == '1'
+    config_command = ['node', '-e', "process.argv=['', '', 'config'];require('@react-native-community/cli').run()"];
+  else
+    config_command = [
+      'node',
+      '--no-warnings',
+      '--eval',
+      'require(require.resolve(\'expo-modules-autolinking\', { paths: [require.resolve(\'expo/package.json\')] }))(process.argv.slice(1))',
+      'react-native-config',
+      '--json',
+      '--platform',
+      'ios'
+    ]
+  end
+
+  config = use_native_modules!(config_command)
 
   use_react_native!(
     :path => config[:reactNativePath],
@@ -31,5 +49,23 @@ target 'CinemaScope' do
       :mac_catalyst_enabled => false,
       # :ccache_enabled => true
     )
+    installer.pods_project.targets.each do |target|
+      target.build_configurations.each do |config|
+        config.build_settings['GCC_PREPROCESSOR_DEFINITIONS'] ||= ['$(inherited)']
+        config.build_settings['GCC_PREPROCESSOR_DEFINITIONS'] << 'FOLLY_HAS_COROUTINES=0'
+        config.build_settings['SWIFT_ENABLE_EXPLICIT_MODULES'] = 'NO'
+        config.build_settings['CLANG_ENABLE_EXPLICIT_MODULES'] = 'NO'
+      end
+    end
+
+    # Xcode 26 fix: remove C++ headers from RNScreens umbrella so Swift module scanning succeeds.
+    # These rnscreens/ headers are C++ Fabric interop files; they can't be used from Swift directly
+    # and are not needed in the public module map.
+    rnscreens_umbrella = File.join(installer.sandbox.root.to_s, 'Headers/Public/RNScreens/RNScreens-umbrella.h')
+    if File.exist?(rnscreens_umbrella)
+      content = File.read(rnscreens_umbrella)
+      content = content.gsub(/^#import "rnscreens\/[^"]+"\n/, '')
+      File.write(rnscreens_umbrella, content)
+    end
   end
 end

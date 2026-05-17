@@ -1,24 +1,24 @@
+import React from 'react';
 import { Image, View } from 'react-native';
+import { useRouter } from 'expo-router';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Button, Text } from '@shared/components/index';
 import Images from '@shared/assets/images/index';
-
-import { styles } from './styles';
-import { useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { MainNavigationStackType } from '@app/navigation/main-navigation-stack';
 import useLocalStorage from '@shared/hooks/use-local-storage';
+import { styles } from './onboard-screen.styles';
 
 const OnboardScreen = () => {
   const { SaveToStorage } = useLocalStorage();
-  const navigation = useNavigation<NativeStackNavigationProp<MainNavigationStackType>>();
+  const router = useRouter();
+
   const navigateTo = async () => {
     await SaveToStorage('ONBOARD', 'TRUE');
-    navigation.replace('BottomNavigation');
+    router.replace('/(tabs)');
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <Image source={Images.onboard} style={styles.image} />
       <View style={styles.textContainer}>
         <Text type="boldHeading620" text="Dilediğin Film ve Diziyi Keşfet" style={styles.text} />
@@ -28,10 +28,11 @@ const OnboardScreen = () => {
           style={styles.text}
         />
       </View>
+      <View style={styles.spacer} />
       <View style={styles.button}>
         <Button onPress={navigateTo} text="Devam Et" />
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 

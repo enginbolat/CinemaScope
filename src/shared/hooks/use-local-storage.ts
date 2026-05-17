@@ -4,7 +4,7 @@ const LocalStorageKeys = {
   ONBOARD: 'ONBOARD',
   FAVORITES: 'FAVORITES',
   WATCHLATER: 'WATCHLATER',
-};
+} as const;
 
 type LocalStorageKeyType = keyof typeof LocalStorageKeys;
 

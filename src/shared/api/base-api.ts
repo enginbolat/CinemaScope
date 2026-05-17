@@ -34,7 +34,7 @@ axiosInstance.interceptors.request.use(
       body: config.data,
       headers: {
         ...config.headers,
-        Authorization: `Bearer ${process.env.API_REQUEST_TOKEN}`,
+        Authorization: `Bearer ${process.env.EXPO_PUBLIC_API_REQUEST_TOKEN}`,
       },
       date: new Date().toISOString(),
     });
@@ -54,7 +54,7 @@ axiosInstance.interceptors.response.use(
       data: response.data,
       headers: {
         ...response.headers,
-        Authorization: `Bearer ${process.env.API_REQUEST_TOKEN}`,
+        Authorization: `Bearer ${process.env.EXPO_PUBLIC_API_REQUEST_TOKEN}`,
       },
       date: new Date().toISOString(),
     });
@@ -95,7 +95,7 @@ const axiosBaseQuery =
         params,
         headers: {
           ...headers,
-          Authorization: `Bearer ${process.env.API_REQUEST_TOKEN}`,
+          Authorization: `Bearer ${process.env.EXPO_PUBLIC_API_REQUEST_TOKEN}`,
         },
       });
       return { data: result };
