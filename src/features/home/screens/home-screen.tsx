@@ -38,7 +38,7 @@ const HomeScreen = () => {
 
   const renderItem = ({ item }: { item: HomeSectionRow }) => (
     <View style={styles.itemContainer}>
-      <ContentHorizontalScrollableList title="Now Playing" contentList={item} onPressItem={onPressItem} />
+      <ContentHorizontalScrollableList title="Now Playing" contentList={item} />
     </View>
   )
 
