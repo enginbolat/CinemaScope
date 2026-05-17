@@ -4,14 +4,14 @@ import { Alert, FlatList, Pressable, Text as RNText, View } from 'react-native'
 
 import { BottomSheetFlatList } from '@gorhom/bottom-sheet'
 
-import { useAppDispatch } from '@app/store/store'
-
 import { setFavorites, setWatchLater } from '@features/user-library/store/user-library-slice'
 
 import type { NetworkLog } from '@shared/api/base-api'
 import { clearLogs, requestLogs, setLogListener } from '@shared/api/base-api'
 import { Text } from '@shared/components/index'
 import useLocalStorage from '@shared/hooks/use-local-storage'
+
+import { useAppDispatch } from '@root/store/store'
 
 import { styles } from './network-log-screen.styles'
 import LogEntry from '../components/log-box/log-box'

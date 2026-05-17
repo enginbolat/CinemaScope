@@ -4,8 +4,8 @@ import { useLocalSearchParams } from 'expo-router'
 
 import type { Popular } from '@shared/models'
 
-import { useMovieDetailsByIdQuery, useMovieCastByMovieIdQuery } from '../api/movie-details-api'
 import useWatchActions from './useWatchActions'
+import { useMovieDetailsByIdQuery, useMovieCastByMovieIdQuery } from '../api/movie-details-api'
 
 const useMovieDetails = () => {
   const insets = useSafeAreaInsets()

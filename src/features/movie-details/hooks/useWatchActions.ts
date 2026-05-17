@@ -3,14 +3,14 @@ import { useRef, useMemo } from 'react'
 import type GorhomBottomSheet from '@gorhom/bottom-sheet'
 import { t } from 'i18next'
 
-import { useAppDispatch, useAppSelector } from '@app/store/store'
-
 import type { IFavoriteAndWatchLater } from '@features/user-library/store/user-library-slice'
 import { setFavorites, setWatchLater } from '@features/user-library/store/user-library-slice'
 
 import type { IconType } from '@shared/assets/icons'
 import useLocalStorage from '@shared/hooks/use-local-storage'
 import type { Popular } from '@shared/models'
+
+import { useAppDispatch, useAppSelector } from '@root/store/store'
 
 const useWatchActions = (movie: Popular) => {
   const dispatch = useAppDispatch()

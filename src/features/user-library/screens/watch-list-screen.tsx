@@ -8,10 +8,10 @@ import { useRouter } from 'expo-router'
 
 import { FlashList } from '@shopify/flash-list'
 
-import { useAppSelector } from '@app/store/store'
-
 import { Header, MovieCardWithDescription, TabSwitch } from '@shared/components/index'
 import type { Popular } from '@shared/models/index'
+
+import { useAppSelector } from '@root/store/store'
 
 import styles from './watch-list-screen.styles'
 import { EmptyList } from '../components'
@@ -24,6 +24,9 @@ const WatchListScreen = () => {
   const [selectedTab, setSelectedTab] = useState<number>(0)
   const { watchLater, favorites } = useAppSelector(state => state.main)
   const selectedTabDataList = selectedTab === 0 ? watchLater : favorites
+
+  // eslint-disable-next-line react/no-unstable-nested-components
+  const ItemSeparator = () => <View style={styles.separator} />
 
   const renderItem = ({ item }: { item: Popular }) => (
     <MovieCardWithDescription
@@ -45,6 +48,7 @@ const WatchListScreen = () => {
         renderItem={renderItem}
         style={styles.listStyle}
         contentContainerStyle={styles.listContainerStyle}
+        ItemSeparatorComponent={ItemSeparator}
         ListEmptyComponent={EmptyList(selectedTab === 0 ? { title: 'Watch Later' } : { title: 'Favorites' })}
       />
     </SafeAreaView>

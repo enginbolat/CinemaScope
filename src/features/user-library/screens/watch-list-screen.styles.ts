@@ -28,6 +28,9 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
   },
+  separator: {
+    height: 12,
+  },
 })
 
 export default styles
