@@ -1,64 +1,41 @@
-import type { FC } from 'react'
-import React, { useState } from 'react'
+import { useEffect, useState } from 'react'
 
-import { FlatList, Text as RNText, View, Pressable, TouchableOpacity, Alert } from 'react-native'
+import { Alert, FlatList, Pressable, Text as RNText, View } from 'react-native'
 
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { BottomSheetFlatList } from '@gorhom/bottom-sheet'
 
 import { useAppDispatch } from '@app/store/store'
 
 import { setFavories, setWatchLater } from '@features/user-library/store/user-library-slice'
 
 import type { NetworkLog } from '@shared/api/base-api'
-import { requestLogs } from '@shared/api/base-api'
-import { Icon, Text } from '@shared/components/index'
+import { clearLogs, requestLogs, setLogListener } from '@shared/api/base-api'
+import { Text } from '@shared/components/index'
 import useLocalStorage from '@shared/hooks/use-local-storage'
 
 import { styles } from './network-log-screen.styles'
+import LogEntry from '../components/log-box/log-box'
 
 type Props = {
-  index: number;
-  expandedIndex: number | null;
-  setExpandedIndex: (index: number | null) => void;
-  entry: NetworkLog;
-};
-const RequestDetails: FC<Props> = props => {
-  const { index, expandedIndex, entry, setExpandedIndex } = props
-  return (
-    <View key={index}>
-      <Pressable onPress={() => setExpandedIndex(expandedIndex === index ? null : index)}>
-        <View style={styles.expandedIndexRow}>
-          <Icon name="ChevronLeft" color="#fff" />
-          <RNText style={{ color: 'white' }}>{index + 1}</RNText>
-        </View>
-      </Pressable>
-      {expandedIndex === index && (
-        <View style={styles.expandedContainer}>
-          {Object.entries(entry).map(([key, value]) => (
-            <View key={key} style={styles.keyValueContainer}>
-              <RNText style={styles.keyText}>{key}:</RNText>
-              <RNText style={styles.valueText}>
-                {typeof value === 'object' ? JSON.stringify(value) : String(value)}
-              </RNText>
-            </View>
-          ))}
-        </View>
-      )}
-    </View>
-  )
+  insideBottomSheet?: boolean
 }
 
-const formatDate = (date: string) =>
-  new Date(date).toLocaleString('tr-TR', { day: 'numeric', month: 'long', hour: 'numeric', minute: '2-digit' })
-
-const NetworkLogScreen = () => {
+const NetworkLogScreen = ({ insideBottomSheet = false }: Props) => {
   const dispatch = useAppDispatch()
   const { RemoveFromStorage } = useLocalStorage()
-  const [expandedIndex, setExpandedIndex] = useState<number | null>(null)
-  const [expandedIndexDetails, setExpandedIndexDetails] = useState<number | null>(null)
+  const [logs, setLogs] = useState<NetworkLog[]>([...requestLogs])
 
-  const onPressCleanButton = () => {
-    Alert.alert('State Sıfırlama Aracı', '', [
+  useEffect(() => {
+    setLogListener(setLogs)
+    return () => setLogListener(null)
+  }, [])
+
+  const onPressClean = () => {
+    Alert.alert('Temizle', '', [
+      {
+        text: 'Network Logları',
+        onPress: () => clearLogs(),
+      },
       {
         text: 'Favoriler',
         onPress: async () => {
@@ -73,98 +50,30 @@ const NetworkLogScreen = () => {
           await RemoveFromStorage('WATCHLATER')
         },
       },
-      {
-        text: 'İptal',
-        style: 'cancel',
-      },
+      { text: 'İptal', style: 'cancel' },
     ])
   }
-  const renderItem = ({ item, index }: { item: NetworkLog; index: number }) => {
-    let parsedData: unknown = null
-    try {
-      parsedData = typeof item.data === 'string' ? JSON.parse(item.data) : item.data
-    } catch (_e) {
-      parsedData = item.data
-    }
 
-    const parsed = parsedData as { results?: NetworkLog[] } | null
-    const resultsList = Array.isArray(parsed?.results) ? parsed?.results : []
-
-    const makeCurl = () => {
-      if (!item || !item.url || !item.method || !item.headers) {
-        console.warn('Missing required fields for curl')
-        return
-      }
-
-      const curlParts = [`curl -X ${item.method.toUpperCase()} "${item.url}"`]
-
-      Object.entries(item.headers).forEach(([key, value]) => {
-        if (value !== undefined && value !== null) {
-          curlParts.push(`-H "${key}: ${String(value)}"`)
-        }
-      })
-
-      if (item.body) {
-        const safeBody = JSON.stringify(item.body).replace(/"/g, '\\"')
-        curlParts.push(`--data-binary "${safeBody}"`)
-      }
-
-      const curlCommand = curlParts.join(' \\\n  ')
-      console.warn('[cURL]', curlCommand)
-    }
-
-    return (
-      <Pressable onPress={() => setExpandedIndexDetails(expandedIndexDetails === index ? null : index)}>
-        <View style={styles.logBox}>
-          <View style={styles.logBoxTitleRow}>
-            <RNText style={styles.type}>{`${item.type.toUpperCase()} - ${item?.method ?? ''}`}</RNText>
-            <RNText style={styles.type}>{formatDate(item.date ?? '')}</RNText>
-          </View>
-
-          <RNText style={styles.url}>{item.url}</RNText>
-          {expandedIndexDetails === index &&
-            (expandedIndexDetails === index && (resultsList?.length ?? 0) > 0 ? (
-              <FlatList
-                showsVerticalScrollIndicator={false}
-                data={resultsList}
-                renderItem={({ item: innerItem, index: itemIndex }) => (
-                  <RequestDetails
-                    index={itemIndex}
-                    expandedIndex={expandedIndex}
-                    entry={innerItem}
-                    setExpandedIndex={setExpandedIndex}
-                  />
-                )}
-              />
-            ) : (
-              <RNText style={styles.data}>{JSON.stringify(parsedData, null, 2)}</RNText>
-            ))}
-          <TouchableOpacity onPress={makeCurl} style={styles.renderItemButtonContainer}>
-            <RNText style={styles.renderItemButtonText}>Curl</RNText>
-          </TouchableOpacity>
-        </View>
-      </Pressable>
-    )
-  }
-
-  return (
-    <SafeAreaView style={styles.safeArea}>
+  const listProps = {
+    data: logs,
+    showsVerticalScrollIndicator: false,
+    keyExtractor: (item: NetworkLog) => item.id.toString(),
+    ListEmptyComponent: <RNText style={styles.data}>No logs yet</RNText>,
+    ListHeaderComponent: (
       <View style={styles.titleContainer}>
-        <Text text="Requests" type="boldHeading620" />
-        <Pressable onPress={onPressCleanButton}>
+        <Text text="Network" type="boldHeading620" />
+        <Pressable onPress={onPressClean}>
           <Text text="Clean" type="boldSmall12" />
         </Pressable>
       </View>
-      <FlatList
-        data={requestLogs}
-        showsVerticalScrollIndicator={false}
-        keyExtractor={item => item.id.toString()}
-        ListEmptyComponent={<RNText style={styles.data}>Empty List</RNText>}
-        renderItem={renderItem}
-        style={styles.flatListStyle}
-        contentContainerStyle={styles.container}
-      />
-    </SafeAreaView>
-  )
+    ),
+    renderItem: ({ item }: { item: NetworkLog }) => <LogEntry item={item} />,
+    contentContainerStyle: styles.container,
+    style: styles.list,
+  }
+
+  if (insideBottomSheet) return <BottomSheetFlatList {...listProps} />
+  return <FlatList {...listProps} />
 }
+
 export default NetworkLogScreen

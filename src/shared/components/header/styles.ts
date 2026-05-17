@@ -10,7 +10,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     height: scaleHeight(72),
     paddingHorizontal: scaleWidth(20),
-    backgroundColor: AppColors.primary,
+    backgroundColor: AppColors.surface,
     flexDirection: 'row',
   },
   titleColor: {
@@ -34,6 +34,6 @@ export const styles = StyleSheet.create({
     flex: 1,
   },
   bgColorPrimary: {
-    backgroundColor: AppColors.primary,
+    backgroundColor: AppColors.surface,
   },
 })

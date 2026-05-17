@@ -5,7 +5,7 @@ import { STATIC_PADDING } from '@shared/constants/app-constants'
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: AppColors.primary,
+    backgroundColor: AppColors.surface,
     alignItems: 'center',
     flex: 1,
   },
@@ -16,14 +16,13 @@ const styles = StyleSheet.create({
   },
   listStyle: {
     flexGrow: 1,
-    width: '100%',
     marginBottom: 32,
+    width: '100%',
   },
   listContainerStyle: {
     paddingHorizontal: STATIC_PADDING,
     flexGrow: 1,
-    gap: 18,
-    width: '70%',
+    width: '100%',
   },
   emptyListContainer: {
     flex: 1,

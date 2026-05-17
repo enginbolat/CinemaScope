@@ -11,6 +11,8 @@ export const searchApi = api.injectEndpoints({
         maxPages: 5,
         getNextPageParam: (lastPage, _allPages, lastPageParam) =>
           lastPageParam < lastPage.total_pages ? lastPageParam + 1 : undefined,
+        getPreviousPageParam: (_firstPage, _allPages, firstPageParam) =>
+          firstPageParam > 1 ? firstPageParam - 1 : undefined,
       },
       query: ({ queryArg: query, pageParam }) => ({
         url: AppEndpoints.searchContent(encodeURIComponent(query), pageParam).url,
