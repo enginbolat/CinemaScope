@@ -7,11 +7,11 @@ import { useTranslation } from 'react-i18next'
 import { Button, Icon, Text } from '@shared/components/index'
 import { AppColors } from '@shared/constants/app-colors'
 
-import { styles } from '../../screens/style'
+import { styles } from './watch-list-bottom-sheet-body.styles'
 
 type IWatchListBottomSheetBody = {
-  onPress: () => void;
-};
+  onPress: () => void
+}
 
 const WatchListBottomSheetBody: FC<IWatchListBottomSheetBody> = ({ onPress }) => {
   const { t } = useTranslation()

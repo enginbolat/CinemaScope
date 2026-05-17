@@ -7,11 +7,11 @@ import { useTranslation } from 'react-i18next'
 import { Button, Icon, Text } from '@shared/components/index'
 import { AppColors } from '@shared/constants/app-colors'
 
-import { styles } from '../../screens/style'
+import { styles } from './add-favorite-bottom-sheet-body.styles'
 
 type Props = {
-  onPress: () => void;
-};
+  onPress: () => void
+}
 
 const AddFavoriteBottomSheetBody: FC<Props> = ({ onPress }) => {
   const { t } = useTranslation()

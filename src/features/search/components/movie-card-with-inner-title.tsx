@@ -28,10 +28,10 @@ const MovieCardWithInnerTitle = ({ item, handleItemOnPress, columnIndex }: Props
       <View pointerEvents="none" style={styles.backdropOverlay} />
       <View style={styles.backdropContent}>
         <View style={styles.backdropFooter}>
-          <Text text={item.title} type="titleMd" />
+          <Text text={item.title} type="titleMd" numberOfLines={2} />
           <View style={styles.backdropRatingRow}>
             <Star height={18} width={18} color={AppColors.secondary} />
-            <Text text={item?.vote_average?.toString().substring(0, 3)} type="mediumCaption14" numberOfLines={1} />
+            <Text text={item?.vote_average?.toString().substring(0, 3)} type="mediumCaption14" numberOfLines={2} />
           </View>
         </View>
       </View>

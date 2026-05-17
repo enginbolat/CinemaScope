@@ -1,13 +1,12 @@
 import '@core/i18n/i18n.config'
 
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 
 import { StyleSheet } from 'react-native'
 
-import { DarkTheme, ThemeProvider } from '@react-navigation/native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
-import { useDispatch , Provider } from 'react-redux'
+import { useDispatch, Provider } from 'react-redux'
 
 import { useFonts } from 'expo-font'
 import { Stack } from 'expo-router'
@@ -20,6 +19,7 @@ import {
   PlusJakartaSans_800ExtraBold,
 } from '@expo-google-fonts/plus-jakarta-sans'
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
+import { DarkTheme, ThemeProvider } from '@react-navigation/native'
 
 import { store } from '@app/store/store'
 

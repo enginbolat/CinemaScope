@@ -1,7 +1,7 @@
 export { default as CastList } from './cast-list'
-export { default as ProductionCompaniesList } from './production-companies-list'
 export { default as TitleAndRating } from './title-and-rating'
 export { default as Overview } from './overview'
 export { default as GenreAndReleaseDate } from './genre-and-release-date'
 export { default as WatchListBottomSheetBody } from './watch-list-bottom-sheet-body'
 export { default as AddFavoriteBottomSheetBody } from './add-favorite-bottom-sheet-body'
+export { default as ButtonRow } from './button-row/button-row'
