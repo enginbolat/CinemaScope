@@ -1,12 +1,17 @@
 import React from 'react';
-import { Image, View } from 'react-native';
+import { View } from 'react-native';
 import { useRouter } from 'expo-router';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { Image, ImageBackground } from 'expo-image';
 
 import { Button, Text } from '@shared/components/index';
-import Images from '@shared/assets/images/index';
 import useLocalStorage from '@shared/hooks/use-local-storage';
+import Images from '@shared/assets/images';
+
 import { styles } from './onboard-screen.styles';
+import { SafeAreaView } from 'react-native-safe-area-context';
+
+const BACKGROUND_IMAGE =
+  'https://lh3.googleusercontent.com/aida-public/AB6AXuBd5W2JnI_pYLA3BaRwz-rGIx7yZBN_w3RqSu7s3TfDVhDfSzRr-nBLLXlBXHRFElaZRXtuQqB5JTpTkel8tEjxomG7wH1ZRsNtBu4i25Wzys-FATmD76YSOpRK1XKJJWoRBjlyvBz5Ag4Die_nYMhPDD997jt-zctF7eaMehGBOkc4xpO16hcIn7gTyOp6fk_Dz2TrCmswwyVigsfQLU-xL_yYWZmv-1mujc5jYVnZJ8PD0YA0aUsBail_VU5Dpyie7OJkJa4R5g';
 
 const OnboardScreen = () => {
   const { SaveToStorage } = useLocalStorage();
@@ -18,21 +23,20 @@ const OnboardScreen = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Image source={Images.onboard} style={styles.image} />
-      <View style={styles.textContainer}>
-        <Text type="boldHeading620" text="Dilediğin Film ve Diziyi Keşfet" style={styles.text} />
-        <Text
-          type="regularHeading620"
-          text="Favori türlerini seç, popüler yapımları incele ve izlenecekler listeni oluştur. Her şey elinin altında."
-          style={styles.text}
-        />
-      </View>
-      <View style={styles.spacer} />
-      <View style={styles.button}>
-        <Button onPress={navigateTo} text="Devam Et" />
-      </View>
-    </SafeAreaView>
+    <ImageBackground source={{ uri: BACKGROUND_IMAGE }} style={styles.f1}>
+      <SafeAreaView style={[styles.innerContainer, styles.f1]}>
+        <View style={styles.f1} />
+        <View style={styles.iconContainer}>
+          <Image source={Images.onboard} style={styles.icon} contentFit="fill" />
+        </View>
+        <View style={styles.textContainer}>
+          <Text type="boldHeading340" text="CinemaScope" />
+          <Text type="mediumHeading620" text="Immerse in the narrative." style={styles.subtitle} />
+        </View>
+        <View style={styles.f1} />
+        <Button onPress={navigateTo} text="GET STARTED" />
+      </SafeAreaView>
+    </ImageBackground>
   );
 };
 

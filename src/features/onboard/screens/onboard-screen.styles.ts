@@ -1,37 +1,37 @@
-import { AppColors } from '@shared/constants/app-colors';
-import { STATIC_PADDING } from '@shared/constants/app-constants';
-import { scaleHeight, scaleWidth } from '@shared/helpers/helper';
 import { StyleSheet } from 'react-native';
 
+import { AppColors } from '@shared/constants/app-colors';
+import { AppSpacing } from '@shared/constants/app-constants';
+
 export const styles = StyleSheet.create({
-  container: {
+  f1: {
     flex: 1,
-    flexDirection: 'column',
-    paddingHorizontal: STATIC_PADDING,
-    paddingBottom: STATIC_PADDING,
-    backgroundColor: AppColors.primary,
+  },
+  container: {
+    backgroundColor: AppColors.background,
     alignItems: 'center',
     justifyContent: 'space-between',
   },
-  image: {
-    width: '125%',
+  innerContainer: {
+    paddingHorizontal: AppSpacing.lg,
   },
-  textContainer: {
-    gap: scaleWidth(24),
+  iconContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: scaleHeight(48),
   },
-  text: {
-    color: AppColors.white,
+  icon: {
+    height: 48,
+    width: 54,
+    marginBottom: AppSpacing.sm,
+  },
+  textContainer: {
+    gap: AppSpacing.xs,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingBottom: AppSpacing.xl,
+  },
+  subtitle: {
+    color: AppColors.onSurfaceVariant,
     textAlign: 'center',
-  },
-  spacer: {
-    flex: 1,
-  },
-  button: {
-    bottom: 0,
-    width: '100%',
-    flex: 1,
   },
 });

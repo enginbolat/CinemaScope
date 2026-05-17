@@ -1,6 +1,14 @@
 import '@core/i18n/i18n.config';
 
 import React, { useEffect } from 'react';
+import { useFonts } from 'expo-font';
+import {
+  PlusJakartaSans_600SemiBold,
+  PlusJakartaSans_700Bold,
+  PlusJakartaSans_800ExtraBold,
+} from '@expo-google-fonts/plus-jakarta-sans';
+import { Inter_400Regular, Inter_500Medium } from '@expo-google-fonts/inter';
+import { Geist_600SemiBold } from '@expo-google-fonts/geist';
 import { useDispatch } from 'react-redux';
 import { Provider } from 'react-redux';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -34,6 +42,17 @@ function AppContent() {
 }
 
 export default function RootLayout() {
+  const [fontsLoaded] = useFonts({
+    PlusJakartaSans_800ExtraBold,
+    PlusJakartaSans_700Bold,
+    PlusJakartaSans_600SemiBold,
+    Inter_400Regular,
+    Inter_500Medium,
+    Geist_600SemiBold,
+  });
+
+  if (!fontsLoaded) return null;
+
   return (
     <SafeAreaProvider>
       <GestureHandlerRootView style={{ flex: 1 }}>
