@@ -10,7 +10,7 @@ import { t } from 'i18next'
 import { useAppDispatch, useAppSelector } from '@app/store/store'
 
 import type { IFavoriteAndWatchLater } from '@features/user-library/store/user-library-slice'
-import { setFavories, setWatchLater } from '@features/user-library/store/user-library-slice'
+import { setFavorites, setWatchLater } from '@features/user-library/store/user-library-slice'
 
 import type { IconType } from '@shared/assets/icons'
 import useLocalStorage from '@shared/hooks/use-local-storage'
@@ -55,7 +55,7 @@ const useMovieDetails = () => {
           },
         ]
 
-    dispatch(setFavories(newUpdatedArray))
+    dispatch(setFavorites(newUpdatedArray))
     SaveToStorageJSON('FAVORITES', newUpdatedArray)
     if (!isFavoriteExist) bottomSheetRef.current?.expand()
   }

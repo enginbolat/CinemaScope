@@ -21,7 +21,7 @@ const userLibrarySlice = createSlice({
   name: 'main',
   initialState,
   reducers: {
-    setFavories: (state, action: PayloadAction<IFavoriteAndWatchLater[]>) => {
+    setFavorites: (state, action: PayloadAction<IFavoriteAndWatchLater[]>) => {
       state.favorites = action.payload
     },
     setWatchLater: (state, action: PayloadAction<IFavoriteAndWatchLater[]>) => {
@@ -30,5 +30,5 @@ const userLibrarySlice = createSlice({
   },
 })
 
-export const { setFavories, setWatchLater } = userLibrarySlice.actions
+export const { setFavorites, setWatchLater } = userLibrarySlice.actions
 export default userLibrarySlice.reducer

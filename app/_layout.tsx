@@ -23,7 +23,7 @@ import { DarkTheme, ThemeProvider } from '@react-navigation/native'
 
 import { store } from '@app/store/store'
 
-import { setFavories, setWatchLater } from '@features/user-library/store/user-library-slice'
+import { setFavorites, setWatchLater } from '@features/user-library/store/user-library-slice'
 
 import { api } from '@shared/api/base-api'
 import useLocalStorage from '@shared/hooks/use-local-storage'
@@ -35,7 +35,7 @@ function AppContent() {
   useEffect(() => {
     const init = async () => {
       const favorites = await GetFromStorage<string>('FAVORITES')
-      if (favorites) dispatch(setFavories(JSON.parse(favorites)))
+      if (favorites) dispatch(setFavorites(JSON.parse(favorites)))
 
       const watchLater = await GetFromStorage<string>('WATCHLATER')
       if (watchLater) dispatch(setWatchLater(JSON.parse(watchLater)))

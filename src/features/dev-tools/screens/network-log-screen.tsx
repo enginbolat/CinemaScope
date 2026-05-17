@@ -6,7 +6,7 @@ import { BottomSheetFlatList } from '@gorhom/bottom-sheet'
 
 import { useAppDispatch } from '@app/store/store'
 
-import { setFavories, setWatchLater } from '@features/user-library/store/user-library-slice'
+import { setFavorites, setWatchLater } from '@features/user-library/store/user-library-slice'
 
 import type { NetworkLog } from '@shared/api/base-api'
 import { clearLogs, requestLogs, setLogListener } from '@shared/api/base-api'
@@ -39,7 +39,7 @@ const NetworkLogScreen = ({ insideBottomSheet = false }: Props) => {
       {
         text: 'Favoriler',
         onPress: async () => {
-          dispatch(setFavories([]))
+          dispatch(setFavorites([]))
           await RemoveFromStorage('FAVORITES')
         },
       },

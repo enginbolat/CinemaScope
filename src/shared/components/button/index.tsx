@@ -6,8 +6,8 @@ import Icon from '@shared/components/icon'
 import Text from '@shared/components/text'
 import { AppColors } from '@shared/constants/app-colors'
 
-import { rawStyle } from './style'
-import type { IButton } from './type'
+import { rawStyle } from './styles'
+import type { IButton } from './types'
 
 const Button = (props: IButton) => {
   const { onPress, text, loading, textStyle, disabled, style, textType = 'regularBody16', leftIcon, rightIcon } = props

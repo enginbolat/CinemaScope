@@ -6,8 +6,8 @@ import type { IconType } from '@shared/assets/icons'
 import { Icon } from '@shared/components/index'
 import { scaleHeight } from '@shared/helpers/helper'
 
-import { styles } from './style'
-import type { TextInput as CustomTextInputProps } from './type'
+import { styles } from './styles'
+import type { TextInput as CustomTextInputProps } from './types'
 
 type PressableIconProps = {
   onPress?: () => void;

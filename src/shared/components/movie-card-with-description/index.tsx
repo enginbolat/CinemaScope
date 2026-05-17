@@ -9,8 +9,8 @@ import Text from '@shared/components/text'
 import { BASE_W500_URL } from '@shared/constants/app-config'
 import { scale } from '@shared/helpers/helper'
 
-import { styles } from './style'
-import type { Props } from './type'
+import { styles } from './styles'
+import type { Props } from './types'
 
 const RatingRow = ({ voteAverage }: { voteAverage: number }) => (
   <View style={styles.ratingWithIconRow}>

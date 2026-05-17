@@ -13,7 +13,7 @@ import { BASE_W500_URL } from '@shared/constants/app-config'
 import { scale } from '@shared/helpers/helper'
 
 import { styles } from './movie-card.styles'
-import type { IMovileCardProps } from './movie-card.type'
+import type { IMovileCardProps } from './movie-card.types'
 
 const MovieCard = (props: IMovileCardProps) => {
   const { item, imageStyle, containerStyle } = props

@@ -2,7 +2,7 @@ import type { FC } from 'react'
 
 import Icons from '@shared/assets/icons'
 
-import type { IIconProps } from './typs'
+import type { IIconProps } from './types'
 
 const Icon: FC<IIconProps> = ({ name, size, height, width, color, color2 }) => {
   const SelectedIcon = Icons[name]
