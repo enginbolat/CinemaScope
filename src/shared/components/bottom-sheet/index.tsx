@@ -7,7 +7,7 @@ import type { BottomSheetBackdropProps } from '@gorhom/bottom-sheet'
 
 import { AppColors } from '@shared/constants/app-colors'
 
-import type { BottomSheetProps } from './type'
+import type { BottomSheetProps } from './types'
 
 const BottomSheet = forwardRef<GorhomBottomSheet, BottomSheetProps>((props, ref) => {
   const {

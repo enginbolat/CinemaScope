@@ -1,20 +1,21 @@
 import { StyleSheet } from 'react-native'
 
+import { AppRadius, AppSpacing } from '@shared/constants/app-constants'
 import { scaleHeight, scaleWidth } from '@shared/helpers/helper'
 
 export const styles = StyleSheet.create({
   container: {
-    gap: 12,
+    gap: AppSpacing.sm,
     flexDirection: 'row',
   },
   image: {
-    borderRadius: 8,
+    borderRadius: AppRadius.md,
     height: scaleHeight(200),
     width: scaleWidth(120),
   },
   innerContainer: {
     flex: 1,
-    gap: 12,
+    gap: AppSpacing.sm,
   },
   titleRow: {
     alignItems: 'flex-start',

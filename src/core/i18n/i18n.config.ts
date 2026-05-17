@@ -20,7 +20,7 @@ const options: InitOptions = {
     en: { translation: en },
     tr: { translation: tr },
   },
-  lng: deviceLocale,
+  lng: 'en',
   fallbackLng: 'en',
   interpolation: { escapeValue: false },
 }

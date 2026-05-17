@@ -13,9 +13,9 @@ import { BASE_W500_URL } from '@shared/constants/app-config'
 import { scale } from '@shared/helpers/helper'
 
 import { styles } from './movie-card.styles'
-import type { IMovileCardProps } from './movie-card.type'
+import type { IMovieCardProps } from './movie-card.types'
 
-const MovieCard = (props: IMovileCardProps) => {
+const MovieCard = (props: IMovieCardProps) => {
   const { item, imageStyle, containerStyle } = props
 
   const composedImageStyle: StyleProp<ImageStyle> = StyleSheet.compose(styles.image, imageStyle)

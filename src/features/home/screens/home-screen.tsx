@@ -1,40 +1,44 @@
 import { ActivityIndicator, ScrollView, StatusBar, View } from 'react-native'
 
+import { useTranslation } from 'react-i18next'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import { useRouter } from 'expo-router'
 
 import {
   useGetPopularContentInfiniteQuery,
-  useNowPlayingMovieQuery,
-  useUpcomingMovieQuery,
+  useNowPlayingPagesInfiniteQuery,
+  useUpcomingPagesInfiniteQuery,
 } from '@features/home/api/home-api'
 
 import type { Popular } from '@shared/models'
 
 import { BannerMovieCard, ContentHorizontalScrollableList } from '../components'
-import { useHomeScreenStyles } from './home-screen.style'
+import { useHomeScreenStyles } from './home-screen.styles'
 
 const HomeScreen = () => {
+  const { t } = useTranslation()
   const router = useRouter()
   const insets = useSafeAreaInsets()
   const styles = useHomeScreenStyles({ insets })
 
   const { data: popularInfiniteData, isLoading: popularLoading } = useGetPopularContentInfiniteQuery()
-  const popularContentData = popularInfiniteData?.pages[0]
+  const { data: nowPlayingData, isLoading: nowPlayingLoading } = useNowPlayingPagesInfiniteQuery()
+  const { data: upcomingData, isLoading: upcomingLoading } = useUpcomingPagesInfiniteQuery()
 
-  const { data: nowPlayingContentData, isLoading: nowPlayingLoading } = useNowPlayingMovieQuery(1)
-  const { data: upcomingMovies, isLoading: upcomingMovieLoading } = useUpcomingMovieQuery(1)
+  const popularResults = popularInfiniteData?.pages[0]?.results ?? []
+  const nowPlayingResults = nowPlayingData?.pages[0]?.results ?? []
+  const upcomingResults = upcomingData?.pages[0]?.results ?? []
 
   const onPressItem = (item: Popular) => {
     router.push({ pathname: '/movie-details', params: { movie: JSON.stringify(item) } })
   }
 
-  const handleOnPressSeeAll = (type: 'popular' | 'upcoming' | 'now-playing') => {
+  const onSeeAll = (type: 'popular' | 'upcoming' | 'now-playing') => {
     router.push({ pathname: '/see-more-grid', params: { type } })
   }
 
-  if (popularLoading || nowPlayingLoading || upcomingMovieLoading) {
+  if (popularLoading || nowPlayingLoading || upcomingLoading) {
     return <ActivityIndicator />
   }
 
@@ -48,27 +52,27 @@ const HomeScreen = () => {
         style={styles.container}
         contentContainerStyle={styles.contentContainer}>
         <View style={styles.header}>
-          <BannerMovieCard movie={popularContentData?.results[1]} onPressItem={onPressItem} />
+          <BannerMovieCard movie={popularResults[1]} onPressItem={onPressItem} />
         </View>
         <View style={styles.itemContainer}>
           <ContentHorizontalScrollableList
-            title="Now Playing"
-            contentList={nowPlayingContentData?.results ?? []}
-            handleOnPressSeeAll={() => handleOnPressSeeAll('now-playing')}
+            title={t('app.home.nowPlaying')}
+            contentList={nowPlayingResults}
+            onSeeAll={() => onSeeAll('now-playing')}
           />
         </View>
         <View style={styles.itemContainer}>
           <ContentHorizontalScrollableList
-            title="Popular"
-            contentList={popularContentData?.results ?? []}
-            handleOnPressSeeAll={() => handleOnPressSeeAll('popular')}
+            title={t('app.home.popular')}
+            contentList={popularResults}
+            onSeeAll={() => onSeeAll('popular')}
           />
         </View>
         <View style={styles.itemContainer}>
           <ContentHorizontalScrollableList
-            title="Upcoming"
-            contentList={upcomingMovies?.results ?? []}
-            handleOnPressSeeAll={() => handleOnPressSeeAll('upcoming')}
+            title={t('app.home.upcoming')}
+            contentList={upcomingResults}
+            onSeeAll={() => onSeeAll('upcoming')}
           />
         </View>
       </ScrollView>

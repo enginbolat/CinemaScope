@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native'
 
-import { STATIC_PADDING } from '@shared/constants/app-constants'
+import { AppSpacing, STATIC_PADDING } from '@shared/constants/app-constants'
 import { scale, scaleHeight } from '@shared/helpers/helper'
 
 export const styles = StyleSheet.create({
@@ -20,6 +20,6 @@ export const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: 16,
+    marginRight: AppSpacing.md,
   },
 })

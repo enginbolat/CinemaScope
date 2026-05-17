@@ -3,6 +3,7 @@ import React, { useCallback, useMemo, useRef } from 'react'
 import type { TextInput as RNTextInput } from 'react-native'
 import { ActivityIndicator, View } from 'react-native'
 
+import { useTranslation } from 'react-i18next'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 import { useRouter } from 'expo-router'
@@ -30,6 +31,7 @@ type Props = {
 }
 
 const SearchScreen = ({ searchTerm, setSearchTerm, showInput = true }: Props) => {
+  const { t } = useTranslation()
   const router = useRouter()
   const searchInputRef = useRef<RNTextInput>(null)
 
@@ -108,7 +110,7 @@ const SearchScreen = ({ searchTerm, setSearchTerm, showInput = true }: Props) =>
           showLeftIcon
           leftIconName="Search"
           rightIconName="ChevronLeft"
-          placeholder="Movies, genres, or directors..."
+          placeholder={t('app.search.placeholder')}
           rightIconOnPress={handleSearchBarRightIconOnPress}
           containerStyle={{ borderRadius: 999 }}
         />
@@ -126,7 +128,7 @@ const SearchScreen = ({ searchTerm, setSearchTerm, showInput = true }: Props) =>
       keyExtractor={(item, index) => `item-${item.id ?? index}`}
       data={displayItems}
       renderItem={renderItem}
-      ListEmptyComponent={showListEmptySpinner ? <ActivityIndicator /> : <Text text="List Is Empty" />}
+      ListEmptyComponent={showListEmptySpinner ? <ActivityIndicator /> : <Text text={t('app.search.listIsEmpty')} />}
       ListFooterComponent={listFooter}
       onEndReached={handleLoadMore}
       onEndReachedThreshold={0.4}

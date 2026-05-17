@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native'
 
-import { AppSpacing } from '@shared/constants/app-constants'
+import { AppRadius, AppSpacing } from '@shared/constants/app-constants'
 
 export const styles = StyleSheet.create({
   ph: {
@@ -22,7 +22,7 @@ export const styles = StyleSheet.create({
   backdropCard: {
     height: 254,
     width: '100%',
-    borderRadius: 8,
+    borderRadius: AppRadius.md,
     overflow: 'hidden',
   },
   backdropOverlay: {
@@ -34,7 +34,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   backdropFooter: {
-    padding: 12,
+    padding: AppSpacing.sm,
     gap: 4,
   },
   backdropRatingRow: {

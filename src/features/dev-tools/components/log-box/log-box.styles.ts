@@ -1,12 +1,13 @@
 import { StyleSheet } from 'react-native'
 
 import { AppColors } from '@shared/constants/app-colors.ts'
+import { AppRadius, AppSpacing } from '@shared/constants/app-constants'
 
 export const styles = StyleSheet.create({
   logBox: {
-    marginBottom: 16,
-    padding: 12,
-    borderRadius: 8,
+    marginBottom: AppSpacing.md,
+    padding: AppSpacing.sm,
+    borderRadius: AppRadius.md,
     backgroundColor: '#1e1e1e',
   },
   logBoxRow: {
@@ -20,7 +21,7 @@ export const styles = StyleSheet.create({
   statusBadge: {
     width: 44,
     height: 44,
-    borderRadius: 8,
+    borderRadius: AppRadius.md,
     alignItems: 'center',
     justifyContent: 'center',
     flexShrink: 0,
@@ -54,7 +55,7 @@ export const styles = StyleSheet.create({
   url: {
     color: '#ccc',
     fontSize: 12,
-    marginTop: 4,
+    marginTop: AppSpacing.unit,
   },
   data: {
     color: '#fff',
@@ -62,14 +63,14 @@ export const styles = StyleSheet.create({
   },
   expandedContainer: {
     marginTop: 10,
-    gap: 8,
+    gap: AppSpacing.xs,
   },
   curlButton: {
     backgroundColor: AppColors.primary,
     alignItems: 'center',
-    padding: 8,
+    padding: AppSpacing.xs,
     borderRadius: 6,
-    marginTop: 4,
+    marginTop: AppSpacing.unit,
     height: 30,
   },
   curlButtonText: {

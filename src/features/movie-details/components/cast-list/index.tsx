@@ -2,6 +2,8 @@ import React from 'react'
 
 import { View } from 'react-native'
 
+import { useTranslation } from 'react-i18next'
+
 import { Image } from 'expo-image'
 
 import { FlashList } from '@shopify/flash-list'
@@ -19,6 +21,8 @@ type Props = {
 }
 
 const CastList = ({ cast }: Props) => {
+  const { t } = useTranslation()
+
   const renderItem = ({ item }: { item: Cast }) => {
     const imageSource = item.profile_path ? { uri: BASE_W500_URL + item.profile_path } : Images.profile
 
@@ -33,7 +37,7 @@ const CastList = ({ cast }: Props) => {
           transition={100}
         />
         <Text text={item?.name} />
-        <Text text={`as ${item?.character}`} color={AppColors.white50} />
+        <Text text={t('app.details.characterAs', { character: item?.character })} color={AppColors.white50} />
       </View>
     )
   }
@@ -41,7 +45,7 @@ const CastList = ({ cast }: Props) => {
   return (
     <>
       <View style={styles.castListContainer}>
-        <Text type="mediumCaption14" text="Cast" />
+        <Text type="mediumCaption14" text={t('app.details.cast')} />
       </View>
       <FlashList
         showsHorizontalScrollIndicator={false}

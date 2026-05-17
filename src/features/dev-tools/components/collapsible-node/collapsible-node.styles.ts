@@ -1,5 +1,7 @@
 import { StyleSheet } from 'react-native'
 
+import { AppSpacing } from '@shared/constants/app-constants'
+
 type ICollapsibleNodeStyles = {
   depth: number
 }
@@ -7,7 +9,7 @@ type ICollapsibleNodeStyles = {
 export const useCollapsibleNodeStyles = ({ depth }: ICollapsibleNodeStyles) =>
   StyleSheet.create({
     container: {
-      paddingLeft: depth * 12,
+      paddingLeft: depth * AppSpacing.sm,
     },
     jRow: {
       flexDirection: 'row',
@@ -18,7 +20,7 @@ export const useCollapsibleNodeStyles = ({ depth }: ICollapsibleNodeStyles) =>
     jChevron: {
       color: '#888',
       fontSize: 10,
-      marginRight: 4,
+      marginRight: AppSpacing.unit,
     },
     jKey: {
       color: '#61dafb',

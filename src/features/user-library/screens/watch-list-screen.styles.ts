@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native'
 
 import { AppColors } from '@shared/constants/app-colors'
-import { STATIC_PADDING } from '@shared/constants/app-constants'
+import { AppSpacing, STATIC_PADDING } from '@shared/constants/app-constants'
 
 const styles = StyleSheet.create({
   container: {
@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
   },
   listStyle: {
     flexGrow: 1,
-    marginTop: 32,
+    marginTop: AppSpacing.xl,
     width: '100%',
   },
   listContainerStyle: {
@@ -27,6 +27,9 @@ const styles = StyleSheet.create({
   emptyListContainer: {
     flex: 1,
     alignItems: 'center',
+  },
+  separator: {
+    height: 12,
   },
 })
 
