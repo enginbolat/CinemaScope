@@ -6,8 +6,10 @@ import { STATIC_PADDING } from '@shared/constants/app-constants'
 export const styles = StyleSheet.create({
   genreContainer: {
     flexDirection: 'row',
-    paddingHorizontal: STATIC_PADDING,
     gap: 8,
+  },
+  contentContainer: {
+    paddingHorizontal: STATIC_PADDING,
   },
   chip: {
     paddingHorizontal: 12,
@@ -17,6 +19,6 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     borderWidth: 1,
     borderColor: AppColors.whiteBorder20,
-    overflow: 'hidden'
+    overflow: 'hidden',
   },
 })

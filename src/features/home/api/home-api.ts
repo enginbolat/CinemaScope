@@ -13,22 +13,37 @@ export const homeApi = api.injectEndpoints({
         getPreviousPageParam: (_firstPage, _allPages, firstPageParam) =>
           firstPageParam > 1 ? firstPageParam - 1 : undefined,
       },
-      query: ({ pageParam }) => ({
-        url: AppEndpoints.popular(pageParam).url,
-        method: AppEndpoints.popular(pageParam).method,
-      }),
+      query: ({ pageParam }) => AppEndpoints.popular(pageParam),
     }),
     nowPlayingMovie: build.query<NowPlayingRoot, number>({
-      query: page => ({
-        url: AppEndpoints.nowPlayingMovie(page).url,
-        method: AppEndpoints.nowPlayingMovie(page).method,
-      }),
+      query: page => AppEndpoints.nowPlayingMovie(page),
     }),
     upcomingMovie: build.query<NowPlayingRoot, number>({
-      query: page => ({
-        url: AppEndpoints.upcomingMovie(page).url,
-        method: AppEndpoints.upcomingMovie(page).method,
-      }),
+      keepUnusedDataFor: 600,
+      query: page => AppEndpoints.upcomingMovie(page),
+    }),
+    getNowPlayingInfinite: build.infiniteQuery<NowPlayingRoot, void, number>({
+      infiniteQueryOptions: {
+        initialPageParam: 1,
+        maxPages: 10,
+        getNextPageParam: (lastPage, _allPages, lastPageParam) =>
+          lastPageParam < lastPage.total_pages ? lastPageParam + 1 : undefined,
+        getPreviousPageParam: (_firstPage, _allPages, firstPageParam) =>
+          firstPageParam > 1 ? firstPageParam - 1 : undefined,
+      },
+      query: ({ pageParam }) => AppEndpoints.nowPlayingMovie(pageParam),
+    }),
+    getUpcomingInfinite: build.infiniteQuery<NowPlayingRoot, void, number>({
+      keepUnusedDataFor: 600,
+      infiniteQueryOptions: {
+        initialPageParam: 1,
+        maxPages: 10,
+        getNextPageParam: (lastPage, _allPages, lastPageParam) =>
+          lastPageParam < lastPage.total_pages ? lastPageParam + 1 : undefined,
+        getPreviousPageParam: (_firstPage, _allPages, firstPageParam) =>
+          firstPageParam > 1 ? firstPageParam - 1 : undefined,
+      },
+      query: ({ pageParam }) => AppEndpoints.upcomingMovie(pageParam),
     }),
   }),
   overrideExisting: false,
@@ -38,4 +53,6 @@ export const {
   useGetPopularContentInfiniteQuery,
   useNowPlayingMovieQuery,
   useUpcomingMovieQuery,
+  useGetNowPlayingInfiniteInfiniteQuery,
+  useGetUpcomingInfiniteInfiniteQuery,
 } = homeApi

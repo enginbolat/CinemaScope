@@ -34,16 +34,12 @@ const WatchListScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <Header leftIconShown={false} />
+      <View style={styles.tabContainer}>
+        <TabSwitch buttons={TAB_SWITCH_TITLE} selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
+      </View>
       <FlashList<IFavoriteAndWatchLater>
         showsVerticalScrollIndicator={false}
-        ListHeaderComponent={
-          <>
-            <Header leftIconShown={false} />
-            <View style={styles.tabContainer}>
-              <TabSwitch buttons={TAB_SWITCH_TITLE} selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
-            </View>
-          </>
-        }
         data={selectedTabDataList}
         extraData={selectedTab}
         renderItem={renderItem}

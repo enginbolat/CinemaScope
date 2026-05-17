@@ -14,10 +14,8 @@ export const searchApi = api.injectEndpoints({
         getPreviousPageParam: (_firstPage, _allPages, firstPageParam) =>
           firstPageParam > 1 ? firstPageParam - 1 : undefined,
       },
-      query: ({ queryArg: query, pageParam }) => ({
-        url: AppEndpoints.searchContent(encodeURIComponent(query), pageParam).url,
-        method: 'GET',
-      }),
+      query: ({ queryArg: query, pageParam }) =>
+        AppEndpoints.searchContent(encodeURIComponent(query), pageParam),
     }),
   }),
   overrideExisting: false,

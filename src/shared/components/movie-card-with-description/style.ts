@@ -8,7 +8,6 @@ export const styles = StyleSheet.create({
   container: {
     gap: 12,
     flexDirection: 'row',
-    flexWrap: 'wrap',
   },
   image: {
     borderRadius: 8,
@@ -16,6 +15,7 @@ export const styles = StyleSheet.create({
     width: scaleWidth(120),
   },
   innerContainer: {
+    flex: 1,
     gap: 12,
   },
   titleRow: {
@@ -26,7 +26,5 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 4,
   },
-  overview: {
-    width: width - scaleWidth(165),
-  },
+  overview: {},
 })

@@ -12,7 +12,6 @@ import NetworkLog from '@features/dev-tools/screens/network-log-screen'
 import Images from '@shared/assets/images'
 import { Text, Icon } from '@shared/components/index'
 import { AppColors } from '@shared/constants/app-colors'
-import { IS_TEST } from '@shared/constants/app-config'
 import { scale, scaleHeight, scaleWidth } from '@shared/helpers/helper'
 
 import { styles } from './styles'
@@ -43,8 +42,8 @@ const Header = (props: IHeaderProps) => {
   const [clickCounter, setClickCounter] = useState<number>(0)
 
   const handleClick = () => {
-    if (IS_TEST && clickCounter <= STATIC_MAX_CLICK_FOR_LOG) setClickCounter(prev => prev + 1)
-    else if (IS_TEST && clickCounter >= STATIC_MAX_CLICK_FOR_LOG) {
+    if (clickCounter <= STATIC_MAX_CLICK_FOR_LOG) setClickCounter(prev => prev + 1)
+    else if (clickCounter >= STATIC_MAX_CLICK_FOR_LOG) {
       bottomSheetModalRef.current?.present()
       setClickCounter(0)
     }

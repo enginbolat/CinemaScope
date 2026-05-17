@@ -6,6 +6,7 @@ import { STATIC_PADDING } from '@shared/constants/app-constants.ts'
 export const styles = StyleSheet.create({
   list: {
     flex: 1,
+    backgroundColor: AppColors.surface,
   },
   titleContainer: {
     flexDirection: 'row',
@@ -20,7 +21,7 @@ export const styles = StyleSheet.create({
     paddingBottom: 24,
   },
   data: {
-    color: '#fff',
+   backgroundColor: AppColors.surface,
     fontSize: 12,
   },
 })
