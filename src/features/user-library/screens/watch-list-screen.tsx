@@ -1,8 +1,12 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 
-import { FlatList, View } from 'react-native'
+import { View } from 'react-native'
+
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 import { useRouter } from 'expo-router'
+
+import { FlashList } from '@shopify/flash-list'
 
 import { useAppSelector } from '@app/store/store'
 
@@ -11,6 +15,7 @@ import type { Popular } from '@shared/models/index'
 
 import styles from './watch-list-screen.styles'
 import { EmptyList } from '../components'
+import type { IFavoriteAndWatchLater } from '../store/user-library-slice'
 
 const TAB_SWITCH_TITLE = [{ title: 'Watch Later' }, { title: 'Favorites' }]
 
@@ -28,25 +33,25 @@ const WatchListScreen = () => {
   )
 
   return (
-    <View style={styles.container}>
-      <Header leftIconShown={false} />
-      <View style={styles.tabContainer}>
-        <TabSwitch buttons={TAB_SWITCH_TITLE} selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
-      </View>
-      {selectedTabDataList.length === 0 ? (
-        <View style={styles.emptyListContainer}>
-          {EmptyList(selectedTab === 0 ? { title: 'Watch Later' } : { title: 'Favorites' })}
-        </View>
-      ) : (
-        <FlatList
-          showsVerticalScrollIndicator={false}
-          data={selectedTabDataList}
-          renderItem={renderItem}
-          style={styles.listStyle}
-          contentContainerStyle={styles.listContainerStyle}
-        />
-      )}
-    </View>
+    <SafeAreaView style={styles.container}>
+      <FlashList<IFavoriteAndWatchLater>
+        showsVerticalScrollIndicator={false}
+        ListHeaderComponent={
+          <>
+            <Header leftIconShown={false} />
+            <View style={styles.tabContainer}>
+              <TabSwitch buttons={TAB_SWITCH_TITLE} selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
+            </View>
+          </>
+        }
+        data={selectedTabDataList}
+        extraData={selectedTab}
+        renderItem={renderItem}
+        style={styles.listStyle}
+        contentContainerStyle={styles.listContainerStyle}
+        ListEmptyComponent={EmptyList(selectedTab === 0 ? { title: 'Watch Later' } : { title: 'Favorites' })}
+      />
+    </SafeAreaView>
   )
 }
 

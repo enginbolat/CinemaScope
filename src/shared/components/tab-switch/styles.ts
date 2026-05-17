@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
   },
   selectionContainer: {
     position: 'absolute',
-    backgroundColor: AppColors.primary,
+    backgroundColor: AppColors.surface,
     borderRadius: 15,
     marginHorizontal: 5,
   },

@@ -75,7 +75,7 @@ const BottomSheet = forwardRef<GorhomBottomSheet, BottomSheetProps>((props, ref)
       enableDynamicSizing={enableDynamicSizing}
       onClose={onClose}
       containerStyle={[containerStyle]}>
-      <BottomSheetView style={[contentContainerStyle, { paddingBottom: insets.bottom, paddingHorizontal: 20 }]}>
+      <BottomSheetView style={[{ paddingBottom: insets.bottom, paddingHorizontal: 20 }, contentContainerStyle]}>
         {children}
       </BottomSheetView>
     </GorhomBottomSheet>

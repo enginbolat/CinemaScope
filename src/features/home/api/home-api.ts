@@ -10,6 +10,8 @@ export const homeApi = api.injectEndpoints({
         maxPages: 10,
         getNextPageParam: (lastPage, _allPages, lastPageParam) =>
           lastPageParam < lastPage.total_pages ? lastPageParam + 1 : undefined,
+        getPreviousPageParam: (_firstPage, _allPages, firstPageParam) =>
+          firstPageParam > 1 ? firstPageParam - 1 : undefined,
       },
       query: ({ pageParam }) => ({
         url: AppEndpoints.popular(pageParam).url,

@@ -1,12 +1,11 @@
 import React, { useMemo, useRef, useState } from 'react'
 
-import { Image, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
-
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { Image, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
 
 import { useRouter } from 'expo-router'
 
-import { BottomSheetModal } from '@gorhom/bottom-sheet'
+import { BottomSheetBackdrop, BottomSheetModal } from '@gorhom/bottom-sheet'
+import type { BottomSheetBackdropProps } from '@gorhom/bottom-sheet'
 
 import NetworkLog from '@features/dev-tools/screens/network-log-screen'
 
@@ -20,6 +19,11 @@ import { styles } from './styles'
 import type { IHeaderProps } from './types'
 
 const STATIC_MAX_CLICK_FOR_LOG = 5
+const SNAP_POINTS = ['90%']
+
+const renderBackdrop = (props: BottomSheetBackdropProps) => (
+  <BottomSheetBackdrop {...props} disappearsOnIndex={-1} appearsOnIndex={0} />
+)
 
 const Header = (props: IHeaderProps) => {
   const {
@@ -85,16 +89,24 @@ const Header = (props: IHeaderProps) => {
       </TouchableWithoutFeedback>
       <BottomSheetModal
         ref={bottomSheetModalRef}
-        enableDynamicSizing={false}
-        snapPoints={['100%']}
-        handleIndicatorStyle={styles.bgColorPrimary}
-        backgroundStyle={styles.bgColorPrimary}>
-        <SafeAreaView style={styles.f1}>
-          <NetworkLog />
-        </SafeAreaView>
+        snapPoints={SNAP_POINTS}
+        enablePanDownToClose
+        backdropComponent={renderBackdrop}
+        backgroundStyle={sheetStyles.background}
+        handleIndicatorStyle={sheetStyles.indicator}>
+        <NetworkLog insideBottomSheet />
       </BottomSheetModal>
     </>
   )
 }
+
+const sheetStyles = StyleSheet.create({
+  background: {
+    backgroundColor: AppColors.surface,
+  },
+  indicator: {
+    backgroundColor: '#555',
+  },
+})
 
 export default Header
