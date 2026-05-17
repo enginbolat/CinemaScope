@@ -2,6 +2,7 @@ import { useCallback } from 'react'
 
 import { View } from 'react-native'
 
+import { useTranslation } from 'react-i18next'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 import { useLocalSearchParams, useRouter } from 'expo-router'
@@ -21,17 +22,18 @@ import styles from './see-more-grid-screen.styles'
 
 type SeeMoreType = 'popular' | 'upcoming' | 'now-playing'
 
-const TITLE_MAP: Record<SeeMoreType, string> = {
-  popular: 'Popular',
-  upcoming: 'Upcoming',
-  'now-playing': 'Now Playing',
-}
-
 const ItemSeparator = () => <View style={styles.separator} />
 
 const SeeMoreGrid = () => {
+  const { t } = useTranslation()
   const router = useRouter()
   const { type } = useLocalSearchParams<{ type: SeeMoreType }>()
+
+  const titleMap: Record<SeeMoreType, string> = {
+    popular: t('app.home.popular'),
+    upcoming: t('app.home.upcoming'),
+    'now-playing': t('app.home.nowPlaying'),
+  }
 
   const { data: popularData, fetchNextPage: fetchNextPopular } = useGetPopularContentInfiniteQuery(undefined, {
     skip: type !== 'popular',
@@ -67,7 +69,7 @@ const SeeMoreGrid = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Header title={TITLE_MAP[type]} isHaveHeader={false} />
+      <Header title={titleMap[type]} isHaveHeader={false} />
       <FlashList<Popular>
         data={data}
         renderItem={renderItem}

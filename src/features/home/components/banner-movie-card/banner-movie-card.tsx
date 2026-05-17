@@ -1,5 +1,7 @@
 import { Pressable, TouchableOpacity, View } from 'react-native'
 
+import { useTranslation } from 'react-i18next'
+
 import { ImageBackground } from 'expo-image'
 
 import { Text, Button, Icon } from '@shared/components'
@@ -10,6 +12,8 @@ import { styles } from './banner-movie-card.styles'
 import type { Props } from './banner-movie-card.types'
 
 const BannerMovieCard = ({ movie, onPressItem }: Props) => {
+  const { t } = useTranslation()
+
   if (!movie) {
     return
   }
@@ -33,7 +37,7 @@ const BannerMovieCard = ({ movie, onPressItem }: Props) => {
         <View style={styles.f1} />
         <Text text={movie.title} type="displayLg" style={styles.movieTitle} />
         <View style={styles.buttonContainer}>
-          <Button text="Watch Now" onPress={handleOnPressWatchNow} style={styles.watchNowButton} />
+          <Button text={t('app.home.watchNow')} onPress={handleOnPressWatchNow} style={styles.watchNowButton} />
           <TouchableOpacity style={styles.favoriteButton} onPress={handleAddFavorite}>
             <Icon name="HeartOutline" color={AppColors.white} />
           </TouchableOpacity>

@@ -2,6 +2,8 @@ import { useCallback } from 'react'
 
 import { Pressable, View } from 'react-native'
 
+import { useTranslation } from 'react-i18next'
+
 import { FlashList } from '@shopify/flash-list'
 
 import { MovieCard, Text } from '@shared/components/index'
@@ -12,6 +14,7 @@ import { styles } from './content-horizontal-scrollable-list.styles'
 import type { Props } from './types'
 
 const ContentHorizontalScrollableList = ({ title, contentList, onSeeAll }: Props) => {
+  const { t } = useTranslation()
   const renderItem = useCallback(
     ({ item }: { item: Popular }) => (
       <View style={styles.renderItemContainer}>
@@ -26,7 +29,7 @@ const ContentHorizontalScrollableList = ({ title, contentList, onSeeAll }: Props
       <View style={styles.ph}>
         <Text type="mediumHeading620" text={title} />
         <Pressable onPress={onSeeAll}>
-          <Text type="bodySm" text="See All" color={AppColors.errorSoft} />
+          <Text type="bodySm" text={t('app.home.seeAll')} color={AppColors.errorSoft} />
         </Pressable>
       </View>
       <FlashList

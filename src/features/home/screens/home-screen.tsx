@@ -1,5 +1,6 @@
 import { ActivityIndicator, ScrollView, StatusBar, View } from 'react-native'
 
+import { useTranslation } from 'react-i18next'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import { useRouter } from 'expo-router'
@@ -16,6 +17,7 @@ import { BannerMovieCard, ContentHorizontalScrollableList } from '../components'
 import { useHomeScreenStyles } from './home-screen.styles'
 
 const HomeScreen = () => {
+  const { t } = useTranslation()
   const router = useRouter()
   const insets = useSafeAreaInsets()
   const styles = useHomeScreenStyles({ insets })
@@ -54,21 +56,21 @@ const HomeScreen = () => {
         </View>
         <View style={styles.itemContainer}>
           <ContentHorizontalScrollableList
-            title="Now Playing"
+            title={t('app.home.nowPlaying')}
             contentList={nowPlayingResults}
             onSeeAll={() => onSeeAll('now-playing')}
           />
         </View>
         <View style={styles.itemContainer}>
           <ContentHorizontalScrollableList
-            title="Popular"
+            title={t('app.home.popular')}
             contentList={popularResults}
             onSeeAll={() => onSeeAll('popular')}
           />
         </View>
         <View style={styles.itemContainer}>
           <ContentHorizontalScrollableList
-            title="Upcoming"
+            title={t('app.home.upcoming')}
             contentList={upcomingResults}
             onSeeAll={() => onSeeAll('upcoming')}
           />
