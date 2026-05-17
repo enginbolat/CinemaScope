@@ -1,25 +1,23 @@
 import { StyleSheet } from 'react-native'
 
-import { AppColors } from '@shared/constants/app-colors'
-import { STATIC_PADDING } from '@shared/constants/app-constants'
+import type { EdgeInsets } from 'react-native-safe-area-context'
 
-export const styles = StyleSheet.create({
-  f1: {
-    flex: 1,
-  },
-  container: {
-    backgroundColor: AppColors.primary,
-    alignItems: 'center',
-  },
-  containerBody: {
-    justifyContent: 'center',
-  },
-  contentTitle: {
-    marginLeft: STATIC_PADDING,
-    marginVertical: 24,
-  },
-  contentListContainerStyle: {
-    gap: 8,
-    paddingHorizontal: STATIC_PADDING,
-  },
-})
+import { AppColors } from '@shared/constants/app-colors'
+import { AppSpacing } from '@shared/constants/app-constants'
+
+export const useHomeScreenStyles = ({ insets }: { insets: EdgeInsets }) =>
+  StyleSheet.create({
+    container: {
+      backgroundColor: AppColors.surface,
+      paddingBottom: insets.bottom,
+    },
+    contentContainer: {
+      backgroundColor: AppColors.surface,
+    },
+    itemContainer: {
+      marginBottom: AppSpacing.xl,
+    },
+    header: {
+      marginBottom: AppSpacing.xl,
+    },
+  })

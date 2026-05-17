@@ -1,67 +1,67 @@
-import React, { useCallback } from 'react'
+import React, { useMemo } from 'react'
 
-import { ActivityIndicator, ScrollView } from 'react-native'
+import { ActivityIndicator, StatusBar, View } from 'react-native'
 
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import { useRouter } from 'expo-router'
 
+import { FlashList } from '@shopify/flash-list'
+
 import { useGetPopularContentQuery, useNowPlayingMovieQuery, useUpcomingMovieQuery } from '@features/home/api/home-api'
 
-import { Header } from '@shared/components/index'
-import { AppColors } from '@shared/constants/app-colors'
-import type { Popular } from '@shared/models/popular'
+import type { Popular, Result } from '@shared/models'
 
-import { ContentHorizontalScrollableList } from '../components'
+import { BannerMovieCard, ContentHorizontalScrollableList } from '../components'
+import { useHomeScreenStyles } from './home-screen.style'
 
-const Loader = ({ isLoading }: { isLoading: boolean }) => {
-  if (!isLoading) return null
-  return <ActivityIndicator />
-}
+type HomeSectionRow = Popular[] | Result[]
 
 const HomeScreen = () => {
-  const insets = useSafeAreaInsets()
   const router = useRouter()
+  const insets = useSafeAreaInsets()
+  const styles = useHomeScreenStyles({ insets })
 
   const { data: popularContentData, isLoading: popularLoading } = useGetPopularContentQuery()
   const { data: nowPlayingContentData, isLoading: nowPlayingLoading } = useNowPlayingMovieQuery(1)
   const { data: upcomingMovies, isLoading: upcomingMovieLoading } = useUpcomingMovieQuery(1)
 
-  const onPressItem = useCallback((item: Popular) => {
+  const onPressItem = (item: Popular) => {
     router.push({ pathname: '/movie-details', params: { movie: JSON.stringify(item) } })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }
+
+  const renderItem = ({ item }: { item: HomeSectionRow }) => (
+    <View style={styles.itemContainer}>
+      <ContentHorizontalScrollableList title="Now Playing" contentList={item} onPressItem={onPressItem} />
+    </View>
+  )
+
+  const sectionData: HomeSectionRow[] = useMemo(
+    () => [nowPlayingContentData?.results ?? [], popularContentData?.results ?? [], upcomingMovies?.results ?? []],
+    [nowPlayingContentData?.results, popularContentData?.results, upcomingMovies?.results],
+  )
+
+  if (popularLoading || nowPlayingLoading || upcomingMovieLoading) {
+    return <ActivityIndicator />
+  }
 
   return (
-    <ScrollView
-      nestedScrollEnabled
-      showsVerticalScrollIndicator={false}
-      style={{ backgroundColor: AppColors.primary }}
-      contentContainerStyle={{ paddingBottom: insets.bottom, backgroundColor: AppColors.primary }}>
-      <Header isHaveHeader={true} leftIconShown={false} />
-      <Loader isLoading={nowPlayingLoading || popularLoading || upcomingMovieLoading} />
-      {popularContentData && (
-        <ContentHorizontalScrollableList
-          title="Keşfet"
-          contentList={popularContentData.results}
-          onPressItem={onPressItem}
-        />
-      )}
-      {nowPlayingContentData && (
-        <ContentHorizontalScrollableList
-          title="Now Playing"
-          contentList={nowPlayingContentData.results}
-          onPressItem={onPressItem}
-        />
-      )}
-      {upcomingMovies && (
-        <ContentHorizontalScrollableList
-          title="Upcoming"
-          contentList={upcomingMovies.results}
-          onPressItem={onPressItem}
-        />
-      )}
-    </ScrollView>
+    <React.Fragment>
+      <StatusBar barStyle="light-content" />
+      <FlashList<HomeSectionRow>
+        data={sectionData}
+        ListHeaderComponent={<BannerMovieCard movie={popularContentData?.results[1]} />}
+        ListHeaderComponentStyle={styles.header}
+        nestedScrollEnabled
+        showsVerticalScrollIndicator={false}
+        bounces={false}
+        overScrollMode="never"
+        style={styles.container}
+        contentContainerStyle={styles.contentContainer}
+        renderItem={renderItem}
+        extraData={sectionData}
+      />
+    </React.Fragment>
   )
 }
 
