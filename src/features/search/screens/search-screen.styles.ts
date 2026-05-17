@@ -1,16 +1,20 @@
 import { StyleSheet } from 'react-native'
 
 import { AppColors } from '@shared/constants/app-colors'
-import { STATIC_PADDING } from '@shared/constants/app-constants'
+import { AppSpacing } from '@shared/constants/app-constants'
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: AppColors.primary,
-    gap: 12,
+    backgroundColor: AppColors.surface,
+    gap: AppSpacing.sm,
   },
-  ph: {
-    paddingHorizontal: STATIC_PADDING,
+  listFooterSpinner: {
+    paddingVertical: AppSpacing.sm,
+    alignItems: 'center',
+  },
+  flashListContent: {
+    paddingHorizontal: AppSpacing.lg,
   },
 })
 
