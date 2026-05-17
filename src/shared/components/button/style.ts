@@ -1,5 +1,6 @@
-import { AppColors } from '@shared/constants/app-colors';
-import { Platform, StyleSheet } from 'react-native';
+import { Platform, StyleSheet } from 'react-native'
+
+import { AppColors } from '@shared/constants/app-colors'
 
 export const rawStyle = (disabled?: boolean) =>
   StyleSheet.create({
@@ -30,4 +31,4 @@ export const rawStyle = (disabled?: boolean) =>
       textTransform: 'uppercase',
       letterSpacing: 1.25,
     },
-  });
+  })

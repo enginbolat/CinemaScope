@@ -1,5 +1,6 @@
-import { IconProps } from './icon-props';
-import Svg, { Path } from 'react-native-svg';
+import Svg, { Path } from 'react-native-svg'
+
+import type { IconProps } from './icon-props'
 
 export const Search = ({ height, width, color }: IconProps) => (
   <Svg width={width ?? '28'} height={height ?? '24'} viewBox="0 0 24 24" fill="none">
@@ -8,4 +9,4 @@ export const Search = ({ height, width, color }: IconProps) => (
       fill={color ?? 'black'}
     />
   </Svg>
-);
+)

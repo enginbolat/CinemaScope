@@ -1,8 +1,13 @@
-import React, { forwardRef, useCallback, useEffect, useState } from 'react';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import GorhomBottomSheet, { BottomSheetBackdrop, BottomSheetView } from '@gorhom/bottom-sheet';
-import { AppColors } from '@shared/constants/app-colors';
-import { BottomSheetProps } from './type';
+import React, { forwardRef, useCallback, useEffect, useState } from 'react'
+
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
+
+import GorhomBottomSheet, { BottomSheetBackdrop, BottomSheetView } from '@gorhom/bottom-sheet'
+import type { BottomSheetBackdropProps } from '@gorhom/bottom-sheet'
+
+import { AppColors } from '@shared/constants/app-colors'
+
+import type { BottomSheetProps } from './type'
 
 const BottomSheet = forwardRef<GorhomBottomSheet, BottomSheetProps>((props, ref) => {
   const {
@@ -14,48 +19,49 @@ const BottomSheet = forwardRef<GorhomBottomSheet, BottomSheetProps>((props, ref)
     enableDynamicSizing = true,
     enablePanDownToClose = true,
     timeout,
-  } = props;
-  const insets = useSafeAreaInsets();
-  const [sheetIndex, setSheetIndex] = useState<number>(-1);
+  } = props
+  const insets = useSafeAreaInsets()
+  const [sheetIndex, setSheetIndex] = useState<number>(-1)
 
   const handleSheetChanges = useCallback((index: number) => {
-    setSheetIndex(index);
-  }, []);
+    setSheetIndex(index)
+  }, [])
 
   const onChange = (index: number) => {
-    handleSheetChanges(index);
-    if (index === -1 && onClose) onClose();
-  };
+    handleSheetChanges(index)
+    if (index === -1 && onClose) onClose()
+  }
 
-  const renderBackdrop = (props: any) => (
+  const renderBackdrop = (renderBackdropProps: BottomSheetBackdropProps) => (
     <BottomSheetBackdrop
-      {...props}
+      {...renderBackdropProps}
       disappearsOnIndex={-1}
       appearsOnIndex={0}
       style={{ backgroundColor: AppColors.sheetBackground }}
     />
-  );
+  )
 
   useEffect(() => {
-    if (!(timeout && sheetIndex !== -1)) return;
+    if (!(timeout && sheetIndex !== -1)) return
 
-    let currentSecond = timeout;
+    let currentSecond = timeout
     const countdown = setInterval(() => {
       if (currentSecond <= 0) {
-        clearInterval(countdown);
+        clearInterval(countdown)
       }
 
-      currentSecond--;
+      currentSecond--
       if (currentSecond === 0 && onClose) {
-        setSheetIndex(-1);
-        onClose?.();
+        setSheetIndex(-1)
+        onClose?.()
       }
-    }, 1000);
+    }, 1000)
 
     return () => {
-      clearInterval(countdown);
-    };
-  }, [timeout, sheetIndex]);
+      clearInterval(countdown)
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [timeout, sheetIndex])
 
   return (
     <GorhomBottomSheet
@@ -73,7 +79,7 @@ const BottomSheet = forwardRef<GorhomBottomSheet, BottomSheetProps>((props, ref)
         {children}
       </BottomSheetView>
     </GorhomBottomSheet>
-  );
-});
+  )
+})
 
-export default BottomSheet;
+export default BottomSheet

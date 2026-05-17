@@ -1,7 +1,11 @@
-const Images = {
-  logo: require('./logo.png'),
-  profile: require('./profile.png'),
-  onboard: require('./onboard-image.png'),
-};
+import logo from './logo.png'
+import onboard from './onboard-image.png'
+import profile from './profile.png'
 
-export default Images;
+const Images = {
+  logo,
+  profile,
+  onboard,
+}
+
+export default Images

@@ -1,7 +1,8 @@
-import { Icon, Text } from '@shared/components/index';
-import { View } from 'react-native';
+import { View } from 'react-native'
 
-import { styles } from '../../screens/style';
+import { Icon, Text } from '@shared/components/index'
+
+import { styles } from '../../screens/style'
 
 type Props = {
   title: string;
@@ -16,6 +17,6 @@ const TitleAndRating = ({ title, voteAverage }: Props) => (
       {voteAverage && <Text text={voteAverage.toString().substring(0, 3)} type="mediumCaption14" numberOfLines={2} />}
     </View>
   </View>
-);
+)
 
-export default TitleAndRating;
+export default TitleAndRating

@@ -1,4 +1,4 @@
-import { TextStyle } from 'react-native';
+import type { TextStyle } from 'react-native'
 
 export const AppFonts = {
   jakartaBold: 'PlusJakartaSans_800ExtraBold',
@@ -7,7 +7,7 @@ export const AppFonts = {
   interRegular: 'Inter_400Regular',
   interMedium: 'Inter_500Medium',
   geistSemiBold: 'Geist_600SemiBold',
-} as const;
+} as const
 
 export const AppTextType = {
   // ── Design system tokens ──────────────────────────────
@@ -100,4 +100,4 @@ export const AppTextType = {
   thinCaption14: { fontFamily: AppFonts.interRegular, fontSize: 14, lineHeight: 20, fontStyle: 'italic' } as TextStyle,
   thinSmall12: { fontFamily: AppFonts.interRegular, fontSize: 12, lineHeight: 18, fontStyle: 'italic' } as TextStyle,
   thinTiny10: { fontFamily: AppFonts.interRegular, fontSize: 10, lineHeight: 14, fontStyle: 'italic' } as TextStyle,
-} as const;
+} as const

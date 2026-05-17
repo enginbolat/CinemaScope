@@ -1,7 +1,7 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native'
 
-import { AppColors } from '@shared/constants/app-colors';
-import { AppSpacing } from '@shared/constants/app-constants';
+import { AppColors } from '@shared/constants/app-colors'
+import { AppSpacing } from '@shared/constants/app-constants'
 
 export const styles = StyleSheet.create({
   f1: {
@@ -34,4 +34,4 @@ export const styles = StyleSheet.create({
     color: AppColors.onSurfaceVariant,
     textAlign: 'center',
   },
-});
+})

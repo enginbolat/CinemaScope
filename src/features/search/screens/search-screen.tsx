@@ -1,27 +1,34 @@
-import React, { useCallback, useMemo, useRef, useState } from 'react';
-import { ActivityIndicator, TextInput as RNTextInput, View } from 'react-native';
-import { useRouter } from 'expo-router';
+import React, { useCallback, useMemo, useRef, useState } from 'react'
 
-import { MovieCardWithDescription, Text, TextInput } from '@shared/components/index';
-import useDebounce from '@shared/hooks/use-debounce';
-import { useGetSearchResultsQuery } from '@features/search/api/search-api';
-import { useGetPopularContentQuery } from '@features/home/api/home-api';
-import styles from './search-screen.styles';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { Popular } from '@shared/models';
-import { FlashList } from '@shopify/flash-list';
+import type { TextInput as RNTextInput} from 'react-native'
+import { ActivityIndicator } from 'react-native'
+
+import { SafeAreaView } from 'react-native-safe-area-context'
+
+import { useRouter } from 'expo-router'
+
+import { FlashList } from '@shopify/flash-list'
+
+import { useGetPopularContentQuery } from '@features/home/api/home-api'
+import { useGetSearchResultsQuery } from '@features/search/api/search-api'
+
+import { MovieCardWithDescription, Text, TextInput } from '@shared/components/index'
+import useDebounce from '@shared/hooks/use-debounce'
+import type { Popular } from '@shared/models'
+
+import styles from './search-screen.styles'
 
 const SearchScreen = () => {
-  const router = useRouter();
+  const router = useRouter()
 
-  const [keyword, setKeyword] = useState<string>('');
-  const searchInputRef = useRef<RNTextInput>(null);
+  const [keyword, setKeyword] = useState<string>('')
+  const searchInputRef = useRef<RNTextInput>(null)
 
-  const debounceSearchTerm = useDebounce(keyword, 200);
-  const shouldTriggerSearch = useMemo(() => debounceSearchTerm.trim().length >= 1, [debounceSearchTerm, keyword]);
+  const debounceSearchTerm = useDebounce(keyword, 200)
+  const shouldTriggerSearch = useMemo(() => debounceSearchTerm.trim().length >= 1, [debounceSearchTerm])
   const {
     data: searchResults,
-    error,
+    error: _error,
     isLoading,
   } = useGetSearchResultsQuery(
     {
@@ -29,22 +36,22 @@ const SearchScreen = () => {
       page: 1,
     },
     { skip: debounceSearchTerm.trim().length >= 1 },
-  );
+  )
 
-  const { data: popularContentData, isLoading: popularLoading } = useGetPopularContentQuery();
+  const { data: popularContentData, isLoading: _popularLoading } = useGetPopularContentQuery()
 
-  const handleSearchBarOnPress = () => searchInputRef.current?.focus();
-  const handleSearchBarRightIconOnPress = () => setKeyword('');
+  const handleSearchBarOnPress = () => searchInputRef.current?.focus()
+  const handleSearchBarRightIconOnPress = () => setKeyword('')
 
   const safeData = useMemo(() => {
     if (shouldTriggerSearch && searchResults?.results?.length) {
-      return searchResults.results;
+      return searchResults.results
     }
-    return popularContentData?.results ?? [];
-  }, [searchResults, popularContentData, shouldTriggerSearch]);
+    return popularContentData?.results ?? []
+  }, [searchResults, popularContentData, shouldTriggerSearch])
 
   const handleItemOnPress = (item: Popular) =>
-    router.push({ pathname: '/movie-details', params: { movie: JSON.stringify(item) } });
+    router.push({ pathname: '/movie-details', params: { movie: JSON.stringify(item) } })
 
   const renderItem = useCallback(
     ({ item }: { item: Popular }) => (
@@ -54,8 +61,9 @@ const SearchScreen = () => {
         containerStyle={{ marginBottom: 12 }}
       />
     ),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [],
-  );
+  )
 
   return (
     <SafeAreaView style={styles.container}>
@@ -81,7 +89,7 @@ const SearchScreen = () => {
         contentContainerStyle={{ gap: 12, paddingHorizontal: 20 }}
       />
     </SafeAreaView>
-  );
-};
+  )
+}
 
-export default SearchScreen;
+export default SearchScreen

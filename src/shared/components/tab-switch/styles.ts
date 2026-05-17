@@ -1,5 +1,6 @@
-import { StyleSheet } from 'react-native';
-import { AppColors } from '@shared/constants/app-colors.ts';
+import { StyleSheet } from 'react-native'
+
+import { AppColors } from '@shared/constants/app-colors.ts'
 
 const styles = StyleSheet.create({
   container: {
@@ -28,6 +29,6 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingVertical: 20,
   },
-});
+})
 
-export default styles;
+export default styles

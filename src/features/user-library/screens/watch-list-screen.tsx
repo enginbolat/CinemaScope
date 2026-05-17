@@ -1,28 +1,31 @@
-import React, { useState } from 'react';
-import { FlatList, View } from 'react-native';
-import { useRouter } from 'expo-router';
+import React, { useState } from 'react'
 
-import { useAppSelector } from '@app/store/store';
-import { Header, MovieCardWithDescription, TabSwitch } from '@shared/components/index';
-import { Popular } from '@shared/models/index';
+import { FlatList, View } from 'react-native'
 
-import styles from './watch-list-screen.styles';
-import { EmptyList } from '../components';
+import { useRouter } from 'expo-router'
 
-const TAB_SWITCH_TITLE = [{ title: 'Watch Later' }, { title: 'Favorites' }];
+import { useAppSelector } from '@app/store/store'
+
+import { Header, MovieCardWithDescription, TabSwitch } from '@shared/components/index'
+import type { Popular } from '@shared/models/index'
+
+import styles from './watch-list-screen.styles'
+import { EmptyList } from '../components'
+
+const TAB_SWITCH_TITLE = [{ title: 'Watch Later' }, { title: 'Favorites' }]
 
 const WatchListScreen = () => {
-  const router = useRouter();
-  const [selectedTab, setSelectedTab] = useState<number>(0);
-  const { watchLater, favorites } = useAppSelector(state => state.main);
-  const selectedTabDataList = selectedTab === 0 ? watchLater : favorites;
+  const router = useRouter()
+  const [selectedTab, setSelectedTab] = useState<number>(0)
+  const { watchLater, favorites } = useAppSelector(state => state.main)
+  const selectedTabDataList = selectedTab === 0 ? watchLater : favorites
 
   const renderItem = ({ item }: { item: Popular }) => (
     <MovieCardWithDescription
       item={item}
       onPress={() => router.push({ pathname: '/movie-details', params: { movie: JSON.stringify(item) } })}
     />
-  );
+  )
 
   return (
     <View style={styles.container}>
@@ -44,7 +47,7 @@ const WatchListScreen = () => {
         />
       )}
     </View>
-  );
-};
+  )
+}
 
-export default WatchListScreen;
+export default WatchListScreen

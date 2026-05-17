@@ -1,66 +1,67 @@
 module.exports = {
   root: true,
+  ignorePatterns: ['*.js', '*.cjs', '*.mjs', 'src/shared/assets/icons/**'],
   extends: [
     '@react-native',
-    'eslint:recommended',
-    'plugin:react/recommended',
     'plugin:@typescript-eslint/recommended',
+    'plugin:react-hooks/recommended',
     'plugin:import/recommended',
     'plugin:import/typescript',
     'prettier',
   ],
   plugins: ['import', '@typescript-eslint'],
+  parser: '@typescript-eslint/parser',
   parserOptions: {
-    ecmaVersion: 2021,
+    ecmaVersion: 'latest',
     sourceType: 'module',
     project: './tsconfig.json',
   },
   rules: {
-    semi: ['error', 'always'],
-    quotes: ['error', 'single'],
+    semi: ['error', 'never'],
     'no-unused-vars': 'off',
-    '@typescript-eslint/no-unused-vars': ['warn'],
+    '@typescript-eslint/no-unused-vars': [
+      'error',
+      { vars: 'all', args: 'after-used', ignoreRestSiblings: true, argsIgnorePattern: '^_', varsIgnorePattern: '^_', caughtErrorsIgnorePattern: '^_' },
+    ],
+
+    'no-trailing-spaces': 'error',
+    'no-multiple-empty-lines': ['error', { max: 1, maxEOF: 0, maxBOF: 0 }],
+    'padded-blocks': ['error', 'never'],
+    '@typescript-eslint/no-explicit-any': 'error',
+    quotes: ['error', 'single'],
+    'react/react-in-jsx-scope': 'off',
+    'react/prop-types': 'off',
+    '@typescript-eslint/consistent-type-imports': ['error', { prefer: 'type-imports' }],
     'no-console': ['warn', { allow: ['warn', 'error'] }],
     'import/order': [
       'error',
       {
-        groups: [
-          'builtin', // react, react-native
-          'external', // 3rd party
-          'internal', // alias
-          ['parent', 'sibling', 'index'], // local
-        ],
+        groups: ['builtin', 'external', 'internal', ['parent', 'sibling', 'index']],
         pathGroups: [
-          {
-            pattern: 'react',
-            group: 'builtin',
-            position: 'before',
-          },
-          {
-            pattern: 'react-native',
-            group: 'builtin',
-            position: 'after',
-          },
-          {
-            pattern: '@/**',
-            group: 'internal',
-            position: 'after',
-          },
+          { pattern: 'react',              group: 'external', position: 'before' },
+          { pattern: 'react-native',       group: 'external', position: 'before' },
+          { pattern: 'react-*',            group: 'external', position: 'before' },
+          { pattern: 'expo',               group: 'external', position: 'before' },
+          { pattern: 'expo-*',             group: 'external', position: 'before' },
+          { pattern: '@app/**',            group: 'internal', position: 'before' },
+          { pattern: '@features/**',       group: 'internal', position: 'before' },
+          { pattern: '@shared/**',         group: 'internal', position: 'before' },
+          { pattern: '@core/**',           group: 'internal', position: 'before' },
         ],
-        pathGroupsExcludedImportTypes: ['builtin'],
-        alphabetize: {
-          order: 'asc',
-          caseInsensitive: true,
-        },
+        pathGroupsExcludedImportTypes: ['react', 'react-native'],
+        alphabetize: { order: 'asc', caseInsensitive: true },
         'newlines-between': 'always',
       },
     ],
+    'import/no-unresolved': 'off',
+    'import/no-named-as-default': 'off',
+    'import/no-named-as-default-member': 'off',
+    'react-native/no-inline-styles': 'off',
   },
   settings: {
     'import/resolver': {
-      typescript: {
-        project: './tsconfig.json',
-      },
+      typescript: { project: './tsconfig.json' },
+      node: { extensions: ['.js', '.jsx', '.ts', '.tsx'] },
     },
   },
-};
+}

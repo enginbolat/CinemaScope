@@ -1,6 +1,6 @@
-import { AppEndpoints } from '@shared/constants/app-endpoints';
-import { api } from '@shared/api/base-api';
-import { RootPopular } from '@shared/models/index';
+import { api } from '@shared/api/base-api'
+import { AppEndpoints } from '@shared/constants/app-endpoints'
+import type { RootPopular } from '@shared/models/index'
 
 type SearchRequestParams = {
   query: string;
@@ -17,6 +17,6 @@ export const searchApi = api.injectEndpoints({
     }),
   }),
   overrideExisting: false,
-});
+})
 
-export const { useGetSearchResultsQuery } = searchApi;
+export const { useGetSearchResultsQuery } = searchApi

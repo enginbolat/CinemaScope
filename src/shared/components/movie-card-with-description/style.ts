@@ -1,7 +1,8 @@
-import { Dimensions, StyleSheet } from 'react-native';
-import { scaleHeight, scaleWidth } from '@shared/helpers/helper';
+import { Dimensions, StyleSheet } from 'react-native'
 
-const { width } = Dimensions.get('window');
+import { scaleHeight, scaleWidth } from '@shared/helpers/helper'
+
+const { width } = Dimensions.get('window')
 
 export const styles = StyleSheet.create({
   container: {
@@ -28,4 +29,4 @@ export const styles = StyleSheet.create({
   overview: {
     width: width - scaleWidth(165),
   },
-});
+})

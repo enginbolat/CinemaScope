@@ -1,27 +1,29 @@
-import { createApi } from '@reduxjs/toolkit/query/react';
-import axios, { AxiosRequestConfig } from 'axios';
-import { BASE_URL } from '@shared/constants/app-config';
+import { createApi } from '@reduxjs/toolkit/query/react'
+import type { AxiosRequestConfig } from 'axios'
+import axios from 'axios'
+
+import { BASE_URL } from '@shared/constants/app-config'
 
 export type NetworkLog = {
   id: number;
   method?: string;
   type: 'request' | 'response' | 'error';
   url?: string;
-  data?: any;
+  data?: unknown;
   body?: object;
-  headers: any;
+  headers: Record<string, unknown>;
   date?: string;
 };
 
-export let requestLogs: NetworkLog[] = [];
-let idCounter = 0;
+export const requestLogs: NetworkLog[] = []
+let idCounter = 0
 
 const axiosInstance = axios.create({
   baseURL: BASE_URL,
   headers: {
     'Content-Type': 'application/json',
   },
-});
+})
 
 axiosInstance.interceptors.request.use(
   config => {
@@ -37,12 +39,12 @@ axiosInstance.interceptors.request.use(
         Authorization: `Bearer ${process.env.EXPO_PUBLIC_API_REQUEST_TOKEN}`,
       },
       date: new Date().toISOString(),
-    });
+    })
 
-    return config;
+    return config
   },
   error => Promise.reject(error),
-);
+)
 
 axiosInstance.interceptors.response.use(
   response => {
@@ -57,8 +59,8 @@ axiosInstance.interceptors.response.use(
         Authorization: `Bearer ${process.env.EXPO_PUBLIC_API_REQUEST_TOKEN}`,
       },
       date: new Date().toISOString(),
-    });
-    return response.data;
+    })
+    return response.data
   },
   error => {
     requestLogs.push({
@@ -69,12 +71,12 @@ axiosInstance.interceptors.response.use(
       data: error.message,
       headers: error.headers,
       date: new Date().toISOString(),
-    });
-    return Promise.reject(error);
+    })
+    return Promise.reject(error)
   },
-);
+)
 
-export default axiosInstance;
+export default axiosInstance
 
 type IAxiosBaseQuery = {
   url: AxiosRequestConfig['url'];
@@ -97,20 +99,20 @@ const axiosBaseQuery =
           ...headers,
           Authorization: `Bearer ${process.env.EXPO_PUBLIC_API_REQUEST_TOKEN}`,
         },
-      });
-      return { data: result };
-    } catch (axiosError: any) {
-      const err = axiosError;
+      })
+      return { data: result }
+    } catch (axiosError) {
+      const err = axiosError as { response?: { status: number; data: unknown }; message: string }
       return {
         error: {
           status: err.response?.status,
           data: err.response?.data || err.message,
         },
-      };
+      }
     }
-  };
+  }
 
 export const api = createApi({
   baseQuery: axiosBaseQuery({ baseUrl: BASE_URL }),
   endpoints: () => ({}),
-});
+})

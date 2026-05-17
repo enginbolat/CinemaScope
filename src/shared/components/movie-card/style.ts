@@ -1,5 +1,6 @@
-import { scaleWidth, scaleHeight } from "@shared/helpers/helper";
-import { StyleSheet } from "react-native";
+import { StyleSheet } from 'react-native'
+
+import { scaleWidth, scaleHeight } from '@shared/helpers/helper'
 
 export const styles = StyleSheet.create({
   container: {
@@ -23,4 +24,4 @@ export const styles = StyleSheet.create({
     color: 'white',
     flexShrink: 1
   }
-});
+})

@@ -53,4 +53,4 @@ export const AppColors = {
   red: {
     100: '#e50914',
   },
-} as const;
+} as const

@@ -1,6 +1,7 @@
-import { StyleSheet } from 'react-native';
-import { AppColors } from '@shared/constants/app-colors';
-import { STATIC_PADDING } from '@shared/constants/app-constants';
+import { StyleSheet } from 'react-native'
+
+import { AppColors } from '@shared/constants/app-colors'
+import { STATIC_PADDING } from '@shared/constants/app-constants'
 
 export const styles = StyleSheet.create({
   f1: {
@@ -21,4 +22,4 @@ export const styles = StyleSheet.create({
     gap: 8,
     paddingHorizontal: STATIC_PADDING,
   },
-});
+})

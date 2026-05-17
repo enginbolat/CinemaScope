@@ -1,6 +1,6 @@
-import { AppEndpoints } from '@shared/constants/app-endpoints';
-import { api } from '@shared/api/base-api';
-import { MovieDetails, CastRoot } from '@shared/models/index';
+import { api } from '@shared/api/base-api'
+import { AppEndpoints } from '@shared/constants/app-endpoints'
+import type { MovieDetails, CastRoot } from '@shared/models/index'
 
 export const movieDetailsApi = api.injectEndpoints({
   endpoints: build => ({
@@ -18,9 +18,9 @@ export const movieDetailsApi = api.injectEndpoints({
     }),
   }),
   overrideExisting: false,
-});
+})
 
 export const {
   useMovieDetailsByIdQuery,
   useMovieCastByMovieIdQuery,
-} = movieDetailsApi;
+} = movieDetailsApi

@@ -1,5 +1,6 @@
-import Svg, { Path } from 'react-native-svg';
-import { IconProps } from './icon-props';
+import Svg, { Path } from 'react-native-svg'
+
+import type { IconProps } from './icon-props'
 
 const HeartOutline = ({ size, color }: IconProps) => (
   <Svg width={size ?? '24'} height={size ?? '24'} viewBox="0 0 24 24" fill="none">
@@ -8,7 +9,6 @@ const HeartOutline = ({ size, color }: IconProps) => (
       fill={color ?? 'black'}
     />
   </Svg>
-);
+)
 
-export default HeartOutline;
-
+export default HeartOutline

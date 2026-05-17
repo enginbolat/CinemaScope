@@ -1,18 +1,19 @@
-import React, { useMemo } from 'react';
-import { ActivityIndicator, TouchableOpacity } from 'react-native';
+import React, { useMemo } from 'react'
 
-import { AppColors } from '@shared/constants/app-colors';
-import Text from '@shared/components/text';
-import Icon from '@shared/components/icon';
+import { ActivityIndicator, TouchableOpacity } from 'react-native'
 
-import { IButton } from './type';
-import { rawStyle } from './style';
+import Icon from '@shared/components/icon'
+import Text from '@shared/components/text'
+import { AppColors } from '@shared/constants/app-colors'
+
+import { rawStyle } from './style'
+import type { IButton } from './type'
 
 const Button = (props: IButton) => {
-  const { onPress, text, loading, textStyle, disabled, style, textType = 'regularBody16', leftIcon, rightIcon } = props;
+  const { onPress, text, loading, textStyle, disabled, style, textType = 'regularBody16', leftIcon, rightIcon } = props
 
-  const isDisabled = useMemo(() => loading || disabled, [loading, disabled]);
-  const innerStyle = rawStyle(isDisabled);
+  const isDisabled = useMemo(() => loading || disabled, [loading, disabled])
+  const innerStyle = rawStyle(isDisabled)
 
   return (
     <TouchableOpacity onPress={onPress} style={[innerStyle.container, style]} disabled={disabled}>
@@ -24,7 +25,7 @@ const Button = (props: IButton) => {
       )}
       {rightIcon && !loading && <Icon name={rightIcon} height={24} width={24} />}
     </TouchableOpacity>
-  );
-};
+  )
+}
 
-export default Button;
+export default Button

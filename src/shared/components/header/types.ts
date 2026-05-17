@@ -1,5 +1,5 @@
-import { IconType } from "@shared/assets/icons";
-import { AppTextType } from "@shared/constants/app-text-type";
+import type { IconType } from '@shared/assets/icons'
+import type { AppTextType } from '@shared/constants/app-text-type'
 
 export type IHeaderProps = {
     isHaveHeader?: boolean;

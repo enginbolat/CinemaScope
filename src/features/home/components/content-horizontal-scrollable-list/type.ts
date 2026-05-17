@@ -1,4 +1,4 @@
-import { Popular } from '@shared/models/popular';
+import type { Popular } from '@shared/models/popular'
 
 export type Props = {
   title: string;

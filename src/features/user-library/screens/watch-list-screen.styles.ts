@@ -1,6 +1,7 @@
-import { StyleSheet } from 'react-native';
-import { AppColors } from '@shared/constants/app-colors';
-import { STATIC_PADDING } from '@shared/constants/app-constants';
+import { StyleSheet } from 'react-native'
+
+import { AppColors } from '@shared/constants/app-colors'
+import { STATIC_PADDING } from '@shared/constants/app-constants'
 
 const styles = StyleSheet.create({
   container: {
@@ -28,6 +29,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
   },
-});
+})
 
-export default styles;
+export default styles

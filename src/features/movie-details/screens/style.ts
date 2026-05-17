@@ -1,7 +1,8 @@
-import { AppColors } from '@shared/constants/app-colors';
-import { STATIC_PADDING } from '@shared/constants/app-constants';
-import { scale, scaleHeight } from '@shared/helpers/helper';
-import { StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native'
+
+import { AppColors } from '@shared/constants/app-colors'
+import { STATIC_PADDING } from '@shared/constants/app-constants'
+import { scale, scaleHeight } from '@shared/helpers/helper'
 
 export const styles = StyleSheet.create({
   f1: {
@@ -86,4 +87,4 @@ export const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: AppColors.primary,
   },
-});
+})

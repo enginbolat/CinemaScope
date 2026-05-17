@@ -1,6 +1,6 @@
-import { TextInputProps } from 'react-native/Libraries/Components/TextInput/TextInput';
-import { IconType } from '@shared/assets/icons';
-import { StyleProp, ViewStyle } from 'react-native';
+import type { StyleProp, ViewStyle ,TextInputProps} from 'react-native'
+
+import type { IconType } from '@shared/assets/icons'
 
 export interface TextInput extends TextInputProps {
   showLeftIcon?: boolean;

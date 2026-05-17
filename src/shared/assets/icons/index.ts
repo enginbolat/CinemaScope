@@ -1,12 +1,12 @@
-import HomeIcon from './home-icon';
-import AccessTimeIcon from './access-time-icon';
-import BookmarkIcon from './bookmark-icon';
-import OndemandVideoIcon from './ondemand-video-icon';
-import { Star } from './star';
-import ChevronLeft from './chevron-left';
-import HeartOutline from './heart-outline';
-import HeartFilled from './heart-filled';
-import { Search } from './search';
+import AccessTimeIcon from './access-time-icon'
+import BookmarkIcon from './bookmark-icon'
+import ChevronLeft from './chevron-left'
+import HeartFilled from './heart-filled'
+import HeartOutline from './heart-outline'
+import HomeIcon from './home-icon'
+import OndemandVideoIcon from './ondemand-video-icon'
+import { Search } from './search'
+import { Star } from './star'
 
 const Icons = {
   HomeIcon,
@@ -18,7 +18,7 @@ const Icons = {
   HeartOutline,
   HeartFilled,
   Search,
-};
+}
 
 export type IconType = keyof typeof Icons;
-export default Icons;
+export default Icons

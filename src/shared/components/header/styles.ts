@@ -1,6 +1,7 @@
-import { AppColors } from '@shared/constants/app-colors';
-import { scaleHeight, scaleWidth } from '@shared/helpers/helper';
-import { StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native'
+
+import { AppColors } from '@shared/constants/app-colors'
+import { scaleHeight, scaleWidth } from '@shared/helpers/helper'
 
 export const styles = StyleSheet.create({
   container: {
@@ -35,4 +36,4 @@ export const styles = StyleSheet.create({
   bgColorPrimary: {
     backgroundColor: AppColors.primary,
   },
-});
+})

@@ -1,40 +1,45 @@
-import Text from '@shared/components/text';
-import React, { FC, useState } from 'react';
-import { LayoutChangeEvent, Pressable, View } from 'react-native';
-import { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
-import Animated from 'react-native-reanimated';
-import { IDimensions, ITabSwitch } from '@shared/components/tab-switch/types';
-import styles from './styles';
-import { AppColors } from '@shared/constants/app-colors';
-import { runOnJS } from 'react-native-worklets';
+import type { FC} from 'react'
+import React, { useState } from 'react'
+
+import type { LayoutChangeEvent} from 'react-native'
+import { Pressable, View } from 'react-native'
+
+import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
+import { runOnJS } from 'react-native-worklets'
+
+import type { IDimensions, ITabSwitch } from '@shared/components/tab-switch/types'
+import Text from '@shared/components/text'
+import { AppColors } from '@shared/constants/app-colors'
+
+import styles from './styles'
 
 const TabSwitch: FC<ITabSwitch> = ({ buttons, selectedTab, setSelectedTab }) => {
-  const [dimensions, setDimensions] = useState<IDimensions>({ height: 20, width: 100 });
-  const tabPositionX = useSharedValue(0);
+  const [dimensions, setDimensions] = useState<IDimensions>({ height: 20, width: 100 })
+  const tabPositionX = useSharedValue(0)
 
-  const buttonWidth = dimensions.width / buttons.length;
+  const buttonWidth = dimensions.width / buttons.length
 
   const onTabBarLayout = (e: LayoutChangeEvent) => {
     setDimensions({
       width: e.nativeEvent.layout.width,
       height: e.nativeEvent.layout.height,
-    });
-  };
+    })
+  }
 
-  const handlePress = (index: number) => setSelectedTab(index);
+  const handlePress = (index: number) => setSelectedTab(index)
 
   const onTabPress = (index: number) => {
-    'worklet';
+    'worklet'
 
-    tabPositionX.value = withTiming(buttonWidth * index, {}, () => runOnJS(handlePress)(index));
-  };
+    tabPositionX.value = withTiming(buttonWidth * index, {}, () => runOnJS(handlePress)(index))
+  }
   const animatedStyle = useAnimatedStyle(() => {
-    'worklet';
+    'worklet'
 
     return {
       transform: [{ translateX: tabPositionX.value }],
-    };
-  });
+    }
+  })
 
   return (
     <View style={styles.container}>
@@ -43,8 +48,8 @@ const TabSwitch: FC<ITabSwitch> = ({ buttons, selectedTab, setSelectedTab }) => 
       />
       <View style={styles.textContainer} onLayout={onTabBarLayout}>
         {buttons.map((button, index) => {
-          const disabledColor = index !== selectedTab ? AppColors.white50 : AppColors.white;
-          const isButtonDisabled = index === selectedTab;
+          const disabledColor = index !== selectedTab ? AppColors.white50 : AppColors.white
+          const isButtonDisabled = index === selectedTab
           return (
             <Pressable
               key={index}
@@ -53,11 +58,11 @@ const TabSwitch: FC<ITabSwitch> = ({ buttons, selectedTab, setSelectedTab }) => 
               disabled={index === selectedTab}>
               <Text style={[styles.title, { color: disabledColor }]} text={button.title} disabled={isButtonDisabled} />
             </Pressable>
-          );
+          )
         })}
       </View>
     </View>
-  );
-};
+  )
+}
 
-export default TabSwitch;
+export default TabSwitch

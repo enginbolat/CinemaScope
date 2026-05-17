@@ -1,9 +1,12 @@
-import { configureStore } from '@reduxjs/toolkit';
-import { TypedUseSelectorHook, useDispatch as useReduxDispatch, useSelector } from 'react-redux';
+import type { TypedUseSelectorHook} from 'react-redux'
+import { useDispatch as useReduxDispatch, useSelector } from 'react-redux'
 
-import { setupListeners } from '@reduxjs/toolkit/query/react';
-import { api } from '@shared/api/base-api';
-import userLibrarySlice from '@features/user-library/store/user-library-slice';
+import { configureStore } from '@reduxjs/toolkit'
+import { setupListeners } from '@reduxjs/toolkit/query/react'
+
+import userLibrarySlice from '@features/user-library/store/user-library-slice'
+
+import { api } from '@shared/api/base-api'
 
 export const store = configureStore({
     reducer: {
@@ -11,10 +14,10 @@ export const store = configureStore({
         [api.reducerPath]: api.reducer
     },
     middleware: (defaultMiddleware) => defaultMiddleware().concat(api.middleware)
-});
+})
 
-setupListeners(store.dispatch);
+setupListeners(store.dispatch)
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
-export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
-export const useAppDispatch = () => useReduxDispatch<AppDispatch>();
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
+export const useAppDispatch = () => useReduxDispatch<AppDispatch>()

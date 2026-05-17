@@ -39,4 +39,4 @@ export const en = {
       addedSuccessfulyToFavorites: 'Added Successfuly to Favorites',
     },
   },
-};
+}

@@ -1,5 +1,6 @@
-import Svg, { Path } from 'react-native-svg';
-import { IconProps } from './icon-props';
+import Svg, { Path } from 'react-native-svg'
+
+import type { IconProps } from './icon-props'
 
 export const Star = ({ width, height, color }: IconProps) => (
   <Svg width={width ?? '24'} height={height ?? '24'} viewBox="0 0 24 24" fill="none">
@@ -8,4 +9,4 @@ export const Star = ({ width, height, color }: IconProps) => (
       fill={color ?? 'white'}
     />
   </Svg>
-);
+)

@@ -1,9 +1,10 @@
-import { Text } from '@shared/components/index';
-import { AppColors } from '@shared/constants/app-colors';
-import { Genre } from '@shared/models/genre';
-import { View } from 'react-native';
+import { View } from 'react-native'
 
-import { styles } from '../../screens/style';
+import { Text } from '@shared/components/index'
+import { AppColors } from '@shared/constants/app-colors'
+import type { Genre } from '@shared/models/genre'
+
+import { styles } from '../../screens/style'
 
 type Props = {
   genres: Genre[] | undefined;
@@ -19,6 +20,6 @@ const GenreAndReleaseDate = ({ genres, releaseDate }: Props) => (
     </View>
     {releaseDate && <Text text={releaseDate} color={AppColors.white50} />}
   </View>
-);
+)
 
-export default GenreAndReleaseDate;
+export default GenreAndReleaseDate

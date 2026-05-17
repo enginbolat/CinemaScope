@@ -1,4 +1,4 @@
-import { en } from './lang/en';
+import type { en } from './lang/en'
 
 export type TranslationKeys = typeof en;
 
@@ -9,4 +9,3 @@ export type DotNotation<T, P extends string = ''> = T extends object
         : never;
     }[keyof T]
     : P;
-    

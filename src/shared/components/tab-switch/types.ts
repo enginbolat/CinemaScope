@@ -1,5 +1,3 @@
-import { ViewStyle } from 'react-native';
-
 export type TabButtonType = {
   title: string;
 };

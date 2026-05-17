@@ -1,24 +1,45 @@
-import React, { Suspense, useCallback, useMemo, useRef } from 'react';
-import { ActivityIndicator, ScrollView, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { Image } from 'expo-image';
-import { useLocalSearchParams } from 'expo-router';
+import React, { Suspense, useMemo, useRef } from 'react'
 
-import { useMovieCastByMovieIdQuery, useMovieDetailsByIdQuery } from '@features/movie-details/api/movie-details-api';
-import useLocalStorage from '@shared/hooks/use-local-storage';
-import { Header, BottomSheet, Button } from '@shared/components/index';
-import { AppColors } from '@shared/constants/app-colors';
-import { BASE_W500_URL } from '@shared/constants/app-config';
-import { useAppDispatch, useAppSelector } from '@app/store/store';
-import { Popular } from '@shared/models/popular';
-import { IFavoriteAndWatchLater, setFavories, setWatchLater } from '@features/user-library/store/user-library-slice';
-import { useTranslation } from 'react-i18next';
+import { ActivityIndicator, ScrollView, View } from 'react-native'
 
-import GorhomBottomSheet from '@gorhom/bottom-sheet';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useTranslation } from 'react-i18next'
+import { SafeAreaView , useSafeAreaInsets } from 'react-native-safe-area-context'
 
-import { styles } from './style';
+import { Image } from 'expo-image'
+import { useLocalSearchParams } from 'expo-router'
 
+import type GorhomBottomSheet from '@gorhom/bottom-sheet'
+
+import { useAppDispatch, useAppSelector } from '@app/store/store'
+
+import { useMovieCastByMovieIdQuery, useMovieDetailsByIdQuery } from '@features/movie-details/api/movie-details-api'
+import type { IFavoriteAndWatchLater} from '@features/user-library/store/user-library-slice'
+import { setFavories, setWatchLater } from '@features/user-library/store/user-library-slice'
+
+import { Header, BottomSheet, Button } from '@shared/components/index'
+import { AppColors } from '@shared/constants/app-colors'
+import { BASE_W500_URL } from '@shared/constants/app-config'
+import useLocalStorage from '@shared/hooks/use-local-storage'
+import type { Popular } from '@shared/models/popular'
+
+const Loading = () => (
+  <View style={[{ flex: 1 }, { alignItems: 'center' }]}>
+    <ActivityIndicator color={AppColors.white} />
+  </View>
+)
+
+type HeroImageProps = { backdropPath?: string }
+const HeroImage = ({ backdropPath }: HeroImageProps) => (
+  <Image
+    source={{ uri: BASE_W500_URL + backdropPath }}
+    style={{ width: '100%', height: 250 }}
+    priority="normal"
+    cachePolicy="memory-disk"
+    transition={1000}
+  />
+)
+
+import { styles } from './style'
 import {
   CastList,
   GenreAndReleaseDate,
@@ -27,36 +48,36 @@ import {
   TitleAndRating,
   WatchListBottomSheetBody,
   AddFavoriteBottomSheetBody,
-} from '../components';
+} from '../components'
 
 const MovieDetailsScreen = () => {
-  const { t } = useTranslation();
-  const { SaveToStorageJSON } = useLocalStorage();
-  const dispatch = useAppDispatch();
-  const insets = useSafeAreaInsets();
+  const { t } = useTranslation()
+  const { SaveToStorageJSON } = useLocalStorage()
+  const dispatch = useAppDispatch()
+  const insets = useSafeAreaInsets()
 
-  const bottomSheetRef = useRef<GorhomBottomSheet>(null);
-  const { favorites, watchLater } = useAppSelector(state => state.main);
-  const watchListBottomSheetRef = useRef<GorhomBottomSheet>(null);
-  const params = useLocalSearchParams<{ movie: string }>();
-  const movie = JSON.parse(params.movie) as Popular;
+  const bottomSheetRef = useRef<GorhomBottomSheet>(null)
+  const { favorites, watchLater } = useAppSelector(state => state.main)
+  const watchListBottomSheetRef = useRef<GorhomBottomSheet>(null)
+  const params = useLocalSearchParams<{ movie: string }>()
+  const movie = JSON.parse(params.movie) as Popular
 
   const {
     data: movieDetails,
     isLoading: movieDetailsIsLoading,
-    error: movieDetailsError,
-  } = useMovieDetailsByIdQuery(movie.id.toString());
+    error: _movieDetailsError,
+  } = useMovieDetailsByIdQuery(movie.id.toString())
 
   const {
     data: movieCast,
     isLoading: movieCastLoading,
-    error: movieCastError,
-  } = useMovieCastByMovieIdQuery(movie.id.toString());
+    error: _movieCastError,
+  } = useMovieCastByMovieIdQuery(movie.id.toString())
 
-  const isPageLoading = movieCastLoading || movieDetailsIsLoading;
+  const isPageLoading = movieCastLoading || movieDetailsIsLoading
 
   const handleAddFavorites = (id: string) => {
-    const isFavoriteExist = favorites.some(item => item.id?.toString() === id);
+    const isFavoriteExist = favorites.some(item => item.id?.toString() === id)
     const newUpdatedArray: IFavoriteAndWatchLater[] = isFavoriteExist
       ? favorites.filter(item => item.id?.toString() !== id)
       : [
@@ -65,15 +86,15 @@ const MovieDetailsScreen = () => {
             type: 'tvShow',
             ...movie!,
           },
-        ];
+        ]
 
-    dispatch(setFavories(newUpdatedArray));
-    SaveToStorageJSON('FAVORITES', newUpdatedArray);
-    if (!isFavoriteExist) bottomSheetRef.current?.expand();
-  };
+    dispatch(setFavories(newUpdatedArray))
+    SaveToStorageJSON('FAVORITES', newUpdatedArray)
+    if (!isFavoriteExist) bottomSheetRef.current?.expand()
+  }
 
   const handleAddWatchList = (id: string) => {
-    const isItemExistInWatchList = watchLater.some(item => item?.id?.toString() === id);
+    const isItemExistInWatchList = watchLater.some(item => item?.id?.toString() === id)
     const newUpdatedArray: IFavoriteAndWatchLater[] = isItemExistInWatchList
       ? watchLater.filter(item => item?.id?.toString() !== id)
       : [
@@ -82,40 +103,22 @@ const MovieDetailsScreen = () => {
             type: 'tvShow',
             ...movie!,
           },
-        ];
-    dispatch(setWatchLater(newUpdatedArray));
-    SaveToStorageJSON('WATCHLATER', newUpdatedArray);
-    if (!isItemExistInWatchList) watchListBottomSheetRef.current?.expand();
-  };
+        ]
+    dispatch(setWatchLater(newUpdatedArray))
+    SaveToStorageJSON('WATCHLATER', newUpdatedArray)
+    if (!isItemExistInWatchList) watchListBottomSheetRef.current?.expand()
+  }
 
   const watchLaterButtonText = watchLater.some(item => item?.id?.toString() === movie.id.toString())
     ? t('app.details.removeWatchLater')
-    : t('app.details.addWatchList');
+    : t('app.details.addWatchList')
 
   const rightIconName = useMemo(() => {
-    if (isPageLoading) return undefined;
-    if (favorites.some(item => item?.id?.toString() === movie.id.toString())) return 'HeartFilled';
-    return 'HeartOutline';
-  }, [isPageLoading, favorites]);
-
-  const HeroImage = useCallback(
-    () => (
-      <Image
-        source={{ uri: BASE_W500_URL + movieDetails?.backdrop_path }}
-        style={styles.heroImage}
-        priority="normal"
-        cachePolicy="memory-disk"
-        transition={1000}
-      />
-    ),
-    [movie, movieDetails],
-  );
-
-  const Loading = () => (
-    <View style={[styles.f1, styles.alignItemCenter]}>
-      <ActivityIndicator color={AppColors.white} />
-    </View>
-  );
+    if (isPageLoading) return undefined
+    if (favorites.some(item => item?.id?.toString() === movie.id.toString())) return 'HeartFilled'
+    return 'HeartOutline'
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isPageLoading, favorites])
 
   return (
     <View style={styles.rootContainer}>
@@ -132,7 +135,7 @@ const MovieDetailsScreen = () => {
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}>
           <Suspense fallback={<Loading />}>
-            <HeroImage />
+            <HeroImage backdropPath={movieDetails?.backdrop_path} />
             <TitleAndRating title={movie.title} voteAverage={movieDetails?.vote_average ?? movie.vote_average} />
             <View style={styles.addWatchListButtonContainer}>
               <Button
@@ -164,7 +167,7 @@ const MovieDetailsScreen = () => {
         <WatchListBottomSheetBody onPress={() => watchListBottomSheetRef.current?.close()} />
       </BottomSheet>
     </View>
-  );
-};
+  )
+}
 
-export default MovieDetailsScreen;
+export default MovieDetailsScreen

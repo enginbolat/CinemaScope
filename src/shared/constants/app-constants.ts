@@ -1,4 +1,4 @@
-export const STATIC_PADDING = 20;
+export const STATIC_PADDING = 20
 
 export const AppSpacing = {
   unit: 4,
@@ -8,7 +8,7 @@ export const AppSpacing = {
   lg: 20,
   xl: 32,
   xxl: 48,
-} as const;
+} as const
 
 export const AppRadius = {
   sm: 4,
@@ -17,4 +17,4 @@ export const AppRadius = {
   xl: 16,
   xxl: 24,
   full: 9999,
-} as const;
+} as const

@@ -39,4 +39,4 @@ export const tr = {
       addedSuccessfulyToFavorites: 'Başarıyla Favorilere Eklendi',
     },
   },
-};
+}

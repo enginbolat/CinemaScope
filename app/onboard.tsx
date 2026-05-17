@@ -1,3 +1,3 @@
-import OnboardScreen from '@features/onboard/screens/onboard-screen';
+import OnboardScreen from '@features/onboard/screens/onboard-screen'
 
-export default OnboardScreen;
+export default OnboardScreen

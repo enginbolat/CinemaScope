@@ -1,6 +1,7 @@
-import { StyleSheet } from 'react-native';
-import { AppColors } from '@shared/constants/app-colors.ts';
-import { scaleHeight } from '@shared/helpers/helper.ts';
+import { StyleSheet } from 'react-native'
+
+import { AppColors } from '@shared/constants/app-colors.ts'
+import { scaleHeight } from '@shared/helpers/helper.ts'
 
 export const styles = StyleSheet.create({
   container: {
@@ -20,4 +21,4 @@ export const styles = StyleSheet.create({
   f1: {
     flex: 1,
   },
-});
+})

@@ -1,3 +1,3 @@
-import NetworkLogScreen from '@features/dev-tools/screens/network-log-screen';
+import NetworkLogScreen from '@features/dev-tools/screens/network-log-screen'
 
-export default NetworkLogScreen;
+export default NetworkLogScreen

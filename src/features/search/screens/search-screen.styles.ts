@@ -1,6 +1,7 @@
-import { AppColors } from '@shared/constants/app-colors';
-import { STATIC_PADDING } from '@shared/constants/app-constants';
-import { StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native'
+
+import { AppColors } from '@shared/constants/app-colors'
+import { STATIC_PADDING } from '@shared/constants/app-constants'
 
 const styles = StyleSheet.create({
   container: {
@@ -11,6 +12,6 @@ const styles = StyleSheet.create({
   ph: {
     paddingHorizontal: STATIC_PADDING,
   },
-});
+})
 
-export default styles;
+export default styles

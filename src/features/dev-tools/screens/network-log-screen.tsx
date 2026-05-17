@@ -1,12 +1,20 @@
-import React, { FC, useState } from 'react';
-import { FlatList, Text as RNText, View, Pressable, TouchableOpacity, Alert } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { NetworkLog, requestLogs } from '@shared/api/base-api';
-import { Icon, Text } from '@shared/components/index';
-import { useAppDispatch } from '@app/store/store';
-import { setFavories, setWatchLater } from '@features/user-library/store/user-library-slice';
-import useLocalStorage from '@shared/hooks/use-local-storage';
-import { styles } from './network-log-screen.styles';
+import type { FC } from 'react'
+import React, { useState } from 'react'
+
+import { FlatList, Text as RNText, View, Pressable, TouchableOpacity, Alert } from 'react-native'
+
+import { SafeAreaView } from 'react-native-safe-area-context'
+
+import { useAppDispatch } from '@app/store/store'
+
+import { setFavories, setWatchLater } from '@features/user-library/store/user-library-slice'
+
+import type { NetworkLog } from '@shared/api/base-api'
+import { requestLogs } from '@shared/api/base-api'
+import { Icon, Text } from '@shared/components/index'
+import useLocalStorage from '@shared/hooks/use-local-storage'
+
+import { styles } from './network-log-screen.styles'
 
 type Props = {
   index: number;
@@ -15,7 +23,7 @@ type Props = {
   entry: NetworkLog;
 };
 const RequestDetails: FC<Props> = props => {
-  const { index, expandedIndex, entry, setExpandedIndex } = props;
+  const { index, expandedIndex, entry, setExpandedIndex } = props
   return (
     <View key={index}>
       <Pressable onPress={() => setExpandedIndex(expandedIndex === index ? null : index)}>
@@ -37,72 +45,73 @@ const RequestDetails: FC<Props> = props => {
         </View>
       )}
     </View>
-  );
-};
+  )
+}
 
 const formatDate = (date: string) =>
-  new Date(date).toLocaleString('tr-TR', { day: 'numeric', month: 'long', hour: 'numeric', minute: '2-digit' });
+  new Date(date).toLocaleString('tr-TR', { day: 'numeric', month: 'long', hour: 'numeric', minute: '2-digit' })
 
 const NetworkLogScreen = () => {
-  const dispatch = useAppDispatch();
-  const { RemoveFromStorage } = useLocalStorage();
-  const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
-  const [expandedIndexDetails, setExpandedIndexDetails] = useState<number | null>(null);
+  const dispatch = useAppDispatch()
+  const { RemoveFromStorage } = useLocalStorage()
+  const [expandedIndex, setExpandedIndex] = useState<number | null>(null)
+  const [expandedIndexDetails, setExpandedIndexDetails] = useState<number | null>(null)
 
   const onPressCleanButton = () => {
     Alert.alert('State Sıfırlama Aracı', '', [
       {
         text: 'Favoriler',
         onPress: async () => {
-          dispatch(setFavories([]));
-          await RemoveFromStorage('FAVORITES');
+          dispatch(setFavories([]))
+          await RemoveFromStorage('FAVORITES')
         },
       },
       {
         text: 'Daha Sonra İzle',
         onPress: async () => {
-          dispatch(setWatchLater([]));
-          await RemoveFromStorage('WATCHLATER');
+          dispatch(setWatchLater([]))
+          await RemoveFromStorage('WATCHLATER')
         },
       },
       {
         text: 'İptal',
         style: 'cancel',
       },
-    ]);
-  };
+    ])
+  }
   const renderItem = ({ item, index }: { item: NetworkLog; index: number }) => {
-    let parsedData: any = null;
+    let parsedData: unknown = null
     try {
-      parsedData = typeof item.data === 'string' ? JSON.parse(item.data) : item.data;
-    } catch (e) {
-      parsedData = item.data;
+      parsedData = typeof item.data === 'string' ? JSON.parse(item.data) : item.data
+    } catch (_e) {
+      parsedData = item.data
     }
 
-    const resultsList = Array.isArray(parsedData?.results) ? parsedData.results : [];
+    const parsed = parsedData as { results?: NetworkLog[] } | null
+    const resultsList = Array.isArray(parsed?.results) ? parsed?.results : []
 
     const makeCurl = () => {
       if (!item || !item.url || !item.method || !item.headers) {
-        console.warn('Missing required fields for curl');
-        return;
+        console.warn('Missing required fields for curl')
+        return
       }
 
-      const curlParts = [`curl -X ${item.method.toUpperCase()} "${item.url}"`];
+      const curlParts = [`curl -X ${item.method.toUpperCase()} "${item.url}"`]
 
       Object.entries(item.headers).forEach(([key, value]) => {
         if (value !== undefined && value !== null) {
-          curlParts.push(`-H "${key}: ${String(value)}"`);
+          curlParts.push(`-H "${key}: ${String(value)}"`)
         }
-      });
+      })
 
       if (item.body) {
-        const safeBody = JSON.stringify(item.body).replace(/"/g, '\\"');
-        curlParts.push(`--data-binary "${safeBody}"`);
+        const safeBody = JSON.stringify(item.body).replace(/"/g, '\\"')
+        curlParts.push(`--data-binary "${safeBody}"`)
       }
 
-      const curlCommand = curlParts.join(' \\\n  ');
-      console.log('[cURL]', curlCommand);
-    };
+      const curlCommand = curlParts.join(' \\\n  ')
+      console.warn('[cURL]', curlCommand)
+    }
 
     return (
       <Pressable onPress={() => setExpandedIndexDetails(expandedIndexDetails === index ? null : index)}>
@@ -114,15 +123,15 @@ const NetworkLogScreen = () => {
 
           <RNText style={styles.url}>{item.url}</RNText>
           {expandedIndexDetails === index &&
-            (expandedIndexDetails === index && resultsList.length > 0 ? (
+            (expandedIndexDetails === index && (resultsList?.length ?? 0) > 0 ? (
               <FlatList
                 showsVerticalScrollIndicator={false}
                 data={resultsList}
-                renderItem={({ item, index: itemIndex }) => (
+                renderItem={({ item: innerItem, index: itemIndex }) => (
                   <RequestDetails
                     index={itemIndex}
                     expandedIndex={expandedIndex}
-                    entry={item}
+                    entry={innerItem}
                     setExpandedIndex={setExpandedIndex}
                   />
                 )}
@@ -135,8 +144,8 @@ const NetworkLogScreen = () => {
           </TouchableOpacity>
         </View>
       </Pressable>
-    );
-  };
+    )
+  }
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -156,6 +165,6 @@ const NetworkLogScreen = () => {
         contentContainerStyle={styles.container}
       />
     </SafeAreaView>
-  );
-};
-export default NetworkLogScreen;
+  )
+}
+export default NetworkLogScreen

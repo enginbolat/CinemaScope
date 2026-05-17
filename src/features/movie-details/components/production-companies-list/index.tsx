@@ -1,11 +1,14 @@
-import React from 'react';
-import { Image } from 'expo-image';
-import { ProductionCompany } from '@shared/models/production-company';
-import { FlatList, View } from 'react-native';
-import { Text } from '@shared/components/index';
-import { BASE_W500_URL } from '@shared/constants/app-config';
+import React from 'react'
 
-import { styles } from '../../screens/style';
+import { FlatList, View } from 'react-native'
+
+import { Image } from 'expo-image'
+
+import { Text } from '@shared/components/index'
+import { BASE_W500_URL } from '@shared/constants/app-config'
+import type { ProductionCompany } from '@shared/models/production-company'
+
+import { styles } from '../../screens/style'
 
 type Props = {
   companies: ProductionCompany[] | undefined;
@@ -20,7 +23,7 @@ const ProductionCompaniesList = ({ companies }: Props) => {
       priority="low"
       cachePolicy="memory-disk"
     />
-  );
+  )
 
   return (
     <>
@@ -36,7 +39,7 @@ const ProductionCompaniesList = ({ companies }: Props) => {
         renderItem={renderItemProducatioCompanies}
       />
     </>
-  );
-};
+  )
+}
 
-export default ProductionCompaniesList;
+export default ProductionCompaniesList

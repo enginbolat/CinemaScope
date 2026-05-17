@@ -1,31 +1,36 @@
-import React, { useCallback } from 'react';
-import { ActivityIndicator, ScrollView } from 'react-native';
-import { useRouter } from 'expo-router';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import React, { useCallback } from 'react'
 
-import { Header } from '@shared/components/index';
-import { AppColors } from '@shared/constants/app-colors';
-import { Popular } from '@shared/models/popular';
-import { useGetPopularContentQuery, useNowPlayingMovieQuery, useUpcomingMovieQuery } from '@features/home/api/home-api';
+import { ActivityIndicator, ScrollView } from 'react-native'
 
-import { ContentHorizontalScrollableList } from '../components';
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
+
+import { useRouter } from 'expo-router'
+
+import { useGetPopularContentQuery, useNowPlayingMovieQuery, useUpcomingMovieQuery } from '@features/home/api/home-api'
+
+import { Header } from '@shared/components/index'
+import { AppColors } from '@shared/constants/app-colors'
+import type { Popular } from '@shared/models/popular'
+
+import { ContentHorizontalScrollableList } from '../components'
+
+const Loader = ({ isLoading }: { isLoading: boolean }) => {
+  if (!isLoading) return null
+  return <ActivityIndicator />
+}
 
 const HomeScreen = () => {
-  const insets = useSafeAreaInsets();
-  const router = useRouter();
+  const insets = useSafeAreaInsets()
+  const router = useRouter()
 
-  const { data: popularContentData, isLoading: popularLoading } = useGetPopularContentQuery();
-  const { data: nowPlayingContentData, isLoading: nowPlayingLoading } = useNowPlayingMovieQuery(1);
-  const { data: upcomingMovies, isLoading: upcomingMovieLoading } = useUpcomingMovieQuery(1);
-
-  const Loader = useCallback(() => {
-    if (nowPlayingLoading || popularLoading || upcomingMovieLoading) return <ActivityIndicator />;
-    return null;
-  }, [nowPlayingLoading, popularLoading, upcomingMovieLoading]);
+  const { data: popularContentData, isLoading: popularLoading } = useGetPopularContentQuery()
+  const { data: nowPlayingContentData, isLoading: nowPlayingLoading } = useNowPlayingMovieQuery(1)
+  const { data: upcomingMovies, isLoading: upcomingMovieLoading } = useUpcomingMovieQuery(1)
 
   const onPressItem = useCallback((item: Popular) => {
-    router.push({ pathname: '/movie-details', params: { movie: JSON.stringify(item) } });
-  }, []);
+    router.push({ pathname: '/movie-details', params: { movie: JSON.stringify(item) } })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <ScrollView
@@ -34,7 +39,7 @@ const HomeScreen = () => {
       style={{ backgroundColor: AppColors.primary }}
       contentContainerStyle={{ paddingBottom: insets.bottom, backgroundColor: AppColors.primary }}>
       <Header isHaveHeader={true} leftIconShown={false} />
-      <Loader />
+      <Loader isLoading={nowPlayingLoading || popularLoading || upcomingMovieLoading} />
       {popularContentData && (
         <ContentHorizontalScrollableList
           title="Keşfet"
@@ -57,7 +62,7 @@ const HomeScreen = () => {
         />
       )}
     </ScrollView>
-  );
-};
+  )
+}
 
-export default HomeScreen;
+export default HomeScreen

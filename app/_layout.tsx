@@ -1,44 +1,51 @@
-import '@core/i18n/i18n.config';
+import '@core/i18n/i18n.config'
 
-import React, { useEffect } from 'react';
-import { useFonts } from 'expo-font';
+import React, { useEffect } from 'react'
+
+import { StyleSheet } from 'react-native'
+
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
+import { SafeAreaProvider } from 'react-native-safe-area-context'
+import { useDispatch , Provider } from 'react-redux'
+
+import { useFonts } from 'expo-font'
+import { Stack } from 'expo-router'
+
+import { Geist_600SemiBold } from '@expo-google-fonts/geist'
+import { Inter_400Regular, Inter_500Medium } from '@expo-google-fonts/inter'
 import {
   PlusJakartaSans_600SemiBold,
   PlusJakartaSans_700Bold,
   PlusJakartaSans_800ExtraBold,
-} from '@expo-google-fonts/plus-jakarta-sans';
-import { Inter_400Regular, Inter_500Medium } from '@expo-google-fonts/inter';
-import { Geist_600SemiBold } from '@expo-google-fonts/geist';
-import { useDispatch } from 'react-redux';
-import { Provider } from 'react-redux';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
-import { Stack } from 'expo-router';
+} from '@expo-google-fonts/plus-jakarta-sans'
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
 
-import { store } from '@app/store/store';
-import { api } from '@shared/api/base-api';
-import { setFavories, setWatchLater } from '@features/user-library/store/user-library-slice';
-import useLocalStorage from '@shared/hooks/use-local-storage';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { store } from '@app/store/store'
+
+import { setFavories, setWatchLater } from '@features/user-library/store/user-library-slice'
+
+import { api } from '@shared/api/base-api'
+import useLocalStorage from '@shared/hooks/use-local-storage'
 
 function AppContent() {
-  const dispatch = useDispatch();
-  const { GetFromStorage } = useLocalStorage();
+  const dispatch = useDispatch()
+  const { GetFromStorage } = useLocalStorage()
 
   useEffect(() => {
     const init = async () => {
-      const favorites = await GetFromStorage<string>('FAVORITES');
-      if (favorites) dispatch(setFavories(JSON.parse(favorites)));
+      const favorites = await GetFromStorage<string>('FAVORITES')
+      if (favorites) dispatch(setFavories(JSON.parse(favorites)))
 
-      const watchLater = await GetFromStorage<string>('WATCHLATER');
-      if (watchLater) dispatch(setWatchLater(JSON.parse(watchLater)));
+      const watchLater = await GetFromStorage<string>('WATCHLATER')
+      if (watchLater) dispatch(setWatchLater(JSON.parse(watchLater)))
 
-      dispatch(api.util.resetApiState());
-    };
-    init();
-  }, []);
+      dispatch(api.util.resetApiState())
+    }
+    init()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
-  return <Stack screenOptions={{ headerShown: false }} />;
+  return <Stack screenOptions={{ headerShown: false }} />
 }
 
 export default function RootLayout() {
@@ -49,13 +56,13 @@ export default function RootLayout() {
     Inter_400Regular,
     Inter_500Medium,
     Geist_600SemiBold,
-  });
+  })
 
-  if (!fontsLoaded) return null;
+  if (!fontsLoaded) return null
 
   return (
     <SafeAreaProvider>
-      <GestureHandlerRootView style={{ flex: 1 }}>
+      <GestureHandlerRootView style={styles.f1}>
         <Provider store={store}>
           <BottomSheetModalProvider>
             <AppContent />
@@ -63,5 +70,9 @@ export default function RootLayout() {
         </Provider>
       </GestureHandlerRootView>
     </SafeAreaProvider>
-  );
+  )
 }
+
+const styles = StyleSheet.create({
+  f1: { flex: 1 },
+})

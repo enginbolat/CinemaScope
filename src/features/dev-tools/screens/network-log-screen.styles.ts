@@ -1,6 +1,7 @@
-import { StyleSheet } from 'react-native';
-import { AppColors } from '@shared/constants/app-colors.ts';
-import { STATIC_PADDING } from '@shared/constants/app-constants.ts';
+import { StyleSheet } from 'react-native'
+
+import { AppColors } from '@shared/constants/app-colors.ts'
+import { STATIC_PADDING } from '@shared/constants/app-constants.ts'
 
 export const styles = StyleSheet.create({
   safeArea: {
@@ -82,4 +83,4 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-});
+})

@@ -1,5 +1,6 @@
-import Svg, { Path } from 'react-native-svg';
-import { IconProps } from './icon-props';
+import Svg, { Path } from 'react-native-svg'
+
+import type { IconProps } from './icon-props'
 
 const HomeIcon = ({ height, width, color }: IconProps) => (
   <Svg width={width ?? '28'} height={height ?? '24'} viewBox="0 0 28 24" fill="none">
@@ -9,6 +10,6 @@ const HomeIcon = ({ height, width, color }: IconProps) => (
       fill={color ?? 'white'}
     />
   </Svg>
-);
+)
 
-export default HomeIcon;
+export default HomeIcon

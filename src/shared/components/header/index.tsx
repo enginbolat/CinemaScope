@@ -1,21 +1,25 @@
-import React, { useMemo, useRef, useState } from 'react';
-import { Image, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import React, { useMemo, useRef, useState } from 'react'
 
-import Images from '@shared/assets/images';
-import { scale, scaleHeight, scaleWidth } from '@shared/helpers/helper';
-import { Text, Icon } from '@shared/components/index';
-import { useRouter } from 'expo-router';
-import { AppColors } from '@shared/constants/app-colors';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { IS_TEST } from '@shared/constants/app-config';
-import { BottomSheetModal } from '@gorhom/bottom-sheet';
-import NetworkLog from '@features/dev-tools/screens/network-log-screen';
+import { Image, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
 
-import { IHeaderProps } from './types';
-import { styles } from './styles';
+import { SafeAreaView } from 'react-native-safe-area-context'
 
-const STATIC_MAX_CLICK_FOR_LOG = 5;
+import { useRouter } from 'expo-router'
+
+import { BottomSheetModal } from '@gorhom/bottom-sheet'
+
+import NetworkLog from '@features/dev-tools/screens/network-log-screen'
+
+import Images from '@shared/assets/images'
+import { Text, Icon } from '@shared/components/index'
+import { AppColors } from '@shared/constants/app-colors'
+import { IS_TEST } from '@shared/constants/app-config'
+import { scale, scaleHeight, scaleWidth } from '@shared/helpers/helper'
+
+import { styles } from './styles'
+import type { IHeaderProps } from './types'
+
+const STATIC_MAX_CLICK_FOR_LOG = 5
 
 const Header = (props: IHeaderProps) => {
   const {
@@ -27,31 +31,30 @@ const Header = (props: IHeaderProps) => {
     leftIconShown = true,
     rightIconName,
     rightIconOnPress,
-  } = props;
-  const insets = useSafeAreaInsets();
-  const router = useRouter();
-  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
+  } = props
+  const router = useRouter()
+  const bottomSheetModalRef = useRef<BottomSheetModal>(null)
 
-  const canGoBack = router.canGoBack();
-  const [clickCounter, setClickCounter] = useState<number>(0);
+  const canGoBack = router.canGoBack()
+  const [clickCounter, setClickCounter] = useState<number>(0)
 
   const handleClick = () => {
-    if (IS_TEST && clickCounter <= STATIC_MAX_CLICK_FOR_LOG) setClickCounter(prev => prev + 1);
+    if (IS_TEST && clickCounter <= STATIC_MAX_CLICK_FOR_LOG) setClickCounter(prev => prev + 1)
     else if (IS_TEST && clickCounter >= STATIC_MAX_CLICK_FOR_LOG) {
-      bottomSheetModalRef.current?.present();
-      setClickCounter(0);
+      bottomSheetModalRef.current?.present()
+      setClickCounter(0)
     }
-  };
+  }
 
   const showLeftIcon = useMemo(() => {
-    if (!leftIconShown) return;
-    return leftIconName || canGoBack;
-  }, [leftIconShown, leftIconName, canGoBack]);
+    if (!leftIconShown) return
+    return leftIconName || canGoBack
+  }, [leftIconShown, leftIconName, canGoBack])
 
   const innerLeftIconOnPress = () => {
-    if (leftIconOnPress) leftIconOnPress();
-    if (canGoBack) router.back();
-  };
+    if (leftIconOnPress) leftIconOnPress()
+    if (canGoBack) router.back()
+  }
 
   return (
     <>
@@ -91,7 +94,7 @@ const Header = (props: IHeaderProps) => {
         </SafeAreaView>
       </BottomSheetModal>
     </>
-  );
-};
+  )
+}
 
-export default Header;
+export default Header

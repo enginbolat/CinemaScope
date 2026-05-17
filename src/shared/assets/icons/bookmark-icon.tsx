@@ -1,5 +1,6 @@
-import Svg, { Path } from 'react-native-svg';
-import { IconProps } from './icon-props';
+import Svg, { Path } from 'react-native-svg'
+
+import type { IconProps } from './icon-props'
 
 const Bookmark = ({ width, height, color }: IconProps) => (
   <Svg width={width ?? '32'} height={height ?? '32'} viewBox="0 0 32 32" fill="none">
@@ -8,6 +9,6 @@ const Bookmark = ({ width, height, color }: IconProps) => (
       fill={color ?? 'white'}
     />
   </Svg>
-);
+)
 
-export default Bookmark;
+export default Bookmark

@@ -1,6 +1,6 @@
-import { AppEndpoints } from '@shared/constants/app-endpoints';
-import { api } from '@shared/api/base-api';
-import { RootPopular, NowPlayingRoot } from '@shared/models/index';
+import { api } from '@shared/api/base-api'
+import { AppEndpoints } from '@shared/constants/app-endpoints'
+import type { RootPopular, NowPlayingRoot } from '@shared/models/index'
 
 export const homeApi = api.injectEndpoints({
   endpoints: build => ({
@@ -24,10 +24,10 @@ export const homeApi = api.injectEndpoints({
     }),
   }),
   overrideExisting: false,
-});
+})
 
 export const {
   useGetPopularContentQuery,
   useNowPlayingMovieQuery,
   useUpcomingMovieQuery,
-} = homeApi;
+} = homeApi

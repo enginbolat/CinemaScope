@@ -1,14 +1,18 @@
-import React from 'react';
-import Images from '@shared/assets/images';
-import { AppColors } from '@shared/constants/app-colors';
-import { BASE_W500_URL } from '@shared/constants/app-config';
-import { Image } from 'expo-image';
-import { Cast } from '@shared/models/cast';
-import { View } from 'react-native';
+import React from 'react'
 
-import { styles } from '../../screens/style';
-import { Text } from '@shared/components/index';
-import { FlashList } from '@shopify/flash-list';
+import { View } from 'react-native'
+
+import { Image } from 'expo-image'
+
+import { FlashList } from '@shopify/flash-list'
+
+import Images from '@shared/assets/images'
+import { Text } from '@shared/components/index'
+import { AppColors } from '@shared/constants/app-colors'
+import { BASE_W500_URL } from '@shared/constants/app-config'
+import type { Cast } from '@shared/models/cast'
+
+import { styles } from '../../screens/style'
 
 type Props = {
   cast: Cast[] | undefined;
@@ -18,7 +22,7 @@ const CastList = ({ cast }: Props) => {
   const renderItem = ({ item }: { item: Cast }) => {
     const imageSource = item.profile_path
       ? { uri: BASE_W500_URL + item.profile_path }
-      : Images.profile;
+      : Images.profile
 
     return (
       <View style={styles.castItemContainer}>
@@ -26,8 +30,8 @@ const CastList = ({ cast }: Props) => {
         <Text text={item?.name} />
         <Text text={`as ${item?.character}`} color={AppColors.white50} />
       </View>
-    );
-  };
+    )
+  }
 
   return (
     <>
@@ -43,7 +47,7 @@ const CastList = ({ cast }: Props) => {
         renderItem={renderItem}
       />
     </>
-  );
-};
+  )
+}
 
-export default CastList;
+export default CastList

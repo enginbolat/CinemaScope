@@ -27,4 +27,4 @@ export const AppEndpoints = {
     url: `/3/search/movie?query=${query}&include_adult=true&language=en-US&page=${page}`,
     method: 'GET',
   }),
-};
+}

@@ -1,6 +1,8 @@
-import React from 'react';
-import { NativeTabs } from 'expo-router/build/native-tabs';
-import { Label, Icon as SFIcon } from 'expo-router';
+import React from 'react'
+
+import { Label, Icon as SFIcon } from 'expo-router'
+
+import { NativeTabs } from 'expo-router/build/native-tabs'
 
 export default function TabLayout() {
   return (
@@ -21,5 +23,5 @@ export default function TabLayout() {
         <Label>Bookmark</Label>
       </NativeTabs.Trigger>
     </NativeTabs>
-  );
+  )
 }

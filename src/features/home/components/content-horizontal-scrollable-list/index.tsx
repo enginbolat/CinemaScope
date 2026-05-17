@@ -1,12 +1,15 @@
-import React, { useCallback } from 'react';
-import { FlatList, View } from 'react-native';
-import { FlashList } from '@shopify/flash-list';
+import React, { useCallback } from 'react'
 
-import { Popular } from '@shared/models/popular';
-import { MovieCard, Text } from '@shared/components/index';
-import { styles } from '@features/home/screens/home-screen.style';
+import { View } from 'react-native'
 
-import { Props } from './type';
+import { FlashList } from '@shopify/flash-list'
+
+import { styles } from '@features/home/screens/home-screen.style'
+
+import { MovieCard, Text } from '@shared/components/index'
+import type { Popular } from '@shared/models/popular'
+
+import type { Props } from './type'
 
 const ContentHorizontalScrollableList = ({ title, contentList, onPressItem }: Props) => {
   const renderItem = useCallback(
@@ -15,8 +18,9 @@ const ContentHorizontalScrollableList = ({ title, contentList, onPressItem }: Pr
         <MovieCard item={item} onPress={onPressItem} />
       </View>
     ),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [],
-  );
+  )
 
   return (
     <>
@@ -31,7 +35,7 @@ const ContentHorizontalScrollableList = ({ title, contentList, onPressItem }: Pr
         contentContainerStyle={styles.contentListContainerStyle}
       />
     </>
-  );
-};
+  )
+}
 
-export default ContentHorizontalScrollableList;
+export default ContentHorizontalScrollableList
