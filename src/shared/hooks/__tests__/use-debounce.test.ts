@@ -17,9 +17,10 @@ describe('useDebounce', () => {
   })
 
   it('does not update the value before the delay has passed', () => {
-    const { result, rerender } = renderHook(({ value }) => useDebounce(value, 400), {
-      initialProps: { value: 'hello' },
-    })
+    const { result, rerender } = renderHook(
+      ({ value }: { value: string }) => useDebounce(value, 400),
+      { initialProps: { value: 'hello' } },
+    )
 
     rerender({ value: 'world' })
     act(() => jest.advanceTimersByTime(200))
@@ -28,9 +29,10 @@ describe('useDebounce', () => {
   })
 
   it('updates the value after the delay', () => {
-    const { result, rerender } = renderHook(({ value }) => useDebounce(value, 400), {
-      initialProps: { value: 'hello' },
-    })
+    const { result, rerender } = renderHook(
+      ({ value }: { value: string }) => useDebounce(value, 400),
+      { initialProps: { value: 'hello' } },
+    )
 
     rerender({ value: 'world' })
     act(() => jest.advanceTimersByTime(400))
@@ -39,9 +41,10 @@ describe('useDebounce', () => {
   })
 
   it('resets the timer on every value change', () => {
-    const { result, rerender } = renderHook(({ value }) => useDebounce(value, 400), {
-      initialProps: { value: 'a' },
-    })
+    const { result, rerender } = renderHook(
+      ({ value }: { value: string }) => useDebounce(value, 400),
+      { initialProps: { value: 'a' } },
+    )
 
     rerender({ value: 'ab' })
     act(() => jest.advanceTimersByTime(200))

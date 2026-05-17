@@ -10,14 +10,13 @@ import type { Popular } from '@shared/models/popular'
 import { styles } from './content-horizontal-scrollable-list.styles'
 import type { Props } from './type'
 
-const ContentHorizontalScrollableList = ({ title, contentList, onPressItem }: Props) => {
+const ContentHorizontalScrollableList = ({ title, contentList }: Props) => {
   const renderItem = useCallback(
     ({ item }: { item: Popular }) => (
       <View style={styles.renderItemContainer}>
         <MovieCard item={item} />
       </View>
     ),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [],
   )
 
