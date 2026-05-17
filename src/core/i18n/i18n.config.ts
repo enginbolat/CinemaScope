@@ -1,37 +1,26 @@
-import I18n from 'react-native-i18n';
+import i18next from 'i18next';
+import { initReactI18next } from 'react-i18next';
+import * as Localization from 'expo-localization';
 import { I18nManager } from 'react-native';
 
-import { DotNotation, TranslationKeys } from './types';
 import { en } from './lang/en';
 import { tr } from './lang/tr';
-
-interface Translations {
-    [key: string]: any;
-}
-
-const translations: Translations = {
-    en: en,
-    tr: tr,
-};
-
-I18n.translations = translations;
-I18n.fallbacks = true;
-I18n.defaultLocale = 'en';
+import { DotNotation, TranslationKeys } from './types';
 
 export type TranslationKey = DotNotation<TranslationKeys>;
 
-export const initLocalization = (): void => {
-    const deviceLocale = I18n.locale || I18n.defaultLocale;
-    const isRTL = ['ar', 'he', 'fa'].includes(deviceLocale.split('-')[0]);
-    I18nManager.forceRTL(isRTL);
-    I18n.locale = deviceLocale;
-};
+const deviceLocale = Localization.getLocales()[0]?.languageCode ?? 'en';
+I18nManager.forceRTL(['ar', 'he', 'fa'].includes(deviceLocale));
 
-export const translate = (key: TranslationKey, ...args: any[]): string => {
-    let translation = I18n.t(key);
-    if (translation.includes('missing')) { return key; }
-    return translation.replace(/{(\d+)}/g, (_, index) => {
-        const value = args[index];
-        return typeof value === 'string' ? I18n.t(value) : `{${index}}`;
-    });
-};
+i18next.use(initReactI18next).init({
+  resources: {
+    en: { translation: en },
+    tr: { translation: tr },
+  },
+  lng: deviceLocale,
+  fallbackLng: 'en',
+  interpolation: { escapeValue: false },
+  initImmediate: false,
+});
+
+export default i18next;

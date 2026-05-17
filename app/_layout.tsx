@@ -1,3 +1,5 @@
+import '@core/i18n/i18n.config';
+
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Provider } from 'react-redux';

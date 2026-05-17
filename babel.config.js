@@ -1,7 +1,6 @@
 module.exports = {
   presets: ['babel-preset-expo'],
   plugins: [
-    ['module:react-native-dotenv'],
     [
       'module-resolver',
       {
@@ -15,6 +14,5 @@ module.exports = {
         extensions: ['.js', '.jsx', '.ts', '.tsx'],
       },
     ],
-    'react-native-reanimated/plugin',
   ],
 };

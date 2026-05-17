@@ -12,7 +12,7 @@ import { BASE_W500_URL } from '@shared/constants/app-config';
 import { useAppDispatch, useAppSelector } from '@app/store/store';
 import { Popular } from '@shared/models/popular';
 import { IFavoriteAndWatchLater, setFavories, setWatchLater } from '@features/user-library/store/user-library-slice';
-import { translate } from '@core/i18n';
+import { useTranslation } from 'react-i18next';
 
 import GorhomBottomSheet from '@gorhom/bottom-sheet';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -30,6 +30,7 @@ import {
 } from '../components';
 
 const MovieDetailsScreen = () => {
+  const { t } = useTranslation();
   const { SaveToStorageJSON } = useLocalStorage();
   const dispatch = useAppDispatch();
   const insets = useSafeAreaInsets();
@@ -88,8 +89,8 @@ const MovieDetailsScreen = () => {
   };
 
   const watchLaterButtonText = watchLater.some(item => item?.id?.toString() === movie.id.toString())
-    ? translate('app.details.removeWatchLater')
-    : translate('app.details.addWatchList');
+    ? t('app.details.removeWatchLater')
+    : t('app.details.addWatchList');
 
   const rightIconName = useMemo(() => {
     if (isPageLoading) return undefined;
@@ -149,7 +150,7 @@ const MovieDetailsScreen = () => {
       </SafeAreaView>
 
       {/* BottomSheets */}
-      {/* <BottomSheet
+      <BottomSheet
         ref={bottomSheetRef}
         onClose={() => bottomSheetRef.current?.close()}
         contentContainerStyle={styles.bottomSheetContentContainer}>
@@ -161,7 +162,7 @@ const MovieDetailsScreen = () => {
         enableDynamicSizing={true}
         contentContainerStyle={styles.bottomSheetContentContainer}>
         <WatchListBottomSheetBody onPress={() => watchListBottomSheetRef.current?.close()} />
-      </BottomSheet> */}
+      </BottomSheet>
     </View>
   );
 };
