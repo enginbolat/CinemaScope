@@ -5,8 +5,10 @@ import type { RootPopular } from '@shared/models/index'
 export const searchApi = api.injectEndpoints({
   endpoints: build => ({
     getSearchResults: build.infiniteQuery<RootPopular, string, number>({
+      keepUnusedDataFor: 120,
       infiniteQueryOptions: {
         initialPageParam: 1,
+        maxPages: 5,
         getNextPageParam: (lastPage, _allPages, lastPageParam) =>
           lastPageParam < lastPage.total_pages ? lastPageParam + 1 : undefined,
       },

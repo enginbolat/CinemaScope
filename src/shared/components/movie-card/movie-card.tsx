@@ -29,7 +29,7 @@ const MovieCard = (props: IMovileCardProps) => {
             source={{ uri: BASE_W500_URL + item.poster_path }}
             style={composedImageStyle}
             priority="high"
-            cachePolicy="memory-disk"
+            cachePolicy="disk"
             transition={100}
           />
           <View style={styles.textContainer}>

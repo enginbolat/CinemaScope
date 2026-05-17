@@ -17,6 +17,7 @@ export type NetworkLog = {
 
 export const requestLogs: NetworkLog[] = []
 let idCounter = 0
+const MAX_LOGS = 200
 
 const axiosInstance = axios.create({
   baseURL: BASE_URL,
@@ -25,9 +26,14 @@ const axiosInstance = axios.create({
   },
 })
 
+const pushLog = (log: NetworkLog) => {
+  if (requestLogs.length >= MAX_LOGS) requestLogs.shift()
+  requestLogs.push(log)
+}
+
 axiosInstance.interceptors.request.use(
   config => {
-    requestLogs.push({
+    pushLog({
       id: ++idCounter,
       type: 'request',
       method: config.method?.toUpperCase(),
@@ -40,7 +46,6 @@ axiosInstance.interceptors.request.use(
       },
       date: new Date().toISOString(),
     })
-
     return config
   },
   error => Promise.reject(error),
@@ -48,7 +53,7 @@ axiosInstance.interceptors.request.use(
 
 axiosInstance.interceptors.response.use(
   response => {
-    requestLogs.push({
+    pushLog({
       id: ++idCounter,
       type: 'response',
       method: response.config.method?.toUpperCase(),
@@ -63,7 +68,7 @@ axiosInstance.interceptors.response.use(
     return response.data
   },
   error => {
-    requestLogs.push({
+    pushLog({
       id: ++idCounter,
       type: 'error',
       method: error.config?.method?.toUpperCase(),
@@ -112,5 +117,6 @@ const axiosBaseQuery = () => async ({ url, method, data, params, headers }: IAxi
 
 export const api = createApi({
   baseQuery: axiosBaseQuery(),
+  keepUnusedDataFor: 300,
   endpoints: () => ({}),
 })

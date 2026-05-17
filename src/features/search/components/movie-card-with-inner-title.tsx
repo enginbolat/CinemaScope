@@ -24,6 +24,7 @@ const MovieCardWithInnerTitle = ({ item, handleItemOnPress, columnIndex }: Props
       source={{ uri: BASE_W500_URL + item.backdrop_path }}
       style={styles.backdropCard}
       contentFit="cover"
+      cachePolicy="disk"
       priority="low">
       <View pointerEvents="none" style={styles.backdropOverlay} />
       <View style={styles.backdropContent}>

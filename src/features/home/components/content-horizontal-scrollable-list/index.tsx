@@ -14,7 +14,7 @@ const ContentHorizontalScrollableList = ({ title, contentList, onPressItem }: Pr
   const renderItem = useCallback(
     ({ item }: { item: Popular }) => (
       <View style={styles.renderItemContainer}>
-        <MovieCard item={item} onPress={onPressItem} />
+        <MovieCard item={item} />
       </View>
     ),
     // eslint-disable-next-line react-hooks/exhaustive-deps

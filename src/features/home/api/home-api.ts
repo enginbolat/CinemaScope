@@ -7,6 +7,7 @@ export const homeApi = api.injectEndpoints({
     getPopularContent: build.infiniteQuery<RootPopular, void, number>({
       infiniteQueryOptions: {
         initialPageParam: 1,
+        maxPages: 10,
         getNextPageParam: (lastPage, _allPages, lastPageParam) =>
           lastPageParam < lastPage.total_pages ? lastPageParam + 1 : undefined,
       },

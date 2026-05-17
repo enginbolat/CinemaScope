@@ -26,7 +26,7 @@ const MovieCardWithDescription = ({ item, onPress, containerStyle }: Props) => {
         source={{ uri: BASE_W500_URL + item.poster_path }}
         style={styles.image}
         priority="high"
-        cachePolicy="memory-disk"
+        cachePolicy="disk"
         transition={100}
       />
       <View style={styles.innerContainer}>
