@@ -4,7 +4,7 @@ import { createSlice } from '@reduxjs/toolkit'
 import type { Popular } from '@shared/models/popular'
 
 export interface IFavoriteAndWatchLater extends Popular {
-  type: 'tvShow' | 'movie';
+  type: 'movie';
 }
 
 type UserLibrarySliceType = {

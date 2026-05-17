@@ -24,7 +24,7 @@ const useWatchActions = (movie: Popular) => {
     const isFavoriteExist = favorites.some(item => item.id?.toString() === id)
     const newUpdatedArray: IFavoriteAndWatchLater[] = isFavoriteExist
       ? favorites.filter(item => item.id?.toString() !== id)
-      : [...favorites, { type: 'tvShow', ...movie }]
+      : [...favorites, { type: 'movie', ...movie }]
 
     dispatch(setFavorites(newUpdatedArray))
     SaveToStorageJSON('FAVORITES', newUpdatedArray)
@@ -35,7 +35,7 @@ const useWatchActions = (movie: Popular) => {
     const isItemExistInWatchList = watchLater.some(item => item?.id?.toString() === id)
     const newUpdatedArray: IFavoriteAndWatchLater[] = isItemExistInWatchList
       ? watchLater.filter(item => item?.id?.toString() !== id)
-      : [...watchLater, { type: 'tvShow', ...movie }]
+      : [...watchLater, { type: 'movie', ...movie }]
 
     dispatch(setWatchLater(newUpdatedArray))
     SaveToStorageJSON('WATCHLATER', newUpdatedArray)

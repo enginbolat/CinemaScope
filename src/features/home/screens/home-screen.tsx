@@ -6,8 +6,8 @@ import { useRouter } from 'expo-router'
 
 import {
   useGetPopularContentInfiniteQuery,
-  useNowPlayingMovieQuery,
-  useUpcomingMovieQuery,
+  useNowPlayingPagesInfiniteQuery,
+  useUpcomingPagesInfiniteQuery,
 } from '@features/home/api/home-api'
 
 import type { Popular } from '@shared/models'
@@ -21,10 +21,12 @@ const HomeScreen = () => {
   const styles = useHomeScreenStyles({ insets })
 
   const { data: popularInfiniteData, isLoading: popularLoading } = useGetPopularContentInfiniteQuery()
-  const popularContentData = popularInfiniteData?.pages[0]
+  const { data: nowPlayingData, isLoading: nowPlayingLoading } = useNowPlayingPagesInfiniteQuery()
+  const { data: upcomingData, isLoading: upcomingLoading } = useUpcomingPagesInfiniteQuery()
 
-  const { data: nowPlayingContentData, isLoading: nowPlayingLoading } = useNowPlayingMovieQuery(1)
-  const { data: upcomingMovies, isLoading: upcomingMovieLoading } = useUpcomingMovieQuery(1)
+  const popularResults = popularInfiniteData?.pages[0]?.results ?? []
+  const nowPlayingResults = nowPlayingData?.pages[0]?.results ?? []
+  const upcomingResults = upcomingData?.pages[0]?.results ?? []
 
   const onPressItem = (item: Popular) => {
     router.push({ pathname: '/movie-details', params: { movie: JSON.stringify(item) } })
@@ -34,7 +36,7 @@ const HomeScreen = () => {
     router.push({ pathname: '/see-more-grid', params: { type } })
   }
 
-  if (popularLoading || nowPlayingLoading || upcomingMovieLoading) {
+  if (popularLoading || nowPlayingLoading || upcomingLoading) {
     return <ActivityIndicator />
   }
 
@@ -48,26 +50,26 @@ const HomeScreen = () => {
         style={styles.container}
         contentContainerStyle={styles.contentContainer}>
         <View style={styles.header}>
-          <BannerMovieCard movie={popularContentData?.results[1]} onPressItem={onPressItem} />
+          <BannerMovieCard movie={popularResults[1]} onPressItem={onPressItem} />
         </View>
         <View style={styles.itemContainer}>
           <ContentHorizontalScrollableList
             title="Now Playing"
-            contentList={nowPlayingContentData?.results ?? []}
+            contentList={nowPlayingResults}
             onSeeAll={() => onSeeAll('now-playing')}
           />
         </View>
         <View style={styles.itemContainer}>
           <ContentHorizontalScrollableList
             title="Popular"
-            contentList={popularContentData?.results ?? []}
+            contentList={popularResults}
             onSeeAll={() => onSeeAll('popular')}
           />
         </View>
         <View style={styles.itemContainer}>
           <ContentHorizontalScrollableList
             title="Upcoming"
-            contentList={upcomingMovies?.results ?? []}
+            contentList={upcomingResults}
             onSeeAll={() => onSeeAll('upcoming')}
           />
         </View>
