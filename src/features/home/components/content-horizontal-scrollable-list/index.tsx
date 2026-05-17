@@ -11,7 +11,7 @@ import type { Popular } from '@shared/models/popular'
 import { styles } from './content-horizontal-scrollable-list.styles'
 import type { Props } from './type'
 
-const ContentHorizontalScrollableList = ({ title, contentList, handleOnPressSeeAll }: Props) => {
+const ContentHorizontalScrollableList = ({ title, contentList, onSeeAll }: Props) => {
   const renderItem = useCallback(
     ({ item }: { item: Popular }) => (
       <View style={styles.renderItemContainer}>
@@ -25,7 +25,7 @@ const ContentHorizontalScrollableList = ({ title, contentList, handleOnPressSeeA
     <View style={styles.container}>
       <View style={styles.ph}>
         <Text type="mediumHeading620" text={title} />
-        <Pressable onPress={handleOnPressSeeAll}>
+        <Pressable onPress={onSeeAll}>
           <Text type="bodySm" text="See All" color={AppColors.errorSoft} />
         </Pressable>
       </View>

@@ -22,7 +22,8 @@ export const homeApi = api.injectEndpoints({
       keepUnusedDataFor: 600,
       query: page => AppEndpoints.upcomingMovie(page),
     }),
-    getNowPlayingInfinite: build.infiniteQuery<NowPlayingRoot, void, number>({
+    nowPlayingPages: build.infiniteQuery<NowPlayingRoot, void, number>({
+      keepUnusedDataFor: 300,
       infiniteQueryOptions: {
         initialPageParam: 1,
         maxPages: 10,
@@ -33,7 +34,7 @@ export const homeApi = api.injectEndpoints({
       },
       query: ({ pageParam }) => AppEndpoints.nowPlayingMovie(pageParam),
     }),
-    getUpcomingInfinite: build.infiniteQuery<NowPlayingRoot, void, number>({
+    upcomingPages: build.infiniteQuery<NowPlayingRoot, void, number>({
       keepUnusedDataFor: 600,
       infiniteQueryOptions: {
         initialPageParam: 1,
@@ -53,6 +54,6 @@ export const {
   useGetPopularContentInfiniteQuery,
   useNowPlayingMovieQuery,
   useUpcomingMovieQuery,
-  useGetNowPlayingInfiniteInfiniteQuery,
-  useGetUpcomingInfiniteInfiniteQuery,
+  useNowPlayingPagesInfiniteQuery,
+  useUpcomingPagesInfiniteQuery,
 } = homeApi

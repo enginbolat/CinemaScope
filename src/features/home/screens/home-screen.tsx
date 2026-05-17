@@ -30,7 +30,7 @@ const HomeScreen = () => {
     router.push({ pathname: '/movie-details', params: { movie: JSON.stringify(item) } })
   }
 
-  const handleOnPressSeeAll = (type: 'popular' | 'upcoming' | 'now-playing') => {
+  const onSeeAll = (type: 'popular' | 'upcoming' | 'now-playing') => {
     router.push({ pathname: '/see-more-grid', params: { type } })
   }
 
@@ -54,21 +54,21 @@ const HomeScreen = () => {
           <ContentHorizontalScrollableList
             title="Now Playing"
             contentList={nowPlayingContentData?.results ?? []}
-            handleOnPressSeeAll={() => handleOnPressSeeAll('now-playing')}
+            onSeeAll={() => onSeeAll('now-playing')}
           />
         </View>
         <View style={styles.itemContainer}>
           <ContentHorizontalScrollableList
             title="Popular"
             contentList={popularContentData?.results ?? []}
-            handleOnPressSeeAll={() => handleOnPressSeeAll('popular')}
+            onSeeAll={() => onSeeAll('popular')}
           />
         </View>
         <View style={styles.itemContainer}>
           <ContentHorizontalScrollableList
             title="Upcoming"
             contentList={upcomingMovies?.results ?? []}
-            handleOnPressSeeAll={() => handleOnPressSeeAll('upcoming')}
+            onSeeAll={() => onSeeAll('upcoming')}
           />
         </View>
       </ScrollView>

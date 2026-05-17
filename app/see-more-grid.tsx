@@ -1,6 +1,6 @@
 import { Stack } from 'expo-router'
 
-import SeeMoreGrid from '@features/see-more-grid/see-more-grid'
+import SeeMoreGrid from '@features/see-more-grid/screens/see-more-grid-screen'
 
 import { screenOptions } from './screenOptions'
 
