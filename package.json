@@ -11,7 +11,7 @@
     "lint": "eslint .",
     "eslint:ci": "eslint . --max-warnings 0",
     "eslint:fix": "eslint . --fix",
-    "pods": "cd ios && rm -rf Pods/ && pod install --repo-update && cd ..",
+    "pod": "cd ios && rm -rf Pods/ && bundle exec pod install --repo-update && cd ..",
     "clean": "cd scripts && bash clean.sh && cd ..",
     "start": "expo start",
     "test": "jest",

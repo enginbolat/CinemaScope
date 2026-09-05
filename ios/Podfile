@@ -57,15 +57,5 @@ target 'CinemaScope' do
         config.build_settings['CLANG_ENABLE_EXPLICIT_MODULES'] = 'NO'
       end
     end
-
-    # Xcode 26 fix: remove C++ headers from RNScreens umbrella so Swift module scanning succeeds.
-    # These rnscreens/ headers are C++ Fabric interop files; they can't be used from Swift directly
-    # and are not needed in the public module map.
-    rnscreens_umbrella = File.join(installer.sandbox.root.to_s, 'Headers/Public/RNScreens/RNScreens-umbrella.h')
-    if File.exist?(rnscreens_umbrella)
-      content = File.read(rnscreens_umbrella)
-      content = content.gsub(/^#import "rnscreens\/[^"]+"\n/, '')
-      File.write(rnscreens_umbrella, content)
-    end
   end
 end
